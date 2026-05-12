@@ -27,7 +27,7 @@ export const sideProjects: SideProject[] = [
       "Interactive Python lessons that run actual code in the browser via Pyodide. Built it while re-learning Python fundamentals for the AAS program. Teaching it back to myself turned out to be the best way to make it stick.",
     tech: ["Next.js", "TypeScript", "Pyodide", "Tailwind"],
     github: "https://github.com/Damatnic/python-mastery",
-    liveUrl: "https://python-mastery.vercel.app",
+    liveUrl: "https://damato-python.vercel.app",
   },
   {
     slug: "sql-mastery",
@@ -36,7 +36,7 @@ export const sideProjects: SideProject[] = [
       "Interactive SQL lessons with a real SQLite engine running in the browser via SQL.js. Every query runs against actual sample data, not pretend results. Built it the same semester I was taking Advanced SQL.",
     tech: ["Next.js", "TypeScript", "SQL.js", "Tailwind"],
     github: "https://github.com/Damatnic/sql-mastery",
-    liveUrl: "https://sql-mastery.vercel.app",
+    liveUrl: "https://damato-sql.vercel.app",
   },
 ];
 
