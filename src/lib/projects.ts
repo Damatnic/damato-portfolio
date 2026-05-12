@@ -6,6 +6,8 @@ export type Project = {
   bullets: string[];
   tech: string[];
   github: string;
+  demoUrl?: string;
+  demoLabel?: string;
   imagePath?: string;
   imageGradient: string;
   imageInitials: string;
@@ -33,6 +35,8 @@ export const projects: Project[] = [
       "ETL",
     ],
     github: "https://github.com/Damatnic/olympic-medal-etl",
+    demoUrl: "/projects/olympic-medals",
+    demoLabel: "Try the dashboard",
     imageGradient: "from-amber-500 via-yellow-400 to-orange-500",
     imageInitials: "🏅",
   },

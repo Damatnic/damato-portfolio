@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin, FileDown, ExternalLink } from "lucide-react";
+import { Mail, MapPin, FileDown, ExternalLink, Play } from "lucide-react";
 import { projects } from "@/lib/projects";
 
 function Github({ className }: { className?: string }) {
@@ -182,16 +182,27 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
-                  <a
-                    href={p.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-6 inline-flex items-center gap-1.5 text-sm text-sky-400 transition hover:text-sky-300"
-                  >
-                    <Github className="h-4 w-4" />
-                    View on GitHub
-                    <ExternalLink className="h-3.5 w-3.5" />
-                  </a>
+                  <div className="mt-6 flex flex-wrap items-center gap-3">
+                    {p.demoUrl && (
+                      <Link
+                        href={p.demoUrl}
+                        className="inline-flex items-center gap-1.5 rounded-md bg-sky-500/15 px-3 py-1.5 text-sm font-medium text-sky-300 ring-1 ring-sky-500/30 transition hover:bg-sky-500/25 hover:text-sky-200"
+                      >
+                        <Play className="h-3.5 w-3.5" />
+                        {p.demoLabel ?? "Try it"}
+                      </Link>
+                    )}
+                    <a
+                      href={p.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-sm text-sky-400 transition hover:text-sky-300"
+                    >
+                      <Github className="h-4 w-4" />
+                      View on GitHub
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
                 </div>
               </article>
             ))}
