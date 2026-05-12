@@ -38,6 +38,15 @@ export const sideProjects: SideProject[] = [
     github: "https://github.com/Damatnic/sql-mastery",
     liveUrl: "https://damato-sql.vercel.app",
   },
+  {
+    slug: "python-practice",
+    title: "python-practice",
+    description:
+      "Four Jupyter notebooks I built while learning pandas. Covers the fundamentals, data cleaning, and combining/grouping. Every concept follows the same pattern: mental model, syntax, example, then a challenge you write yourself before checking the solution.",
+    tech: ["Python", "pandas", "Jupyter"],
+    github: "https://github.com/Damatnic/python-practice",
+    liveUrl: "https://github.com/Damatnic/python-practice/blob/main/02_pandas_fundamentals.ipynb",
+  },
 ];
 
 export const projects: Project[] = [

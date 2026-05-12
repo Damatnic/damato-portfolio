@@ -209,9 +209,9 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-8 grid gap-8 sm:grid-cols-2">
+          <div className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {sideProjects.map((p) => (
-              <article key={p.slug} className="max-w-[58ch]">
+              <article key={p.slug}>
                 <h3 className="font-mono text-base text-stone-100">{p.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-stone-200">
                   {p.description}
