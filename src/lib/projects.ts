@@ -10,6 +10,36 @@ export type Project = {
   demoLabel?: string;
 };
 
+export type SideProject = {
+  slug: string;
+  title: string;
+  description: string;
+  tech: string[];
+  github: string;
+  liveUrl: string;
+};
+
+export const sideProjects: SideProject[] = [
+  {
+    slug: "python-mastery",
+    title: "python-mastery",
+    description:
+      "Interactive Python lessons that run actual code in the browser via Pyodide. Built it while re-learning Python fundamentals for the AAS program. Teaching it back to myself turned out to be the best way to make it stick.",
+    tech: ["Next.js", "TypeScript", "Pyodide", "Tailwind"],
+    github: "https://github.com/Damatnic/python-mastery",
+    liveUrl: "https://python-mastery.vercel.app",
+  },
+  {
+    slug: "sql-mastery",
+    title: "sql-mastery",
+    description:
+      "Interactive SQL lessons with a real SQLite engine running in the browser via SQL.js. Every query runs against actual sample data, not pretend results. Built it the same semester I was taking Advanced SQL.",
+    tech: ["Next.js", "TypeScript", "SQL.js", "Tailwind"],
+    github: "https://github.com/Damatnic/sql-mastery",
+    liveUrl: "https://sql-mastery.vercel.app",
+  },
+];
+
 export const projects: Project[] = [
   {
     slug: "olympic-medal-etl",

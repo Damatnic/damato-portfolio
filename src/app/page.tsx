@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin, FileDown, Play } from "lucide-react";
-import { projects } from "@/lib/projects";
+import { Mail, MapPin, FileDown, Play, ExternalLink } from "lucide-react";
+import { projects, sideProjects } from "@/lib/projects";
 
 function Github({ className }: { className?: string }) {
   return (
@@ -194,6 +194,54 @@ export default function Home() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      {/* Also built */}
+      <section id="also-built" className="border-b border-stone-800/60">
+        <div className="mx-auto max-w-5xl px-6 py-14">
+          <div className="flex items-baseline justify-between gap-6">
+            <h2 className="text-xl font-semibold tracking-tight text-stone-100 sm:text-2xl">
+              Also built
+            </h2>
+            <p className="hidden text-xs text-stone-500 sm:block">
+              learning tools I made while learning the tools
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-8 sm:grid-cols-2">
+            {sideProjects.map((p) => (
+              <article key={p.slug} className="max-w-[58ch]">
+                <h3 className="font-mono text-base text-stone-100">{p.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-stone-200">
+                  {p.description}
+                </p>
+                <p className="mt-3 font-mono text-xs text-stone-500">
+                  {p.tech.join("  ·  ")}
+                </p>
+                <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+                  <a
+                    href={p.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-[var(--accent)] underline-offset-4 hover:underline"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    live site
+                  </a>
+                  <a
+                    href={p.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-stone-400 hover:text-stone-100"
+                  >
+                    <Github className="h-4 w-4" />
+                    source
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
