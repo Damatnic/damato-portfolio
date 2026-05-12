@@ -15,13 +15,13 @@ export const projects: Project[] = [
   {
     slug: "olympic-medal-etl",
     title: "Olympic Medal Data Pipeline",
-    tagline: "End-to-end ETL: web scraping → SQL Server → multi-tab Excel",
+    tagline: "Python ETL from web pages into SQL Server, out to Excel",
     description:
-      "Built a complete data pipeline scraping Tokyo 2020 and Beijing 2022 medal results from Olympedia, enriching them with continent and capital data from SQL Server, and exporting a multi-tab Excel workbook with four pivot summaries.",
+      "Scrapes Tokyo 2020 and Beijing 2022 medal pages from Olympedia, enriches the records with continent and capital data from SQL Server, and exports a multi-tab Excel workbook with pivot summaries.",
     bullets: [
-      "Hand-parsed Olympedia HTML with BeautifulSoup after pandas.read_html failed on embedded flag image tags",
-      "Enriched 1,344 medal records with continent + capital from SQL Server via pymssql, left-joining IOC ↔ ISO country codes",
-      "Exported multi-tab Excel with openpyxl plus 4 pivot summaries (continent/country, by Olympics, by medal type, top 5)",
+      "Hand-parsed the medal table with BeautifulSoup after pandas.read_html choked on embedded flag image tags",
+      "Enriched 1,344 medal records with continent and capital from SQL Server via pymssql, left-joined to deal with IOC vs ISO country code mismatches",
+      "Exported a two-tab Excel workbook with openpyxl plus four pivot summaries (continent and country, by Olympics, by medal type, top five countries)",
     ],
     tech: [
       "Python",
@@ -39,13 +39,13 @@ export const projects: Project[] = [
   {
     slug: "car-rental-sql-server",
     title: "Car Rental Database (SQL Server)",
-    tagline: "Production-grade schema with partitioning and audit triggers",
+    tagline: "Schema with partitioning, audit triggers, and dynamic file paths",
     description:
-      "Designed and implemented an 11-table SQL Server database from an ER diagram for a small car rental business. Year-based table partitioning with custom filegroups, AFTER INSERT/UPDATE/DELETE history triggers, and dynamic SQL for portable file paths.",
+      "An 11-table SQL Server database built from an ER diagram for a small car rental business. Includes year-based table partitioning, history triggers for audit trails, and dynamic SQL so the script runs on any SQL Server install without manual editing.",
     bullets: [
-      "11-table relational schema with surrogate keys, foreign keys, check constraints, and unique constraints",
-      "Year-based partitioning on Rentals + Reservation tables; 2022 partition on dedicated FG_CarRental_2022 filegroup",
-      "History tables + AFTER I/U/D triggers across 6 tables for full audit trail; filtered + covering indexes for performance",
+      "11 tables with surrogate keys, foreign keys, check constraints, and unique constraints on the original composite keys",
+      "Year-based partitioning on Rentals and Reservation, with the 2022 partition on its own filegroup and data file",
+      "History tables and AFTER INSERT/UPDATE/DELETE triggers across six tables for a full audit trail, plus filtered and covering indexes for the common queries",
     ],
     tech: [
       "T-SQL",
@@ -63,13 +63,13 @@ export const projects: Project[] = [
   {
     slug: "power-bi-sales-dashboard",
     title: "Power BI Sales Dashboard",
-    tagline: "3-page interactive dashboard on a star schema",
+    tagline: "Three-page interactive dashboard on a star schema",
     description:
-      "Built an interactive Power BI dashboard from a star schema with DAX measures, slicer-driven filtering, and drill-through pages. Sales overview, employee performance details, and salary-vs-performance analysis.",
+      "A three-page Power BI dashboard built on a star schema with DAX measures, slicer-driven filters, and drill-through pages. Sales overview, employee performance details, and a salary-vs-review-score breakdown.",
     bullets: [
-      "Sales overview page: KPI cards, YoY growth, sales by region, top products",
-      "Sales details page: employee performance scorecard with drill-through, promotion effectiveness",
-      "Salary analysis page: compensation vs review scores via Sales Reviews 1:1 relationship",
+      "Sales overview: KPI cards, year-over-year growth, sales by region, top products by revenue",
+      "Employee details with drill-through, plus promotion effectiveness by Sales Amount and Order Quantity",
+      "Salary vs review score analysis using a 1:1 relationship between Sales Reviews and the Employee table",
     ],
     tech: ["Power BI", "DAX", "Star Schema", "Data Visualization"],
     github: "https://github.com/Damatnic/power-bi-sales-dashboard",

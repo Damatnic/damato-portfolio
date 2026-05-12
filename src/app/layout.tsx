@@ -13,14 +13,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nicholas D'Amato — Junior Data Analyst",
+  title: "Nicholas D'Amato | Junior Data Analyst",
   description:
-    "Junior Data Analyst pivoting from IT support. Python, SQL, Power BI work plus production full-stack experience. AAS in AI Data Specialist at WCTC.",
+    "Junior data analyst pivoting from IT support. Python, SQL, Power BI work. Finishing an AAS in AI Data Specialist at WCTC.",
   metadataBase: new URL("https://damato-data.vercel.app"),
   openGraph: {
-    title: "Nicholas D'Amato — Junior Data Analyst",
+    title: "Nicholas D'Amato | Junior Data Analyst",
     description:
-      "Junior Data Analyst | Python · SQL · Power BI | Open to Part-Time & Internship",
+      "Junior Data Analyst. Python, SQL, Power BI. Open to part-time and internship roles.",
     type: "website",
   },
 };

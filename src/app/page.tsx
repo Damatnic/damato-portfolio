@@ -55,15 +55,16 @@ export default function Home() {
                 Nicholas D&apos;Amato
               </h1>
               <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-300">
-                Pivoting from IT support into data analytics. Hands-on Python,
-                SQL, and Power BI work, backed by years inside the enterprise
-                systems that generate the data most companies are trying to
-                analyze.
+                I spent a few years doing IT support and I&apos;m moving into
+                data analytics now. The two connect more than people expect.
+                I&apos;ve worked inside ServiceNow and Active Directory, the
+                kind of systems that generate the data companies are trying
+                to analyze.
               </p>
               <p className="mt-3 max-w-2xl text-base text-slate-400">
                 Finishing an AAS in AI Data Specialist at WCTC. Looking for
-                part-time analyst work or a data internship. Remote preferred,
-                Milwaukee/Waukesha OK.
+                part-time analyst work or a data internship. Remote is what
+                I&apos;m after but Milwaukee/Waukesha is fine too.
               </p>
 
               <div className="mt-6 flex flex-wrap items-center gap-4 text-sm">
@@ -209,26 +210,28 @@ export default function Home() {
           </h2>
           <div className="mt-8 space-y-5 text-base leading-relaxed text-slate-300">
             <p>
-              I spent the last few years doing IT support — service desk,
-              ticketing systems, Active Directory, ServiceNow, PowerShell
-              automation. Three years across Puget Sound Energy, Wolter Inc.,
-              CTAccess, and City of Wauwatosa. That work taught me how
-              enterprise systems actually generate data, which turns out to be
-              a huge head start for the data analyst pivot.
+              The last few years I did IT support. Service desk, ticketing,
+              Active Directory, ServiceNow, some PowerShell automation. Three
+              years across Puget Sound Energy, Wolter, CTAccess, and the City
+              of Wauwatosa. Turns out being inside the systems that actually
+              generate the data is a pretty good head start for moving into
+              analytics.
             </p>
             <p>
-              I&apos;m finishing an AAS in AI Data Specialist at WCTC (expected
-              May 2027), focused on Python data manipulation, advanced SQL,
-              and Power BI. The three projects above are real work from this
-              program: an end-to-end ETL pipeline, a production-grade SQL
-              Server schema, and a multi-page Power BI dashboard.
+              I&apos;m finishing an AAS in AI Data Specialist at WCTC,
+              expected May 2027. The three projects above are real work from
+              the program. A Python ETL pipeline that scrapes web data into
+              SQL Server. A SQL Server schema built from an ER diagram with
+              partitioning and audit triggers. A Power BI dashboard on a star
+              schema.
             </p>
             <p>
-              I&apos;m looking for part-time analyst work or a data internship
-              — remote preferred, Milwaukee/Waukesha area open. Comfortable
-              with full-time too. I ship things, I learn the messy parts of
-              new tools, and I&apos;m used to being the one who figures out
-              what the data is actually saying.
+              Looking for part-time analyst work or a data internship. Remote
+              is what I&apos;m after but Milwaukee or Waukesha works fine.
+              Full-time is on the table too if the role fits. I ship things,
+              I learn the messy parts of new tools, and I&apos;m comfortable
+              being the person who figures out what the data is actually
+              saying.
             </p>
           </div>
 
