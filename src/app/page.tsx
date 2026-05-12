@@ -54,7 +54,7 @@ export default function Home() {
               <p className="mt-3 text-lg text-stone-300">
                 Junior data analyst, pivoting in from IT support.
               </p>
-              <p className="mt-6 max-w-2xl leading-relaxed text-stone-400">
+              <p className="mt-6 max-w-[60ch] leading-relaxed text-stone-200">
                 Three years on service desks: ServiceNow, Active Directory, the
                 tools that actually produce the data companies want to analyze.
                 Now I&apos;m the one trying to read it. Finishing an AAS in AI
@@ -62,14 +62,25 @@ export default function Home() {
                 an internship.
               </p>
 
-              <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-stone-400">
+              <div className="mt-7">
+                <a
+                  href="/DAmato_Resume_DataAnalyst.pdf"
+                  download
+                  className="inline-flex items-center gap-2 rounded-md border border-[var(--accent)]/50 bg-[var(--accent-soft)] px-4 py-2 text-sm font-medium text-[var(--accent)] transition hover:bg-[var(--accent)]/25"
+                >
+                  <FileDown className="h-4 w-4" />
+                  Download Resume (PDF)
+                </a>
+              </div>
+
+              <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-stone-400">
                 <span className="inline-flex items-center gap-1.5">
                   <MapPin className="h-4 w-4" />
                   Pewaukee, WI
                 </span>
                 <a
                   href="mailto:nickdamatoit@gmail.com"
-                  className="inline-flex items-center gap-1.5 text-stone-200 underline-offset-4 hover:text-[var(--accent)] hover:underline"
+                  className="inline-flex items-center gap-1.5 hover:text-[var(--accent)]"
                 >
                   <Mail className="h-4 w-4" />
                   nickdamatoit@gmail.com
@@ -78,7 +89,7 @@ export default function Home() {
                   href="https://linkedin.com/in/nicholas-damato2"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-stone-200 hover:text-[var(--accent)]"
+                  className="inline-flex items-center gap-1.5 hover:text-[var(--accent)]"
                 >
                   <Linkedin className="h-4 w-4" />
                   LinkedIn
@@ -87,18 +98,10 @@ export default function Home() {
                   href="https://github.com/Damatnic"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-stone-200 hover:text-[var(--accent)]"
+                  className="inline-flex items-center gap-1.5 hover:text-[var(--accent)]"
                 >
                   <Github className="h-4 w-4" />
                   GitHub
-                </a>
-                <a
-                  href="/DAmato_Resume_DataAnalyst.pdf"
-                  download
-                  className="inline-flex items-center gap-1.5 rounded border border-[var(--accent)]/40 bg-[var(--accent-soft)] px-2.5 py-1 text-[var(--accent)] hover:bg-[var(--accent)]/25"
-                >
-                  <FileDown className="h-3.5 w-3.5" />
-                  Resume PDF
                 </a>
               </div>
             </div>
@@ -123,12 +126,17 @@ export default function Home() {
             </Link>
           </div>
 
-          <ol className="mt-10 space-y-12">
+          <ol className="mt-10 divide-y divide-stone-800/60">
             {projects.map((p, i) => (
               <li
                 key={p.slug}
-                className="grid gap-6 sm:grid-cols-[5rem_1fr] sm:gap-10"
+                className="group relative grid gap-6 py-10 first:pt-6 sm:grid-cols-[5rem_1fr] sm:gap-10"
               >
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute -left-3 top-10 h-12 w-px bg-stone-800 transition group-hover:bg-[var(--accent)]"
+                />
+
                 <div className="font-mono text-sm text-stone-500">
                   <span className="text-[var(--accent)]">
                     {String(i + 1).padStart(2, "0")}
@@ -139,17 +147,17 @@ export default function Home() {
                   </span>
                 </div>
 
-                <article>
-                  <h3 className="text-xl font-semibold text-stone-100 sm:text-2xl">
+                <article className="max-w-[68ch]">
+                  <h3 className="text-xl font-semibold text-stone-50 sm:text-2xl">
                     {p.title}
                   </h3>
                   <p className="mt-1.5 text-sm text-stone-400">{p.tagline}</p>
 
-                  <p className="mt-4 leading-relaxed text-stone-300">
+                  <p className="mt-4 leading-relaxed text-stone-200">
                     {p.description}
                   </p>
 
-                  <ul className="mt-5 space-y-2 text-sm text-stone-400">
+                  <ul className="mt-5 space-y-2 text-sm text-stone-300">
                     {p.bullets.map((b, idx) => (
                       <li key={idx} className="flex gap-3">
                         <span className="mt-2.5 inline-block h-px w-3 shrink-0 bg-stone-600" />
@@ -166,7 +174,7 @@ export default function Home() {
                     {p.demoUrl && (
                       <Link
                         href={p.demoUrl}
-                        className="inline-flex items-center gap-1.5 text-[var(--accent)] hover:underline underline-offset-4"
+                        className="inline-flex items-center gap-1.5 font-medium text-[var(--accent)] underline-offset-4 hover:underline"
                       >
                         <Play className="h-3.5 w-3.5" />
                         {p.demoLabel ?? "Try it"}
@@ -193,11 +201,11 @@ export default function Home() {
       <section id="about" className="border-b border-stone-800/60">
         <div className="mx-auto max-w-5xl px-6 py-14">
           <div className="grid gap-10 sm:grid-cols-[2fr_1fr]">
-            <div className="space-y-5 leading-relaxed text-stone-300">
+            <div className="space-y-5 leading-relaxed text-stone-200">
               <h2 className="text-2xl font-semibold tracking-tight text-stone-100 sm:text-3xl">
                 About
               </h2>
-              <p>
+              <p className="max-w-[65ch]">
                 Last few years I did IT support. Service desk, ticketing, AD,
                 ServiceNow, some PowerShell. Three years across Puget Sound
                 Energy, Wolter, CTAccess, and the City of Wauwatosa. Being
@@ -206,14 +214,14 @@ export default function Home() {
                 when half the job is figuring out what the data is actually
                 saying versus what people <em>think</em> it&apos;s saying.
               </p>
-              <p>
+              <p className="max-w-[65ch]">
                 The three projects above are real work from my WCTC program,
                 cleaned up for public sharing. A Python ETL that scrapes web
                 data into SQL Server. A SQL Server schema built from an ER
                 diagram with partitioning and audit triggers. A Power BI
                 dashboard on a star schema.
               </p>
-              <p>
+              <p className="max-w-[65ch]">
                 Looking for part-time analyst work or an internship. Remote is
                 what I&apos;m after, Milwaukee or Waukesha is fine. Full-time
                 works too if the role fits.
@@ -222,25 +230,25 @@ export default function Home() {
 
             <dl className="space-y-6 text-sm">
               <div>
-                <dt className="text-stone-500">Education</dt>
-                <dd className="mt-1 text-stone-200">WCTC · AAS, AI Data Specialist <span className="text-stone-500">(2027)</span></dd>
+                <dt className="text-xs uppercase tracking-wide text-stone-500">Education</dt>
+                <dd className="mt-1.5 text-stone-200">WCTC · AAS, AI Data Specialist <span className="text-stone-500">(2027)</span></dd>
                 <dd className="text-stone-200">MATC · Associate, IT Network <span className="text-stone-500">(2023)</span></dd>
               </div>
               <div>
-                <dt className="text-stone-500">Certifications</dt>
-                <dd className="mt-1 text-stone-200">CompTIA A+, Network+</dd>
+                <dt className="text-xs uppercase tracking-wide text-stone-500">Certifications</dt>
+                <dd className="mt-1.5 text-stone-200">CompTIA A+, Network+</dd>
                 <dd className="text-stone-200">Cisco CCNA</dd>
               </div>
               <div>
-                <dt className="text-stone-500">Tools I reach for</dt>
-                <dd className="mt-1 text-stone-200">
+                <dt className="text-xs uppercase tracking-wide text-stone-500">Tools I reach for</dt>
+                <dd className="mt-1.5 text-stone-200">
                   Python · pandas · SQL · T-SQL · Power BI · DAX · Excel · SQL
                   Server · BeautifulSoup · PowerShell
                 </dd>
               </div>
               <div>
-                <dt className="text-stone-500">Currently learning</dt>
-                <dd className="mt-1 text-stone-200">
+                <dt className="text-xs uppercase tracking-wide text-stone-500">Currently learning</dt>
+                <dd className="mt-1.5 text-stone-200">
                   More serious DAX. Window functions in production-scale data.
                   How to make a dashboard people actually use.
                 </dd>
@@ -256,10 +264,10 @@ export default function Home() {
           <p className="text-sm text-stone-500">
             Nicholas D&apos;Amato · Pewaukee, WI
           </p>
-          <div className="flex gap-5 text-sm">
+          <div className="flex gap-5 text-sm text-stone-400">
             <a
               href="mailto:nickdamatoit@gmail.com"
-              className="inline-flex items-center gap-1.5 text-stone-400 hover:text-[var(--accent)]"
+              className="inline-flex items-center gap-1.5 hover:text-[var(--accent)]"
             >
               <Mail className="h-4 w-4" /> Email
             </a>
@@ -267,7 +275,7 @@ export default function Home() {
               href="https://linkedin.com/in/nicholas-damato2"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-stone-400 hover:text-[var(--accent)]"
+              className="inline-flex items-center gap-1.5 hover:text-[var(--accent)]"
             >
               <Linkedin className="h-4 w-4" /> LinkedIn
             </a>
@@ -275,7 +283,7 @@ export default function Home() {
               href="https://github.com/Damatnic"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-stone-400 hover:text-[var(--accent)]"
+              className="inline-flex items-center gap-1.5 hover:text-[var(--accent)]"
             >
               <Github className="h-4 w-4" /> GitHub
             </a>

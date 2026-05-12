@@ -89,12 +89,13 @@ export default function OlympicMedalsPage() {
   const topCountries = useMemo(() => {
     const byCountry = new Map<
       string,
-      { country: string; Gold: number; Silver: number; Bronze: number; total: number }
+      { country: string; code: string; Gold: number; Silver: number; Bronze: number; total: number }
     >();
     for (const r of filtered) {
       const e =
         byCountry.get(r.country) ?? {
           country: r.country,
+          code: r.code,
           Gold: 0,
           Silver: 0,
           Bronze: 0,
@@ -289,14 +290,21 @@ export default function OlympicMedalsPage() {
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={topCountries} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="2 4" stroke="#292524" />
-                    <XAxis dataKey="country" tick={{ fill: "#a8a29e", fontSize: 11 }} interval={0} angle={-30} textAnchor="end" height={60} />
-                    <YAxis tick={{ fill: "#a8a29e", fontSize: 11 }} />
-                    <Tooltip contentStyle={{ backgroundColor: "#1c1917", border: "1px solid #44403c", borderRadius: "4px" }} labelStyle={{ color: "#f5f5f4" }} />
-                    <Legend wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
+                    <CartesianGrid strokeDasharray="2 4" stroke="#292524" vertical={false} />
+                    <XAxis dataKey="code" tick={{ fill: "#d6d3d1", fontSize: 12, fontFamily: "ui-monospace, monospace" }} interval={0} tickLine={false} axisLine={{ stroke: "#44403c" }} />
+                    <YAxis tick={{ fill: "#a8a29e", fontSize: 11 }} tickLine={false} axisLine={false} />
+                    <Tooltip
+                      contentStyle={{ backgroundColor: "#1c1917", border: "1px solid #44403c", borderRadius: "4px" }}
+                      labelStyle={{ color: "#f5f5f4" }}
+                      labelFormatter={(label, payload) => {
+                        const item = (payload as ReadonlyArray<{ payload?: { country?: string } }> | undefined)?.[0]?.payload;
+                        return item?.country ? `${item.country} (${String(label)})` : String(label ?? "");
+                      }}
+                    />
+                    <Legend wrapperStyle={{ fontSize: 12, paddingTop: 12 }} iconType="circle" />
                     <Bar dataKey="Gold" stackId="a" fill={MEDAL_COLORS.Gold} />
                     <Bar dataKey="Silver" stackId="a" fill={MEDAL_COLORS.Silver} />
-                    <Bar dataKey="Bronze" stackId="a" fill={MEDAL_COLORS.Bronze} />
+                    <Bar dataKey="Bronze" stackId="a" fill={MEDAL_COLORS.Bronze} radius={[3, 3, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               )}
