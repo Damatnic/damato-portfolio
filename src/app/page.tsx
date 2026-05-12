@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin, FileDown, ExternalLink, Play } from "lucide-react";
+import { Mail, MapPin, FileDown, Play } from "lucide-react";
 import { projects } from "@/lib/projects";
 
 function Github({ className }: { className?: string }) {
@@ -33,48 +33,43 @@ export default function Home() {
   return (
     <main className="flex-1">
       {/* Hero */}
-      <section className="border-b border-slate-800/60 bg-gradient-to-b from-slate-900/40 to-transparent">
-        <div className="mx-auto max-w-6xl px-6 py-16 sm:py-24">
-          <div className="grid items-center gap-10 sm:grid-cols-[auto_1fr]">
-            <div className="relative h-40 w-40 overflow-hidden rounded-full ring-2 ring-sky-500/40 ring-offset-4 ring-offset-slate-950 sm:h-48 sm:w-48">
+      <section className="border-b border-stone-800/60">
+        <div className="mx-auto max-w-5xl px-6 pt-20 pb-14 sm:pt-28 sm:pb-20">
+          <div className="grid items-start gap-10 sm:grid-cols-[auto_1fr]">
+            <div className="relative h-32 w-32 overflow-hidden rounded-md ring-1 ring-stone-700/60 sm:h-36 sm:w-36">
               <Image
                 src="/headshot.jpg"
                 alt="Nicholas D'Amato"
                 fill
                 priority
-                sizes="(min-width: 640px) 12rem, 10rem"
+                sizes="(min-width: 640px) 9rem, 8rem"
                 className="object-cover"
               />
             </div>
 
             <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-sky-400">
-                Junior Data Analyst
-              </p>
-              <h1 className="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">
+              <h1 className="text-4xl font-semibold tracking-tight text-stone-50 sm:text-5xl">
                 Nicholas D&apos;Amato
               </h1>
-              <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-300">
-                I spent a few years doing IT support and I&apos;m moving into
-                data analytics now. The two connect more than people expect.
-                I&apos;ve worked inside ServiceNow and Active Directory, the
-                kind of systems that generate the data companies are trying
-                to analyze.
+              <p className="mt-3 text-lg text-stone-300">
+                Junior data analyst, pivoting in from IT support.
               </p>
-              <p className="mt-3 max-w-2xl text-base text-slate-400">
-                Finishing an AAS in AI Data Specialist at WCTC. Looking for
-                part-time analyst work or a data internship. Remote is what
-                I&apos;m after but Milwaukee/Waukesha is fine too.
+              <p className="mt-6 max-w-2xl leading-relaxed text-stone-400">
+                Three years on service desks: ServiceNow, Active Directory, the
+                tools that actually produce the data companies want to analyze.
+                Now I&apos;m the one trying to read it. Finishing an AAS in AI
+                Data Specialist at WCTC, looking for part-time analyst work or
+                an internship.
               </p>
 
-              <div className="mt-6 flex flex-wrap items-center gap-4 text-sm">
-                <span className="inline-flex items-center gap-1.5 text-slate-400">
+              <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-stone-400">
+                <span className="inline-flex items-center gap-1.5">
                   <MapPin className="h-4 w-4" />
                   Pewaukee, WI
                 </span>
                 <a
                   href="mailto:nickdamatoit@gmail.com"
-                  className="inline-flex items-center gap-1.5 text-slate-300 transition hover:text-sky-400"
+                  className="inline-flex items-center gap-1.5 text-stone-200 underline-offset-4 hover:text-[var(--accent)] hover:underline"
                 >
                   <Mail className="h-4 w-4" />
                   nickdamatoit@gmail.com
@@ -83,7 +78,7 @@ export default function Home() {
                   href="https://linkedin.com/in/nicholas-damato2"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-slate-300 transition hover:text-sky-400"
+                  className="inline-flex items-center gap-1.5 text-stone-200 hover:text-[var(--accent)]"
                 >
                   <Linkedin className="h-4 w-4" />
                   LinkedIn
@@ -92,7 +87,7 @@ export default function Home() {
                   href="https://github.com/Damatnic"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-slate-300 transition hover:text-sky-400"
+                  className="inline-flex items-center gap-1.5 text-stone-200 hover:text-[var(--accent)]"
                 >
                   <Github className="h-4 w-4" />
                   GitHub
@@ -100,10 +95,10 @@ export default function Home() {
                 <a
                   href="/DAmato_Resume_DataAnalyst.pdf"
                   download
-                  className="inline-flex items-center gap-1.5 rounded-md bg-sky-500/10 px-3 py-1.5 text-sky-400 ring-1 ring-sky-500/30 transition hover:bg-sky-500/20"
+                  className="inline-flex items-center gap-1.5 rounded border border-[var(--accent)]/40 bg-[var(--accent-soft)] px-2.5 py-1 text-[var(--accent)] hover:bg-[var(--accent)]/25"
                 >
-                  <FileDown className="h-4 w-4" />
-                  Download Resume
+                  <FileDown className="h-3.5 w-3.5" />
+                  Resume PDF
                 </a>
               </div>
             </div>
@@ -111,82 +106,67 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Data Projects */}
-      <section id="projects" className="border-b border-slate-800/60">
-        <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
-          <div className="mb-10 flex items-end justify-between gap-4">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-sky-400">
-                Featured Work
-              </p>
-              <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-                Data Projects
-              </h2>
-            </div>
+      {/* Projects */}
+      <section id="projects" className="border-b border-stone-800/60">
+        <div className="mx-auto max-w-5xl px-6 py-16">
+          <div className="flex items-baseline justify-between gap-6">
+            <h2 className="text-2xl font-semibold tracking-tight text-stone-100 sm:text-3xl">
+              Things I&apos;ve built
+            </h2>
             <Link
               href="https://github.com/Damatnic"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden text-sm text-slate-400 transition hover:text-sky-400 sm:inline-flex sm:items-center sm:gap-1.5"
+              className="hidden text-sm text-stone-500 hover:text-[var(--accent)] sm:inline"
             >
-              All projects on GitHub <ExternalLink className="h-4 w-4" />
+              github.com/Damatnic →
             </Link>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-3">
-            {projects.map((p) => (
-              <article
+          <ol className="mt-10 space-y-12">
+            {projects.map((p, i) => (
+              <li
                 key={p.slug}
-                className="group flex flex-col overflow-hidden rounded-xl bg-slate-900/40 ring-1 ring-slate-800/80 transition hover:ring-sky-500/40"
+                className="grid gap-6 sm:grid-cols-[5rem_1fr] sm:gap-10"
               >
-                <div
-                  className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${p.imageGradient}`}
-                >
-                  {p.imagePath ? (
-                    <Image
-                      src={p.imagePath}
-                      alt={`${p.title} preview`}
-                      fill
-                      sizes="(min-width: 1024px) 33vw, 100vw"
-                      className="object-cover opacity-80 transition group-hover:opacity-100"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center text-6xl">
-                      {p.imageInitials}
-                    </div>
-                  )}
+                <div className="font-mono text-sm text-stone-500">
+                  <span className="text-[var(--accent)]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="ml-2 text-stone-700">/</span>
+                  <span className="ml-2">
+                    {String(projects.length).padStart(2, "0")}
+                  </span>
                 </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <h3 className="text-xl font-semibold tracking-tight">
+
+                <article>
+                  <h3 className="text-xl font-semibold text-stone-100 sm:text-2xl">
                     {p.title}
                   </h3>
-                  <p className="mt-1 text-sm text-sky-400">{p.tagline}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-300">
+                  <p className="mt-1.5 text-sm text-stone-400">{p.tagline}</p>
+
+                  <p className="mt-4 leading-relaxed text-stone-300">
                     {p.description}
                   </p>
-                  <ul className="mt-4 space-y-1.5 text-sm text-slate-400">
-                    {p.bullets.map((b, i) => (
-                      <li key={i} className="flex gap-2">
-                        <span className="mt-1 inline-block h-1 w-1 shrink-0 rounded-full bg-sky-500" />
+
+                  <ul className="mt-5 space-y-2 text-sm text-stone-400">
+                    {p.bullets.map((b, idx) => (
+                      <li key={idx} className="flex gap-3">
+                        <span className="mt-2.5 inline-block h-px w-3 shrink-0 bg-stone-600" />
                         <span>{b}</span>
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-5 flex flex-wrap gap-1.5">
-                    {p.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-md bg-slate-800/80 px-2 py-0.5 text-xs text-slate-300 ring-1 ring-slate-700/60"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-6 flex flex-wrap items-center gap-3">
+
+                  <p className="mt-5 font-mono text-xs text-stone-500">
+                    {p.tech.join("  ·  ")}
+                  </p>
+
+                  <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
                     {p.demoUrl && (
                       <Link
                         href={p.demoUrl}
-                        className="inline-flex items-center gap-1.5 rounded-md bg-sky-500/15 px-3 py-1.5 text-sm font-medium text-sky-300 ring-1 ring-sky-500/30 transition hover:bg-sky-500/25 hover:text-sky-200"
+                        className="inline-flex items-center gap-1.5 text-[var(--accent)] hover:underline underline-offset-4"
                       >
                         <Play className="h-3.5 w-3.5" />
                         {p.demoLabel ?? "Try it"}
@@ -196,125 +176,90 @@ export default function Home() {
                       href={p.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-sm text-sky-400 transition hover:text-sky-300"
+                      className="inline-flex items-center gap-1.5 text-stone-400 hover:text-stone-100"
                     >
                       <Github className="h-4 w-4" />
-                      View on GitHub
-                      <ExternalLink className="h-3.5 w-3.5" />
+                      source
                     </a>
                   </div>
-                </div>
-              </article>
+                </article>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
       {/* About */}
-      <section id="about" className="border-b border-slate-800/60">
-        <div className="mx-auto max-w-4xl px-6 py-16 sm:py-20">
-          <p className="font-mono text-xs uppercase tracking-widest text-sky-400">
-            Background
-          </p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-            About
-          </h2>
-          <div className="mt-8 space-y-5 text-base leading-relaxed text-slate-300">
-            <p>
-              The last few years I did IT support. Service desk, ticketing,
-              Active Directory, ServiceNow, some PowerShell automation. Three
-              years across Puget Sound Energy, Wolter, CTAccess, and the City
-              of Wauwatosa. Turns out being inside the systems that actually
-              generate the data is a pretty good head start for moving into
-              analytics.
-            </p>
-            <p>
-              I&apos;m finishing an AAS in AI Data Specialist at WCTC,
-              expected May 2027. The three projects above are real work from
-              the program. A Python ETL pipeline that scrapes web data into
-              SQL Server. A SQL Server schema built from an ER diagram with
-              partitioning and audit triggers. A Power BI dashboard on a star
-              schema.
-            </p>
-            <p>
-              Looking for part-time analyst work or a data internship. Remote
-              is what I&apos;m after but Milwaukee or Waukesha works fine.
-              Full-time is on the table too if the role fits. I ship things,
-              I learn the messy parts of new tools, and I&apos;m comfortable
-              being the person who figures out what the data is actually
-              saying.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-8 sm:grid-cols-3">
-            <div>
-              <h3 className="font-mono text-xs uppercase tracking-widest text-slate-400">
-                Education
-              </h3>
-              <ul className="mt-3 space-y-2 text-sm text-slate-300">
-                <li>
-                  <strong className="block text-slate-100">WCTC</strong>
-                  AAS, AI Data Specialist
-                  <span className="block text-slate-500">In Progress (2027)</span>
-                </li>
-                <li>
-                  <strong className="block text-slate-100">MATC</strong>
-                  Associate, IT Network Specialist
-                  <span className="block text-slate-500">2023</span>
-                </li>
-              </ul>
+      <section id="about" className="border-b border-stone-800/60">
+        <div className="mx-auto max-w-5xl px-6 py-14">
+          <div className="grid gap-10 sm:grid-cols-[2fr_1fr]">
+            <div className="space-y-5 leading-relaxed text-stone-300">
+              <h2 className="text-2xl font-semibold tracking-tight text-stone-100 sm:text-3xl">
+                About
+              </h2>
+              <p>
+                Last few years I did IT support. Service desk, ticketing, AD,
+                ServiceNow, some PowerShell. Three years across Puget Sound
+                Energy, Wolter, CTAccess, and the City of Wauwatosa. Being
+                inside the systems that generate the data turns out to be a
+                pretty good head start for moving into analytics, especially
+                when half the job is figuring out what the data is actually
+                saying versus what people <em>think</em> it&apos;s saying.
+              </p>
+              <p>
+                The three projects above are real work from my WCTC program,
+                cleaned up for public sharing. A Python ETL that scrapes web
+                data into SQL Server. A SQL Server schema built from an ER
+                diagram with partitioning and audit triggers. A Power BI
+                dashboard on a star schema.
+              </p>
+              <p>
+                Looking for part-time analyst work or an internship. Remote is
+                what I&apos;m after, Milwaukee or Waukesha is fine. Full-time
+                works too if the role fits.
+              </p>
             </div>
 
-            <div>
-              <h3 className="font-mono text-xs uppercase tracking-widest text-slate-400">
-                Certifications
-              </h3>
-              <ul className="mt-3 space-y-1.5 text-sm text-slate-300">
-                <li>CompTIA A+ (2024)</li>
-                <li>CompTIA Network+ (2024)</li>
-                <li>Cisco CCNA (2022)</li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-mono text-xs uppercase tracking-widest text-slate-400">
-                Tech
-              </h3>
-              <ul className="mt-3 space-y-1.5 text-sm text-slate-300">
-                <li>Python · pandas · SQL · T-SQL</li>
-                <li>Power BI · DAX · Excel</li>
-                <li>SQL Server · ETL · Web Scraping</li>
-                <li>AD · PowerShell · ServiceNow</li>
-              </ul>
-            </div>
+            <dl className="space-y-6 text-sm">
+              <div>
+                <dt className="text-stone-500">Education</dt>
+                <dd className="mt-1 text-stone-200">WCTC · AAS, AI Data Specialist <span className="text-stone-500">(2027)</span></dd>
+                <dd className="text-stone-200">MATC · Associate, IT Network <span className="text-stone-500">(2023)</span></dd>
+              </div>
+              <div>
+                <dt className="text-stone-500">Certifications</dt>
+                <dd className="mt-1 text-stone-200">CompTIA A+, Network+</dd>
+                <dd className="text-stone-200">Cisco CCNA</dd>
+              </div>
+              <div>
+                <dt className="text-stone-500">Tools I reach for</dt>
+                <dd className="mt-1 text-stone-200">
+                  Python · pandas · SQL · T-SQL · Power BI · DAX · Excel · SQL
+                  Server · BeautifulSoup · PowerShell
+                </dd>
+              </div>
+              <div>
+                <dt className="text-stone-500">Currently learning</dt>
+                <dd className="mt-1 text-stone-200">
+                  More serious DAX. Window functions in production-scale data.
+                  How to make a dashboard people actually use.
+                </dd>
+              </div>
+            </dl>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-950/60">
-        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-12 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-sm text-slate-400">
-            <p>
-              Built with Next.js + Tailwind, deployed on Vercel. Source on{" "}
-              <a
-                href="https://github.com/Damatnic/damato-portfolio"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sky-400 hover:text-sky-300"
-              >
-                GitHub
-              </a>
-              .
-            </p>
-            <p className="mt-1 text-slate-500">
-              © {new Date().getFullYear()} Nicholas D&apos;Amato
-            </p>
-          </div>
-          <div className="flex gap-4 text-sm">
+      <footer>
+        <div className="mx-auto flex max-w-5xl flex-col gap-3 px-6 py-10 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-stone-500">
+            Nicholas D&apos;Amato · Pewaukee, WI
+          </p>
+          <div className="flex gap-5 text-sm">
             <a
               href="mailto:nickdamatoit@gmail.com"
-              className="inline-flex items-center gap-1.5 text-slate-300 transition hover:text-sky-400"
+              className="inline-flex items-center gap-1.5 text-stone-400 hover:text-[var(--accent)]"
             >
               <Mail className="h-4 w-4" /> Email
             </a>
@@ -322,7 +267,7 @@ export default function Home() {
               href="https://linkedin.com/in/nicholas-damato2"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-slate-300 transition hover:text-sky-400"
+              className="inline-flex items-center gap-1.5 text-stone-400 hover:text-[var(--accent)]"
             >
               <Linkedin className="h-4 w-4" /> LinkedIn
             </a>
@@ -330,7 +275,7 @@ export default function Home() {
               href="https://github.com/Damatnic"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-slate-300 transition hover:text-sky-400"
+              className="inline-flex items-center gap-1.5 text-stone-400 hover:text-[var(--accent)]"
             >
               <Github className="h-4 w-4" /> GitHub
             </a>

@@ -2,15 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  ExternalLink,
-  Search,
-  Trophy,
-  Globe,
-  Users,
-  Flag,
-} from "lucide-react";
+import { ArrowLeft, Search } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -41,17 +33,17 @@ type Row = {
 const ALL_DATA = rawData as Row[];
 
 const MEDAL_COLORS: Record<string, string> = {
-  Gold: "#fbbf24",
-  Silver: "#cbd5e1",
-  Bronze: "#d97706",
+  Gold: "#e8b53d",
+  Silver: "#a8a29e",
+  Bronze: "#a07752",
 };
 
 const CONTINENT_COLORS: Record<string, string> = {
-  Americas: "#38bdf8",
-  Asia: "#f472b6",
-  Europe: "#a78bfa",
-  Oceania: "#34d399",
-  Africa: "#fb923c",
+  Americas: "#d97757",
+  Asia: "#c9886d",
+  Europe: "#e8b53d",
+  Oceania: "#88a87a",
+  Africa: "#a07752",
 };
 
 const OLYMPICS_OPTIONS = ["All", "Tokyo 2020", "Beijing 2022"] as const;
@@ -166,62 +158,81 @@ export default function OlympicMedalsPage() {
 
   return (
     <main className="flex-1">
-      <section className="border-b border-slate-800/60 bg-gradient-to-b from-slate-900/40 to-transparent">
-        <div className="mx-auto max-w-6xl px-6 py-10">
+      <section className="border-b border-stone-800/60">
+        <div className="mx-auto max-w-5xl px-6 pt-10 pb-10">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-sm text-slate-400 transition hover:text-sky-400"
+            className="inline-flex items-center gap-1.5 text-sm text-stone-500 hover:text-[var(--accent)]"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to portfolio
+            back
           </Link>
 
-          <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-sky-400">
-                Interactive Project Demo
-              </p>
-              <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-                Olympic Medal Pipeline
-              </h1>
-              <p className="mt-2 max-w-2xl text-sm text-slate-400">
-                1,343 medal records scraped from Olympedia, parsed with
-                BeautifulSoup, enriched with continent data, and served as JSON.
-                Filter the data below.
-              </p>
-            </div>
+          <h1 className="mt-6 text-3xl font-semibold tracking-tight text-stone-50 sm:text-4xl">
+            Olympic Medal Pipeline
+          </h1>
+          <p className="mt-3 max-w-2xl leading-relaxed text-stone-400">
+            1,343 medal records, scraped from Olympedia with BeautifulSoup,
+            enriched with continent data, served as JSON, filtered in your
+            browser. The same dataset the Python ETL produces.
+          </p>
+          <p className="mt-2 text-sm">
             <a
               href="https://github.com/Damatnic/olympic-medal-etl"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-md bg-slate-900/60 px-3 py-1.5 text-sm text-sky-400 ring-1 ring-slate-700/60 transition hover:bg-slate-900 hover:ring-sky-500/40"
+              className="text-[var(--accent)] hover:underline underline-offset-4"
             >
-              View ETL code on GitHub <ExternalLink className="h-3.5 w-3.5" />
+              ETL source on GitHub →
             </a>
-          </div>
+          </p>
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl px-6 py-10 space-y-10">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <StatCard icon={<Trophy className="h-5 w-5" />} label="Medals" value={stats.medals} accent="text-amber-400" />
-          <StatCard icon={<Flag className="h-5 w-5" />} label="Countries" value={stats.countries} accent="text-sky-400" />
-          <StatCard icon={<Globe className="h-5 w-5" />} label="Sports" value={stats.sports} accent="text-fuchsia-400" />
-          <StatCard icon={<Users className="h-5 w-5" />} label="Athletes" value={stats.athletes} accent="text-emerald-400" />
+      <div className="mx-auto max-w-5xl px-6 py-12 space-y-12">
+        {/* Stats row: one dominant + three secondary */}
+        <div className="grid items-end gap-8 border-b border-stone-800/60 pb-10 sm:grid-cols-[auto_1fr]">
+          <div>
+            <p className="font-mono text-xs text-stone-500">medals in view</p>
+            <p className="mt-1 text-6xl font-semibold tracking-tight text-[var(--accent)] sm:text-7xl">
+              {stats.medals.toLocaleString()}
+            </p>
+          </div>
+          <dl className="grid grid-cols-3 gap-6 text-sm">
+            <div>
+              <dt className="text-stone-500">countries</dt>
+              <dd className="mt-1 text-2xl font-medium text-stone-100">
+                {stats.countries}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-stone-500">sports</dt>
+              <dd className="mt-1 text-2xl font-medium text-stone-100">
+                {stats.sports}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-stone-500">athletes</dt>
+              <dd className="mt-1 text-2xl font-medium text-stone-100">
+                {stats.athletes}
+              </dd>
+            </div>
+          </dl>
         </div>
 
-        <div className="rounded-xl bg-slate-900/40 p-5 ring-1 ring-slate-800/80">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <h2 className="text-lg font-semibold">Filters</h2>
+        {/* Filters */}
+        <div>
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-lg font-medium text-stone-100">Filter the data</h2>
             <button
               onClick={resetFilters}
-              className="text-xs text-slate-400 transition hover:text-sky-400"
+              className="text-xs text-stone-500 hover:text-[var(--accent)]"
             >
-              Reset all
+              reset
             </button>
           </div>
 
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             <FilterGroup label="Olympics">
               <div className="flex flex-wrap gap-1.5">
                 {OLYMPICS_OPTIONS.map((o) => (
@@ -242,7 +253,7 @@ export default function OlympicMedalsPage() {
               </div>
             </FilterGroup>
 
-            <FilterGroup label="Medal type">
+            <FilterGroup label="Medal">
               <div className="flex flex-wrap gap-1.5">
                 {MEDAL_OPTIONS.map((m) => (
                   <Pill key={m} active={medals.includes(m)} onClick={() => toggleMedal(m)}>
@@ -252,36 +263,37 @@ export default function OlympicMedalsPage() {
               </div>
             </FilterGroup>
 
-            <FilterGroup label="Search country">
+            <FilterGroup label="Country">
               <div className="relative">
-                <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-600" />
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="e.g. Japan"
-                  className="w-full rounded-md bg-slate-950/60 py-1.5 pl-8 pr-3 text-sm text-slate-200 ring-1 ring-slate-700/60 placeholder:text-slate-600 focus:outline-none focus:ring-sky-500/40"
+                  className="w-full rounded border border-stone-800 bg-stone-950 py-1.5 pl-8 pr-3 text-sm text-stone-200 placeholder:text-stone-600 focus:border-[var(--accent)] focus:outline-none"
                 />
               </div>
             </FilterGroup>
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-5">
-          <div className="rounded-xl bg-slate-900/40 p-5 ring-1 ring-slate-800/80 lg:col-span-3">
-            <h3 className="text-lg font-semibold">Top 10 Countries</h3>
-            <p className="mt-1 text-xs text-slate-500">By total medal count, stacked by medal type.</p>
-            <div className="mt-4 h-80">
+        {/* Charts */}
+        <div className="grid gap-10 lg:grid-cols-5">
+          <div className="lg:col-span-3">
+            <h3 className="text-base font-medium text-stone-100">Top 10 countries</h3>
+            <p className="mt-1 text-xs text-stone-500">Stacked by medal type.</p>
+            <div className="mt-5 h-80">
               {topCountries.length === 0 ? (
                 <EmptyState />
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={topCountries} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                    <XAxis dataKey="country" tick={{ fill: "#94a3b8", fontSize: 11 }} interval={0} angle={-30} textAnchor="end" height={60} />
-                    <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} />
-                    <Tooltip contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #334155", borderRadius: "6px" }} labelStyle={{ color: "#e2e8f0" }} />
-                    <Legend wrapperStyle={{ fontSize: 12 }} />
+                    <CartesianGrid strokeDasharray="2 4" stroke="#292524" />
+                    <XAxis dataKey="country" tick={{ fill: "#a8a29e", fontSize: 11 }} interval={0} angle={-30} textAnchor="end" height={60} />
+                    <YAxis tick={{ fill: "#a8a29e", fontSize: 11 }} />
+                    <Tooltip contentStyle={{ backgroundColor: "#1c1917", border: "1px solid #44403c", borderRadius: "4px" }} labelStyle={{ color: "#f5f5f4" }} />
+                    <Legend wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
                     <Bar dataKey="Gold" stackId="a" fill={MEDAL_COLORS.Gold} />
                     <Bar dataKey="Silver" stackId="a" fill={MEDAL_COLORS.Silver} />
                     <Bar dataKey="Bronze" stackId="a" fill={MEDAL_COLORS.Bronze} />
@@ -291,22 +303,22 @@ export default function OlympicMedalsPage() {
             </div>
           </div>
 
-          <div className="rounded-xl bg-slate-900/40 p-5 ring-1 ring-slate-800/80 lg:col-span-2">
-            <h3 className="text-lg font-semibold">By Continent</h3>
-            <p className="mt-1 text-xs text-slate-500">Distribution of filtered medals.</p>
-            <div className="mt-4 h-80">
+          <div className="lg:col-span-2">
+            <h3 className="text-base font-medium text-stone-100">By continent</h3>
+            <p className="mt-1 text-xs text-stone-500">Share of filtered medals.</p>
+            <div className="mt-5 h-80">
               {continentBreakdown.length === 0 ? (
                 <EmptyState />
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie data={continentBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={90} paddingAngle={2}>
+                    <Pie data={continentBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={55} outerRadius={95} paddingAngle={1}>
                       {continentBreakdown.map((entry) => (
-                        <Cell key={entry.name} fill={CONTINENT_COLORS[entry.name] ?? "#64748b"} />
+                        <Cell key={entry.name} fill={CONTINENT_COLORS[entry.name] ?? "#57534e"} />
                       ))}
                     </Pie>
-                    <Tooltip contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #334155", borderRadius: "6px" }} />
-                    <Legend wrapperStyle={{ fontSize: 12 }} />
+                    <Tooltip contentStyle={{ backgroundColor: "#1c1917", border: "1px solid #44403c", borderRadius: "4px" }} />
+                    <Legend wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
                   </PieChart>
                 </ResponsiveContainer>
               )}
@@ -314,43 +326,42 @@ export default function OlympicMedalsPage() {
           </div>
         </div>
 
-        <div className="rounded-xl bg-slate-900/40 ring-1 ring-slate-800/80">
-          <div className="flex flex-wrap items-end justify-between gap-2 p-5">
-            <div>
-              <h3 className="text-lg font-semibold">All Countries</h3>
-              <p className="mt-1 text-xs text-slate-500">
-                {allCountryRows.length} {allCountryRows.length === 1 ? "country" : "countries"} in the current filter.
-              </p>
-            </div>
+        {/* Country table */}
+        <div>
+          <div className="flex items-baseline justify-between">
+            <h3 className="text-base font-medium text-stone-100">All countries</h3>
+            <p className="text-xs text-stone-500">
+              {allCountryRows.length} {allCountryRows.length === 1 ? "country" : "countries"} in view
+            </p>
           </div>
-          <div className="max-h-96 overflow-auto">
+          <div className="mt-5 max-h-96 overflow-auto border-t border-b border-stone-800/60">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 bg-slate-900/95 text-xs uppercase tracking-wider text-slate-400">
-                <tr>
-                  <th className="px-5 py-2 text-left font-medium">Country</th>
-                  <th className="px-3 py-2 text-left font-medium">Continent</th>
-                  <th className="px-3 py-2 text-right font-medium">Gold</th>
-                  <th className="px-3 py-2 text-right font-medium">Silver</th>
-                  <th className="px-3 py-2 text-right font-medium">Bronze</th>
-                  <th className="px-5 py-2 text-right font-medium">Total</th>
+              <thead className="sticky top-0 bg-stone-950 text-xs text-stone-500">
+                <tr className="border-b border-stone-800">
+                  <th className="px-2 py-2 text-left font-normal">country</th>
+                  <th className="px-2 py-2 text-left font-normal">continent</th>
+                  <th className="px-2 py-2 text-right font-normal">gold</th>
+                  <th className="px-2 py-2 text-right font-normal">silver</th>
+                  <th className="px-2 py-2 text-right font-normal">bronze</th>
+                  <th className="px-2 py-2 text-right font-normal">total</th>
                 </tr>
               </thead>
               <tbody>
                 {allCountryRows.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-5 py-8 text-center text-slate-500">
+                    <td colSpan={6} className="px-2 py-8 text-center text-stone-500">
                       No medals match the current filter.
                     </td>
                   </tr>
                 ) : (
                   allCountryRows.map((row) => (
-                    <tr key={row.country} className="border-t border-slate-800/40 transition hover:bg-slate-900/40">
-                      <td className="px-5 py-2 font-medium text-slate-200">{row.country}</td>
-                      <td className="px-3 py-2 text-slate-400">{row.continent}</td>
-                      <td className="px-3 py-2 text-right text-amber-400">{row.Gold || ""}</td>
-                      <td className="px-3 py-2 text-right text-slate-300">{row.Silver || ""}</td>
-                      <td className="px-3 py-2 text-right text-amber-700">{row.Bronze || ""}</td>
-                      <td className="px-5 py-2 text-right font-semibold text-slate-100">{row.total}</td>
+                    <tr key={row.country} className="border-b border-stone-900 hover:bg-stone-900/40">
+                      <td className="px-2 py-2 text-stone-200">{row.country}</td>
+                      <td className="px-2 py-2 text-stone-500">{row.continent}</td>
+                      <td className="px-2 py-2 text-right text-[var(--accent)]">{row.Gold || ""}</td>
+                      <td className="px-2 py-2 text-right text-stone-400">{row.Silver || ""}</td>
+                      <td className="px-2 py-2 text-right text-stone-500">{row.Bronze || ""}</td>
+                      <td className="px-2 py-2 text-right font-medium text-stone-100">{row.total}</td>
                     </tr>
                   ))
                 )}
@@ -359,14 +370,22 @@ export default function OlympicMedalsPage() {
           </div>
         </div>
 
-        <div className="rounded-xl bg-slate-900/40 p-5 ring-1 ring-slate-800/80 text-sm leading-relaxed text-slate-400">
-          <h3 className="text-base font-semibold text-slate-200">How this works</h3>
-          <p className="mt-2">
-            The data on this page is the same JSON exported by the ETL pipeline. The Python notebook scrapes Tokyo 2020 and Beijing 2022 medal pages from Olympedia, parses them with BeautifulSoup (pandas.read_html didn&apos;t handle the embedded flag image tags), and originally enriched the records by joining against a SQL Server <code className="rounded bg-slate-800/60 px-1 py-0.5 text-xs text-slate-200">World</code> database for continent and capital. For this public demo the continent enrichment is replayed in JavaScript so the dataset works offline.
+        {/* How it works */}
+        <div className="border-t border-stone-800/60 pt-10 text-sm leading-relaxed text-stone-400">
+          <h3 className="text-base font-medium text-stone-100">How this works</h3>
+          <p className="mt-3">
+            The data on this page is the same JSON the ETL produces. The Python
+            notebook scrapes the Tokyo 2020 and Beijing 2022 medal pages from
+            Olympedia, parses them with BeautifulSoup (pandas.read_html choked
+            on embedded flag image tags), and originally enriched the records
+            by joining against a SQL Server <code className="rounded bg-stone-900 px-1 py-0.5 text-xs text-stone-200">World</code> database for continent and capital. For this
+            public demo the continent enrichment is replayed in JavaScript so
+            it works without DB access.
           </p>
           <p className="mt-3">
-            The charts and table above are filtered client-side from the same 1,343-row JSON file. Source for the ETL pipeline lives on{" "}
-            <a href="https://github.com/Damatnic/olympic-medal-etl" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300">
+            The charts and table are filtered client-side from the same
+            1,343-row file. ETL source lives on{" "}
+            <a href="https://github.com/Damatnic/olympic-medal-etl" target="_blank" rel="noopener noreferrer" className="text-[var(--accent)] hover:underline underline-offset-4">
               GitHub
             </a>
             .
@@ -377,22 +396,10 @@ export default function OlympicMedalsPage() {
   );
 }
 
-function StatCard({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: number; accent: string }) {
-  return (
-    <div className="rounded-xl bg-slate-900/40 p-5 ring-1 ring-slate-800/80">
-      <div className={`flex items-center gap-2 ${accent}`}>
-        {icon}
-        <span className="font-mono text-xs uppercase tracking-widest">{label}</span>
-      </div>
-      <p className="mt-3 text-3xl font-bold tracking-tight text-slate-100">{value.toLocaleString()}</p>
-    </div>
-  );
-}
-
 function FilterGroup({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="font-mono text-xs uppercase tracking-widest text-slate-400">{label}</p>
+      <p className="text-xs text-stone-500">{label}</p>
       <div className="mt-2">{children}</div>
     </div>
   );
@@ -403,10 +410,10 @@ function Pill({ active, onClick, children }: { active: boolean; onClick: () => v
     <button
       onClick={onClick}
       className={
-        "rounded-md px-2.5 py-1 text-xs ring-1 transition " +
+        "rounded border px-2.5 py-1 text-xs transition " +
         (active
-          ? "bg-sky-500/20 text-sky-300 ring-sky-500/40"
-          : "bg-slate-900/60 text-slate-400 ring-slate-700/60 hover:text-slate-200 hover:ring-slate-600")
+          ? "border-[var(--accent)]/50 bg-[var(--accent-soft)] text-[var(--accent)]"
+          : "border-stone-800 bg-stone-950 text-stone-400 hover:border-stone-700 hover:text-stone-200")
       }
     >
       {children}
@@ -416,7 +423,7 @@ function Pill({ active, onClick, children }: { active: boolean; onClick: () => v
 
 function EmptyState() {
   return (
-    <div className="flex h-full items-center justify-center text-sm text-slate-500">
+    <div className="flex h-full items-center justify-center text-sm text-stone-500">
       No data matches the current filter.
     </div>
   );
