@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin, FileDown, Play, ExternalLink } from "lucide-react";
+import { Mail, MapPin, Play, ExternalLink } from "lucide-react";
 import { projects, sideProjects } from "@/lib/projects";
+import { ResumeDownload } from "@/components/ResumeDownload";
 
 function Github({ className }: { className?: string }) {
   return (
@@ -63,19 +64,7 @@ export default function Home() {
               </p>
 
               <div className="mt-7">
-                <a
-                  href="/DAmato_Resume_DataAnalyst.pdf"
-                  download
-                  onClick={() => {
-                    try {
-                      navigator.sendBeacon("/api/resume-download", JSON.stringify({}));
-                    } catch {}
-                  }}
-                  className="inline-flex items-center gap-2 rounded-md border border-[var(--accent)]/50 bg-[var(--accent-soft)] px-4 py-2 text-sm font-medium text-[var(--accent)] transition hover:bg-[var(--accent)]/25"
-                >
-                  <FileDown className="h-4 w-4" />
-                  Download Resume (PDF)
-                </a>
+                <ResumeDownload />
               </div>
 
               <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-stone-400">
