@@ -1,0 +1,167 @@
+import { NextRequest, NextResponse } from "next/server";
+import { todayKey } from "@/lib/analyticsTime";
+
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
+const BOT_REGEX = /bot|crawl|spider|scrape|headless|preview|monitor|pingdom|uptimerobot|googlebot|bingbot|yandex|baidu|slurp|duckduckbot/i;
+
+function isBot(userAgent: string | null): boolean {
+  if (!userAgent) return false;
+  return BOT_REGEX.test(userAgent);
+}
+
+function classifyReferrer(referrer: string | null, selfHost: string | null): 'direct' | 'internal' | 'search' | 'social' | 'other' {
+  if (!referrer) return 'direct';
+  let host = '';
+  try {
+    host = new URL(referrer).hostname.toLowerCase();
+  } catch {
+    return 'other';
+  }
+  if (selfHost && host === selfHost) return 'internal';
+  if (
+    host.endsWith('google.com') || host.endsWith('bing.com') || host.endsWith('duckduckgo.com') ||
+    host.endsWith('search.brave.com') || host.endsWith('ecosia.org') || host.endsWith('yahoo.com') ||
+    host.endsWith('startpage.com') || host.endsWith('kagi.com')
+  ) return 'search';
+  if (
+    host.endsWith('twitter.com') || host === 't.co' || host.endsWith('x.com') ||
+    host.endsWith('bsky.app') || host.endsWith('reddit.com') || host.endsWith('instagram.com') ||
+    host.endsWith('facebook.com') || host.endsWith('linkedin.com') || host.endsWith('threads.net') ||
+    host.endsWith('mastodon.social') || host.endsWith('youtube.com') || host.endsWith('tiktok.com') ||
+    host.endsWith('pinterest.com') || host.endsWith('tumblr.com') || host.endsWith('discord.com') ||
+    host.endsWith('discord.gg')
+  ) return 'social';
+  return 'other';
+}
+
+function kvPipelineUrl(): string | null {
+  const url = process.env.KV_REST_API_URL?.trim();
+  const token = process.env.KV_REST_API_TOKEN?.trim();
+  if (!url || !token) return null;
+
+  const date = todayKey();
+
+  // Build the command pipeline using the Upstash REST pipeline endpoint
+  // We'll construct it from the base URL
+  return url;
+}
+
+async function pushToKV(record: Record<string, unknown>): Promise<void> {
+  const url = process.env.KV_REST_API_URL?.trim();
+  const token = process.env.KV_REST_API_TOKEN?.trim();
+  if (!url || !token) return;
+
+  const date = todayKey();
+  const type = String(record.type ?? 'unknown');
+  const sessionId = typeof record.sessionId === 'string' ? record.sessionId : null;
+  const path = typeof record.path === 'string' ? record.path : null;
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  };
+
+  const pipeline: string[][] = [
+    ['LPUSH', 'analytics:events', JSON.stringify(record)],
+    ['LTRIM', 'analytics:events', '0', '999'],
+    ['INCR', `analytics:counters:${type}:${date}`],
+  ];
+
+  if (type === 'pageview' && sessionId && path) {
+    pipeline.push(
+      ['RPUSH', `analytics:session:${sessionId}`, path],
+      ['LTRIM', `analytics:session:${sessionId}`, '0', '49'],
+      ['EXPIRE', `analytics:session:${sessionId}`, '86400'],
+      ['SADD', `analytics:sessions:${date}`, sessionId],
+      ['EXPIRE', `analytics:sessions:${date}`, '604800']
+    );
+  }
+
+  try {
+    await fetch(`${url}/pipeline`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(pipeline),
+    });
+  } catch (err) {
+    console.error(JSON.stringify({
+      type: 'analytics_kv_error',
+      error: (err as Error).message,
+    }));
+  }
+}
+
+export async function POST(req: NextRequest): Promise<NextResponse> {
+  let body: Record<string, unknown> = {};
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ ok: false, error: 'invalid_json' }, { status: 400 });
+  }
+
+  const userAgent = req.headers.get('user-agent');
+  const country = req.headers.get('x-vercel-ip-country') ?? req.headers.get('cf-ipcountry') ?? null;
+  const region = req.headers.get('x-vercel-ip-country-region') ?? null;
+  const city = req.headers.get('x-vercel-ip-city')
+    ? decodeURIComponent(req.headers.get('x-vercel-ip-city') ?? '')
+    : null;
+  const latitude = req.headers.get('x-vercel-ip-latitude') ?? null;
+  const longitude = req.headers.get('x-vercel-ip-longitude') ?? null;
+  const timezone = req.headers.get('x-vercel-ip-timezone') ?? null;
+
+  const selfHost = (() => {
+    const h = req.headers.get('host');
+    if (!h) return null;
+    return h.split(':')[0]?.toLowerCase() ?? null;
+  })();
+
+  const record = {
+    type: body.type ?? 'unknown',
+    path: body.path ?? null,
+    href: body.href ?? null,
+    label: body.label ?? null,
+    kind: body.kind ?? null,
+    target: body.target ?? null,
+    referrer: body.referrer ?? null,
+    referrerSource: classifyReferrer((body.referrer as string | null) ?? null, selfHost),
+    sessionId: typeof body.sessionId === 'string' ? body.sessionId : null,
+    sessionStart: typeof body.sessionStart === 'number' ? body.sessionStart : null,
+    isFirstPageview: body.isFirstPageview === true,
+    userAgent,
+    country,
+    region,
+    city,
+    latitude,
+    longitude,
+    timezone,
+    bot: isBot(userAgent),
+    ts: typeof body.ts === 'number' ? body.ts : Date.now(),
+    receivedAt: Date.now(),
+  };
+
+  console.log(JSON.stringify({ analytics_event: record }));
+
+  void pushToKV(record);
+
+  return new NextResponse(null, { 
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    }
+  });
+}
+
+export async function OPTIONS(): Promise<NextResponse> {
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+}

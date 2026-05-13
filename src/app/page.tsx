@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Mail, MapPin, Play, ExternalLink } from "lucide-react";
 import { projects, sideProjects } from "@/lib/projects";
 import { ResumeDownload } from "@/components/ResumeDownload";
+import { ResumeTimeline } from "@/components/ResumeTimeline";
 
 function Github({ className }: { className?: string }) {
   return (
@@ -268,6 +269,8 @@ export default function Home() {
                 what I&apos;m after, Milwaukee or Waukesha is fine. Full-time
                 works too if the role fits.
               </p>
+              
+              <ResumeTimeline />
             </div>
 
             <dl className="space-y-6 text-sm">
