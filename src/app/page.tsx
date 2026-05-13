@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, AnimatePresence, Variants, useReducedMotion } from "framer-motion";
 import { Mail, MapPin, Play, ExternalLink } from "lucide-react";
 import { projects, sideProjects } from "@/lib/projects";
 import { ResumeDownload } from "@/components/ResumeDownload";
@@ -26,14 +26,17 @@ function Linkedin({ className }: { className?: string }) {
   );
 }
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-};
+
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [highlightedTech, setHighlightedTech] = useState<string | null>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  const fadeUp: Variants = {
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  };
 
   const allTech = Array.from(new Set(projects.flatMap((p) => p.tech))).sort();
   const filters = ["All", ...allTech];
@@ -165,6 +168,7 @@ export default function Home() {
                           ? "bg-[var(--accent)] text-stone-950 shadow-[0_0_15px_var(--accent-soft)]"
                           : "bg-stone-900/40 text-stone-400 hover:text-stone-200 border border-stone-800 hover:border-stone-600"
                       }`}
+                      aria-current={activeFilter === f ? "true" : undefined}
                     >
                       {f}
                     </button>
@@ -391,6 +395,8 @@ export default function Home() {
                         key={tool}
                         onMouseEnter={() => setHighlightedTech(tool)}
                         onMouseLeave={() => setHighlightedTech(null)}
+                        onFocus={() => setHighlightedTech(tool)}
+                        onBlur={() => setHighlightedTech(null)}
                         onClick={() => {
                           setActiveFilter(tool);
                           document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
