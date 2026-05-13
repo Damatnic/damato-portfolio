@@ -1,5 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { todayKey } from "@/lib/analyticsTime";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
+
+const ratelimit = process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
+  ? new Ratelimit({
+      redis: new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN,
+      }),
+      limiter: Ratelimit.slidingWindow(20, "10 s"),
+    })
+  : null;
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -94,6 +106,22 @@ async function pushToKV(record: Record<string, unknown>): Promise<void> {
 }
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
+  const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "127.0.0.1";
+  
+  if (ratelimit) {
+    const { success } = await ratelimit.limit(`ratelimit:track:${ip}`);
+    if (!success) {
+      return new NextResponse(null, {
+        status: 429,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        }
+      });
+    }
+  }
+
   let body: Record<string, unknown> = {};
   try {
     body = await req.json();

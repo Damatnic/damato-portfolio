@@ -68,7 +68,6 @@ export default function Home() {
 
         {/* Hero */}
         <section className="border-b border-stone-800/60 overflow-hidden relative">
-          <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--accent-soft),_transparent_50%)] opacity-40 pointer-events-none" />
           
           <motion.div 
             initial="hidden"
