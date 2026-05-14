@@ -175,9 +175,10 @@ export default async function AnalyticsPage({
         <Stat label="Cities" value={summary.uniqueCities.toLocaleString()} />
       </section>
 
-      <section className="mb-10 grid grid-cols-2 gap-3 md:grid-cols-4">
+      <section className="mb-10 grid grid-cols-2 gap-3 md:grid-cols-5">
         <Stat label="Sessions" value={summary.uniqueSessions.toLocaleString()} />
         <Stat label="Avg pages / session" value={summary.avgPageviewsPerSession.toString()} />
+        <Stat label="Avg session duration" value={`${Math.floor(summary.avgSessionDurationSec / 60)}m ${summary.avgSessionDurationSec % 60}s`} />
         <Stat label="Bounce rate" value={`${summary.bounceRatePct}%`} />
         <Stat label="Bounced sessions" value={summary.bouncedSessions.toLocaleString()} />
       </section>

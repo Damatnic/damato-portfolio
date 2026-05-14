@@ -35,6 +35,7 @@ export interface AnalyticsSummary {
   bouncedSessions: number;
   bounceRatePct: number;
   avgPageviewsPerSession: number;
+  avgSessionDurationSec: number;
   topPaths: Array<{ path: string; count: number }>;
   topLinks: Array<{ href: string; label: string; count: number }>;
   topReferrers: Array<{ referrer: string; count: number }>;
@@ -107,6 +108,7 @@ const EMPTY_SUMMARY: AnalyticsSummary = {
   bouncedSessions: 0,
   bounceRatePct: 0,
   avgPageviewsPerSession: 0,
+  avgSessionDurationSec: 0,
   topPaths: [],
   topLinks: [],
   topReferrers: [],
@@ -253,7 +255,9 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
   const entryCounts = new Map<string, number>();
   const exitCounts = new Map<string, number>();
   let totalSessionPageviews = 0;
+  let totalSessionTimeMs = 0;
   let bouncedSessions = 0;
+  let sessionsWithDuration = 0;
 
   for (const arr of journeys.values()) {
     if (arr.length === 0) continue;
@@ -262,6 +266,15 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
     entryCounts.set(first, (entryCounts.get(first) ?? 0) + 1);
     exitCounts.set(last, (exitCounts.get(last) ?? 0) + 1);
     totalSessionPageviews += arr.length;
+    
+    if (arr.length > 1) {
+      const duration = arr[arr.length - 1]!.ts - arr[0]!.ts;
+      if (duration > 0 && duration < 3600000) { // filter out sessions > 1hr as likely outliers
+        totalSessionTimeMs += duration;
+        sessionsWithDuration += 1;
+      }
+    }
+    
     if (arr.length === 1) bouncedSessions += 1;
   }
   const sortByCountDesc = (a: { count: number }, b: { count: number }) =>
@@ -318,6 +331,10 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
     uniqueSessions > 0
       ? Math.round((totalSessionPageviews / uniqueSessions) * 10) / 10
       : 0;
+  const avgSessionDurationSec =
+    sessionsWithDuration > 0
+      ? Math.round(totalSessionTimeMs / sessionsWithDuration / 1000)
+      : 0;
 
   return {
     kvConfigured: true,
@@ -330,6 +347,7 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
     bouncedSessions,
     bounceRatePct,
     avgPageviewsPerSession,
+    avgSessionDurationSec,
     topPaths,
     topLinks,
     topReferrers,
