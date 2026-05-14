@@ -38,12 +38,30 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: "ctaccess",
-    year: "Jul 2023 – Dec 2023",
+    year: "Jul 2023 – Jan 2024",
     title: "Service Desk Technician",
     company: "CTAccess, Waukesha WI",
     type: "work",
     description:
       "MSP service desk: 20-30 tickets a day across multiple client networks. Hardware, software, VPN issues, user accounts — all the standard tier-1 stuff. First place I used Active Directory every single day.",
+  },
+  {
+    id: "wauwatosa",
+    year: "Jan 2023 – Jun 2023",
+    title: "IT Help Desk Specialist II",
+    company: "City of Wauwatosa, Wauwatosa WI",
+    type: "work",
+    description:
+      "Municipal help desk: 10-20 requests a day via phone, email, and ticketing. Login issues, account unlocks, password resets, printer problems. Escalated the harder stuff to senior techs while keeping SLAs intact.",
+  },
+  {
+    id: "batteries-plus",
+    year: "Apr 2022 – Dec 2022",
+    title: "Desktop Support Specialist (Internship)",
+    company: "Batteries Plus",
+    type: "work",
+    description:
+      "Tier-1 support for office and remote users: ticketing, routing, escalation. Configured equipment and accounts for new hires, helped run a laptop upgrade project, and kept asset inventory in Snipe-IT.",
   },
   {
     id: "matc",

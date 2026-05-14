@@ -381,12 +381,12 @@ export default function Home() {
                 </h2>
                 <p className="max-w-[65ch]">
                   Last few years I did IT support. Service desk, ticketing, AD,
-                  ServiceNow, some PowerShell. Puget Sound Energy, Wolter,
-                  CTAccess. Being inside the systems that generate the data
-                  turns out to be a pretty good head start for moving into
-                  analytics, especially when half the job is figuring out what
-                  the data is actually saying versus what people{" "}
-                  <em>think</em> it&apos;s saying.
+                  ServiceNow, some PowerShell. Batteries Plus, City of
+                  Wauwatosa, CTAccess, Wolter, Puget Sound Energy. Being inside
+                  the systems that generate the data turns out to be a pretty
+                  good head start for moving into analytics, especially when
+                  half the job is figuring out what the data is actually saying
+                  versus what people <em>think</em> it&apos;s saying.
                 </p>
                 <p className="max-w-[65ch]">
                   The three projects above are real work from my WCTC program,
