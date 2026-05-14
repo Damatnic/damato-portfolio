@@ -96,7 +96,7 @@ function buildHighlights(summary: AnalyticsSummary): string[] {
 }
 
 function htmlDigest(summary: AnalyticsSummary, dashboardUrl: string, today: string): string {
-  const accent = "#818cf8";
+  const accent = "#2dd4bf";
   const muted = "#a1a1aa";
   const card = "#27272a";
   const surface = "#18181b";
