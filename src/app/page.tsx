@@ -8,7 +8,6 @@ import { Mail, MapPin, Play, ExternalLink } from "lucide-react";
 import { projects, sideProjects } from "@/lib/projects";
 import { ResumeDownload } from "@/components/ResumeDownload";
 import { ResumeTimeline } from "@/components/ResumeTimeline";
-import { CursorGlow } from "@/components/CursorGlow";
 
 function Github({ className }: { className?: string }) {
   return (
@@ -52,7 +51,6 @@ export default function Home() {
 
   return (
     <>
-      <CursorGlow />
       <main className="flex-1 relative z-10 selection:bg-[var(--accent)] selection:text-stone-950">
         
         {/* Glassmorphism Header */}
@@ -83,7 +81,7 @@ export default function Home() {
                   fill
                   priority
                   sizes="(min-width: 640px) 9rem, 8rem"
-                  className="object-cover transition-transform duration-500 hover:scale-105"
+                  className="object-cover"
                 />
               </div>
 
@@ -164,7 +162,7 @@ export default function Home() {
                       onClick={() => setActiveFilter(f)}
                       className={`px-3 py-1.5 text-xs font-medium rounded-full transition-all duration-300 ${
                         activeFilter === f
-                          ? "bg-[var(--accent)] text-stone-950 shadow-[0_0_15px_var(--accent-soft)]"
+                          ? "bg-[var(--accent)] text-stone-950"
                           : "bg-stone-900/40 text-stone-400 hover:text-stone-200 border border-stone-800 hover:border-stone-600"
                       }`}
                       aria-current={activeFilter === f ? "true" : undefined}
@@ -198,7 +196,7 @@ export default function Home() {
                       transition={{ duration: 0.3 }}
                       key={p.slug}
                       className={`group relative grid gap-6 py-10 first:pt-6 sm:grid-cols-[5rem_1fr] sm:gap-10 transition-all duration-300 rounded-2xl ${
-                        isHighlighted ? "bg-stone-900/80 px-6 -mx-6 ring-1 ring-[var(--accent-soft)] shadow-[0_0_30px_var(--accent-soft)]" : "hover:bg-stone-900/20 px-6 -mx-6"
+                        isHighlighted ? "bg-stone-900/80 px-6 -mx-6 ring-1 ring-[var(--accent-soft)]" : "hover:bg-stone-900/20 px-6 -mx-6"
                       }`}
                     >
                       <span
@@ -400,7 +398,7 @@ export default function Home() {
                         }}
                         className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-all cursor-pointer ${
                           highlightedTech === tool 
-                            ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent)] shadow-[0_0_10px_var(--accent-soft)]" 
+                            ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent)]" 
                             : "bg-stone-900/50 border-stone-800 text-stone-300 hover:border-stone-600 hover:text-stone-100"
                         }`}
                       >
