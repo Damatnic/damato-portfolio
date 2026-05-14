@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useReducedMotion } from "framer-motion";
 import { ArrowLeft, Search } from "lucide-react";
 import {
   BarChart,
@@ -59,6 +60,8 @@ const MEDAL_OPTIONS = ["Gold", "Silver", "Bronze"] as const;
 
 export default function OlympicMedalsPage() {
   const [chartsReady, setChartsReady] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const animateCharts = !reduceMotion;
   useEffect(() => {
     setChartsReady(true);
   }, []);
@@ -163,21 +166,21 @@ export default function OlympicMedalsPage() {
   }
 
   return (
-    <main className="flex-1">
+    <main id="main" className="flex-1">
       <section className="border-b border-stone-800/60">
         <div className="mx-auto max-w-5xl px-6 pt-10 pb-10">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-sm text-stone-500 hover:text-[var(--accent)]"
+            className="inline-flex items-center gap-1.5 rounded text-sm text-stone-300 hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             back
           </Link>
 
           <h1 className="mt-6 text-3xl font-semibold tracking-tight text-stone-50 sm:text-4xl">
             Olympic Medal Pipeline
           </h1>
-          <p className="mt-3 max-w-2xl leading-relaxed text-stone-400">
+          <p className="mt-3 max-w-2xl leading-relaxed text-stone-300">
             1,343 medal records, scraped from Olympedia with BeautifulSoup,
             enriched with continent data, served as JSON, filtered in your
             browser. The same dataset the Python ETL produces.
@@ -187,7 +190,7 @@ export default function OlympicMedalsPage() {
               href="https://github.com/Damatnic/olympic-medal-etl"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[var(--accent)] hover:underline underline-offset-4"
+              className="rounded text-[var(--accent)] hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
             >
               ETL source on GitHub →
             </a>
@@ -199,26 +202,26 @@ export default function OlympicMedalsPage() {
         {/* Stats row: one dominant + three secondary */}
         <div className="grid items-end gap-8 border-b border-stone-800/60 pb-10 sm:grid-cols-[auto_1fr]">
           <div>
-            <p className="font-mono text-xs text-stone-500">medals in view</p>
+            <p className="font-mono text-xs text-stone-300">medals in view</p>
             <p className="mt-1 text-6xl font-semibold tracking-tight text-[var(--accent)] sm:text-7xl">
               {stats.medals.toLocaleString()}
             </p>
           </div>
           <dl className="grid grid-cols-3 gap-6 text-sm">
             <div>
-              <dt className="text-stone-500">countries</dt>
+              <dt className="text-stone-300">countries</dt>
               <dd className="mt-1 text-2xl font-medium text-stone-100">
                 {stats.countries}
               </dd>
             </div>
             <div>
-              <dt className="text-stone-500">sports</dt>
+              <dt className="text-stone-300">sports</dt>
               <dd className="mt-1 text-2xl font-medium text-stone-100">
                 {stats.sports}
               </dd>
             </div>
             <div>
-              <dt className="text-stone-500">athletes</dt>
+              <dt className="text-stone-300">athletes</dt>
               <dd className="mt-1 text-2xl font-medium text-stone-100">
                 {stats.athletes}
               </dd>
@@ -232,7 +235,7 @@ export default function OlympicMedalsPage() {
             <h2 className="text-lg font-medium text-stone-100">Filter the data</h2>
             <button
               onClick={resetFilters}
-              className="text-xs text-stone-500 hover:text-[var(--accent)]"
+              className="rounded px-2 py-1 text-xs text-stone-300 hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
             >
               reset
             </button>
@@ -271,13 +274,14 @@ export default function OlympicMedalsPage() {
 
             <FilterGroup label="Country">
               <div className="relative">
-                <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-600" />
+                <Search aria-hidden="true" className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="e.g. Japan"
-                  className="w-full rounded border border-stone-800 bg-stone-950 py-1.5 pl-8 pr-3 text-sm text-stone-200 placeholder:text-stone-600 focus:border-[var(--accent)] focus:outline-none"
+                  aria-label="Filter by country name"
+                  className="w-full rounded border border-stone-800 bg-stone-950 py-2 pl-8 pr-3 text-sm text-stone-200 placeholder:text-stone-500 focus:border-[var(--accent)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
                 />
               </div>
             </FilterGroup>
@@ -288,7 +292,7 @@ export default function OlympicMedalsPage() {
         <div className="grid gap-10 lg:grid-cols-5">
           <div className="lg:col-span-3">
             <h3 className="text-base font-medium text-stone-100">Top 10 countries</h3>
-            <p className="mt-1 text-xs text-stone-500">Stacked by medal type.</p>
+            <p className="mt-1 text-xs text-stone-400">Stacked by medal type.</p>
             <div className="mt-5 h-80 w-full min-w-0 min-h-0">
               {topCountries.length === 0 ? (
                 <EmptyState />
@@ -309,9 +313,9 @@ export default function OlympicMedalsPage() {
                       }}
                     />
                     <Legend wrapperStyle={{ fontSize: 12, paddingTop: 12 }} iconType="circle" />
-                    <Bar dataKey="Gold" stackId="a" fill={MEDAL_COLORS.Gold} />
-                    <Bar dataKey="Silver" stackId="a" fill={MEDAL_COLORS.Silver} />
-                    <Bar dataKey="Bronze" stackId="a" fill={MEDAL_COLORS.Bronze} radius={[3, 3, 0, 0]} />
+                    <Bar dataKey="Gold" stackId="a" fill={MEDAL_COLORS.Gold} isAnimationActive={animateCharts} />
+                    <Bar dataKey="Silver" stackId="a" fill={MEDAL_COLORS.Silver} isAnimationActive={animateCharts} />
+                    <Bar dataKey="Bronze" stackId="a" fill={MEDAL_COLORS.Bronze} radius={[3, 3, 0, 0]} isAnimationActive={animateCharts} />
                   </BarChart>
                 </ResponsiveContainer>
               )}
@@ -320,7 +324,7 @@ export default function OlympicMedalsPage() {
 
           <div className="lg:col-span-2">
             <h3 className="text-base font-medium text-stone-100">By continent</h3>
-            <p className="mt-1 text-xs text-stone-500">Share of filtered medals.</p>
+            <p className="mt-1 text-xs text-stone-400">Share of filtered medals.</p>
             <div className="mt-5 h-80 w-full min-w-0 min-h-0">
               {continentBreakdown.length === 0 ? (
                 <EmptyState />
@@ -329,7 +333,7 @@ export default function OlympicMedalsPage() {
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie data={continentBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={55} outerRadius={95} paddingAngle={1}>
+                    <Pie data={continentBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={55} outerRadius={95} paddingAngle={1} isAnimationActive={animateCharts}>
                       {continentBreakdown.map((entry) => (
                         <Cell key={entry.name} fill={CONTINENT_COLORS[entry.name] ?? "#57534e"} />
                       ))}
@@ -347,26 +351,27 @@ export default function OlympicMedalsPage() {
         <div>
           <div className="flex items-baseline justify-between">
             <h3 className="text-base font-medium text-stone-100">All countries</h3>
-            <p className="text-xs text-stone-500">
+            <p className="text-xs text-stone-400">
               {allCountryRows.length} {allCountryRows.length === 1 ? "country" : "countries"} in view
             </p>
           </div>
           <div className="mt-5 max-h-96 overflow-auto border-t border-b border-stone-800/60">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 bg-stone-950 text-xs text-stone-500">
+              <caption className="sr-only">Medal totals by country for the current filter selection</caption>
+              <thead className="sticky top-0 bg-stone-950 text-xs text-stone-300">
                 <tr className="border-b border-stone-800">
-                  <th className="px-2 py-2 text-left font-normal">country</th>
-                  <th className="px-2 py-2 text-left font-normal">continent</th>
-                  <th className="px-2 py-2 text-right font-normal">gold</th>
-                  <th className="px-2 py-2 text-right font-normal">silver</th>
-                  <th className="px-2 py-2 text-right font-normal">bronze</th>
-                  <th className="px-2 py-2 text-right font-normal">total</th>
+                  <th scope="col" className="px-2 py-2 text-left font-normal">country</th>
+                  <th scope="col" className="px-2 py-2 text-left font-normal">continent</th>
+                  <th scope="col" className="px-2 py-2 text-right font-normal">gold</th>
+                  <th scope="col" className="px-2 py-2 text-right font-normal">silver</th>
+                  <th scope="col" className="px-2 py-2 text-right font-normal">bronze</th>
+                  <th scope="col" className="px-2 py-2 text-right font-normal">total</th>
                 </tr>
               </thead>
               <tbody>
                 {allCountryRows.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-2 py-8 text-center text-stone-500">
+                    <td colSpan={6} className="px-2 py-8 text-center text-stone-400">
                       No medals match the current filter.
                     </td>
                   </tr>
@@ -374,10 +379,10 @@ export default function OlympicMedalsPage() {
                   allCountryRows.map((row) => (
                     <tr key={row.country} className="border-b border-stone-900 hover:bg-stone-900/40">
                       <td className="px-2 py-2 text-stone-200">{row.country}</td>
-                      <td className="px-2 py-2 text-stone-500">{row.continent}</td>
+                      <td className="px-2 py-2 text-stone-400">{row.continent}</td>
                       <td className="px-2 py-2 text-right text-[var(--accent)]">{row.Gold || ""}</td>
-                      <td className="px-2 py-2 text-right text-stone-400">{row.Silver || ""}</td>
-                      <td className="px-2 py-2 text-right text-stone-500">{row.Bronze || ""}</td>
+                      <td className="px-2 py-2 text-right text-stone-300">{row.Silver || ""}</td>
+                      <td className="px-2 py-2 text-right text-stone-400">{row.Bronze || ""}</td>
                       <td className="px-2 py-2 text-right font-medium text-stone-100">{row.total}</td>
                     </tr>
                   ))
@@ -388,7 +393,7 @@ export default function OlympicMedalsPage() {
         </div>
 
         {/* How it works */}
-        <div className="border-t border-stone-800/60 pt-10 text-sm leading-relaxed text-stone-400">
+        <div className="border-t border-stone-800/60 pt-10 text-sm leading-relaxed text-stone-300">
           <h3 className="text-base font-medium text-stone-100">How this works</h3>
           <p className="mt-3">
             The data on this page is the same JSON the ETL exports. The Python
@@ -402,7 +407,7 @@ export default function OlympicMedalsPage() {
           <p className="mt-3">
             The charts and table are filtered client-side from the same
             1,343-row file. ETL source lives on{" "}
-            <a href="https://github.com/Damatnic/olympic-medal-etl" target="_blank" rel="noopener noreferrer" className="text-[var(--accent)] hover:underline underline-offset-4">
+            <a href="https://github.com/Damatnic/olympic-medal-etl" target="_blank" rel="noopener noreferrer" className="rounded text-[var(--accent)] hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950">
               GitHub
             </a>
             .
@@ -416,7 +421,7 @@ export default function OlympicMedalsPage() {
 function FilterGroup({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="text-xs text-stone-500">{label}</p>
+      <p className="text-xs uppercase tracking-wide text-stone-300">{label}</p>
       <div className="mt-2">{children}</div>
     </div>
   );
@@ -426,11 +431,12 @@ function Pill({ active, onClick, children }: { active: boolean; onClick: () => v
   return (
     <button
       onClick={onClick}
+      aria-pressed={active}
       className={
-        "rounded border px-2.5 py-1 text-xs transition " +
+        "rounded border px-3 py-1.5 text-xs transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 " +
         (active
           ? "border-[var(--accent)]/50 bg-[var(--accent-soft)] text-[var(--accent)]"
-          : "border-stone-800 bg-stone-950 text-stone-400 hover:border-stone-700 hover:text-stone-200")
+          : "border-stone-800 bg-stone-950 text-stone-200 hover:border-stone-700 hover:text-stone-100")
       }
     >
       {children}
@@ -440,7 +446,7 @@ function Pill({ active, onClick, children }: { active: boolean; onClick: () => v
 
 function EmptyState() {
   return (
-    <div className="flex h-full items-center justify-center text-sm text-stone-500">
+    <div className="flex h-full items-center justify-center text-sm text-stone-400">
       No data matches the current filter.
     </div>
   );
@@ -449,7 +455,7 @@ function EmptyState() {
 function ChartMountPlaceholder() {
   return (
     <div
-      className="flex h-full w-full items-center justify-center rounded border border-dashed border-stone-800 bg-stone-900/20 text-xs text-stone-600"
+      className="flex h-full w-full items-center justify-center rounded border border-dashed border-stone-800 bg-stone-900/20 text-xs text-stone-400"
       aria-hidden
     >
       Loading charts…

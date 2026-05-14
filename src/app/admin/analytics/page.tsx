@@ -1,6 +1,15 @@
 import { getAnalyticsSummary, formatTime } from "@/lib/analyticsStore";
+import { timingSafeEqual } from "node:crypto";
 
 export const dynamic = "force-dynamic";
+
+function secretsMatch(provided: string | undefined, expected: string): boolean {
+  if (!provided) return false;
+  const a = Buffer.from(provided);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
+}
 
 export const metadata = {
   title: "Analytics · damato-data",
@@ -10,7 +19,7 @@ export const metadata = {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded border border-stone-800 bg-stone-900/50 p-4">
-      <p className="text-xs uppercase tracking-wide text-stone-500">{label}</p>
+      <p className="text-xs uppercase tracking-wide text-stone-400">{label}</p>
       <p className="mt-1 text-2xl font-semibold text-stone-100">{value}</p>
     </div>
   );
@@ -30,7 +39,7 @@ function TableCard({ title, headers, rows, cols }: {
           <thead>
             <tr className="border-b border-stone-800">
               {headers.map((h, i) => (
-                <th key={i} className="pb-2 pr-4 font-medium uppercase tracking-wider text-stone-500">{h}</th>
+                <th key={i} scope="col" className="pb-2 pr-4 font-medium uppercase tracking-wider text-stone-400">{h}</th>
               ))}
             </tr>
           </thead>
@@ -65,8 +74,8 @@ function ReferrerTable({ title, rows }: {
         <table className="w-full text-left text-xs text-stone-400">
           <thead>
             <tr className="border-b border-stone-800">
-              <th className="pb-2 pr-4 font-medium uppercase tracking-wider text-stone-500">Source</th>
-              <th className="pb-2 pr-4 font-medium uppercase tracking-wider text-stone-500">Count</th>
+              <th scope="col" className="pb-2 pr-4 font-medium uppercase tracking-wider text-stone-400">Source</th>
+              <th scope="col" className="pb-2 pr-4 font-medium uppercase tracking-wider text-stone-400">Count</th>
             </tr>
           </thead>
           <tbody>
@@ -91,11 +100,11 @@ function EventsTable({ title, events }: { title: string; events: { type?: string
         <table className="w-full text-left text-xs text-stone-400">
           <thead className="sticky top-0 bg-stone-900">
             <tr className="border-b border-stone-800">
-              <th className="pb-2 pr-3 font-medium text-stone-500">Time</th>
-              <th className="pb-2 pr-3 font-medium text-stone-500">Type</th>
-              <th className="pb-2 pr-3 font-medium text-stone-500">Path</th>
-              <th className="pb-2 pr-3 font-medium text-stone-500">Location</th>
-              <th className="pb-2 font-medium text-stone-500">Bot</th>
+              <th scope="col" className="pb-2 pr-3 font-medium text-stone-400">Time</th>
+              <th scope="col" className="pb-2 pr-3 font-medium text-stone-400">Type</th>
+              <th scope="col" className="pb-2 pr-3 font-medium text-stone-400">Path</th>
+              <th scope="col" className="pb-2 pr-3 font-medium text-stone-400">Location</th>
+              <th scope="col" className="pb-2 font-medium text-stone-400">Bot</th>
             </tr>
           </thead>
           <tbody>
@@ -122,9 +131,9 @@ export default async function AnalyticsPage({
 }) {
   const params = await searchParams;
   const allowedSecret = process.env.ANALYTICS_SECRET?.trim();
-  if (!allowedSecret || params.secret !== allowedSecret) {
+  if (!allowedSecret || !secretsMatch(params.secret, allowedSecret)) {
     return (
-      <main className="mx-auto max-w-3xl px-6 py-16 text-stone-100">
+      <main id="main" className="mx-auto max-w-3xl px-6 py-16 text-stone-100">
         <h1 className="mb-4 text-2xl font-semibold">Not authorized</h1>
         <p className="text-stone-400">
           Set <code className="rounded bg-stone-800 px-1 py-0.5 text-sm text-stone-300">ANALYTICS_SECRET</code> as a
@@ -141,7 +150,7 @@ export default async function AnalyticsPage({
 
   if (!summary.kvConfigured) {
     return (
-      <main className="mx-auto max-w-3xl px-6 py-16 text-stone-100">
+      <main id="main" className="mx-auto max-w-3xl px-6 py-16 text-stone-100">
         <h1 className="mb-4 text-3xl font-semibold">Analytics</h1>
         <div className="rounded-lg border border-stone-800 bg-stone-900/40 p-6">
           <h2 className="mb-2 text-xl font-semibold">Storage not configured</h2>
@@ -163,10 +172,10 @@ export default async function AnalyticsPage({
   const dayData = summary.countersLast7Days;
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-12 text-stone-100">
+    <main id="main" className="mx-auto max-w-6xl px-6 py-12 text-stone-100">
       <header className="mb-8">
-        <h1 className="text-3xl font-semibold tracking-tight">Analytics</h1>
-        <p className="mt-1 text-sm text-stone-400">
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Analytics</h1>
+        <p className="mt-1 text-sm text-stone-300">
           Live site activity. Bot traffic excluded from rankings; total events includes everything.
         </p>
       </header>

@@ -71,15 +71,15 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex-1 relative z-10 selection:bg-[var(--accent)] selection:text-stone-950">
-        
+      <main id="main" className="flex-1 relative z-10 selection:bg-[var(--accent)] selection:text-stone-950">
+
         {/* Glassmorphism Header */}
         <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-stone-950/60 border-b border-stone-800/40">
           <div className="mx-auto max-w-5xl px-6 h-14 flex items-center justify-between text-sm">
             <span className="font-bold text-stone-100 tracking-widest text-xs">N.D</span>
-            <nav className="flex gap-6 text-stone-400 font-medium">
-              <a href="#projects" className="hover:text-stone-100 transition-colors">Projects</a>
-              <a href="#about" className="hover:text-stone-100 transition-colors">About</a>
+            <nav aria-label="Primary" className="flex gap-6 text-stone-300 font-medium">
+              <a href="#projects" className="rounded hover:text-stone-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950">Projects</a>
+              <a href="#about" className="rounded hover:text-stone-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950">About</a>
             </nav>
           </div>
         </header>
@@ -96,7 +96,7 @@ export default function Home() {
             <div className="grid items-start gap-10 sm:grid-cols-[auto_1fr]">
               <div className="relative h-32 w-32 overflow-hidden rounded-2xl ring-1 ring-stone-700/60 sm:h-36 sm:w-36 shadow-2xl">
                 <Image
-                  src="/headshot.jpg"
+                  src="/headshot_1000.jpg"
                   alt="Nicholas D'Amato"
                   fill
                   priority
@@ -124,34 +124,34 @@ export default function Home() {
                   <ResumeDownload />
                 </div>
 
-                <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-stone-400">
+                <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-stone-300">
                   <span className="inline-flex items-center gap-1.5 bg-stone-900/50 px-3 py-1.5 rounded-full border border-stone-800 shadow-sm">
-                    <MapPin className="h-4 w-4 text-stone-300" />
+                    <MapPin className="h-4 w-4 text-stone-300" aria-hidden="true" />
                     Pewaukee, WI
                   </span>
                   <a
                     href="mailto:nickdamatoit@gmail.com"
-                    className="inline-flex items-center gap-1.5 hover:text-[var(--accent)] transition-colors"
+                    className="inline-flex items-center gap-1.5 rounded hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
                   >
-                    <Mail className="h-4 w-4" />
+                    <Mail className="h-4 w-4" aria-hidden="true" />
                     nickdamatoit@gmail.com
                   </a>
                   <a
                     href="https://linkedin.com/in/nicholas-damato2"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 hover:text-[var(--accent)] transition-colors"
+                    className="inline-flex items-center gap-1.5 rounded hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
                   >
-                    <Linkedin className="h-4 w-4" />
+                    <Linkedin className="h-4 w-4" aria-hidden="true" />
                     LinkedIn
                   </a>
                   <a
                     href="https://github.com/Damatnic"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 hover:text-[var(--accent)] transition-colors"
+                    className="inline-flex items-center gap-1.5 rounded hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
                   >
-                    <Github className="h-4 w-4" />
+                    <Github className="h-4 w-4" aria-hidden="true" />
                     GitHub
                   </a>
                 </div>
@@ -175,17 +175,17 @@ export default function Home() {
                   Things I&apos;ve built
                 </h2>
                 {/* Interactive Filtering */}
-                <div className="mt-6 flex flex-wrap gap-2">
+                <div role="group" aria-label="Filter projects by technology" className="mt-6 flex flex-wrap gap-2">
                   {filters.map((f) => (
                     <button
                       key={f}
                       onClick={() => setActiveFilter(f)}
-                      className={`px-3 py-1.5 text-xs font-medium rounded-full transition-all duration-300 ${
+                      className={`px-3.5 py-2 text-xs font-medium rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 ${
                         activeFilter === f
                           ? "bg-[var(--accent)] text-stone-950"
-                          : "bg-stone-900/40 text-stone-400 hover:text-stone-200 border border-stone-800 hover:border-stone-600"
+                          : "bg-stone-900/40 text-stone-300 hover:text-stone-100 border border-stone-800 hover:border-stone-600"
                       }`}
-                      aria-current={activeFilter === f ? "true" : undefined}
+                      aria-pressed={activeFilter === f}
                     >
                       {f}
                     </button>
@@ -197,7 +197,7 @@ export default function Home() {
                 href="https://github.com/Damatnic"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden text-sm text-stone-500 hover:text-[var(--accent)] sm:inline transition-colors"
+                className="hidden text-sm text-stone-300 hover:text-[var(--accent)] sm:inline transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
               >
                 github.com/Damatnic →
               </Link>
@@ -227,11 +227,11 @@ export default function Home() {
                         }`}
                       />
 
-                      <div className="font-mono text-sm text-stone-500 mt-1">
+                      <div className="font-mono text-sm text-stone-400 mt-1">
                         <span className="text-[var(--accent)]">
                           {String(projects.findIndex(orig => orig.slug === p.slug) + 1).padStart(2, "0")}
                         </span>
-                        <span className="ml-2 text-stone-700">/</span>
+                        <span className="ml-2 text-stone-600">/</span>
                         <span className="ml-2">
                           {String(projects.length).padStart(2, "0")}
                         </span>
@@ -241,7 +241,7 @@ export default function Home() {
                         <h3 className="text-xl font-semibold text-stone-50 sm:text-2xl">
                           {p.title}
                         </h3>
-                        <p className="mt-1.5 text-sm text-stone-400">{p.tagline}</p>
+                        <p className="mt-1.5 text-sm text-stone-300">{p.tagline}</p>
 
                         <p className="mt-4 leading-relaxed text-stone-200">
                           {p.description}
@@ -258,12 +258,12 @@ export default function Home() {
 
                         <div className="mt-6 flex flex-wrap gap-2">
                           {p.tech.map((t) => (
-                            <span 
-                              key={t} 
+                            <span
+                              key={t}
                               className={`px-2.5 py-1 text-[10px] uppercase tracking-wider font-semibold rounded-md border ${
                                 techTagMatchesToolSelection(t, highlightedTech, activeFilter)
-                                  ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent)]" 
-                                  : "bg-stone-900/50 border-stone-800 text-stone-400"
+                                  ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent)]"
+                                  : "bg-stone-900/50 border-stone-800 text-stone-300"
                               }`}
                             >
                               {t}
@@ -275,9 +275,9 @@ export default function Home() {
                           {p.demoUrl && (
                             <Link
                               href={p.demoUrl}
-                              className="inline-flex items-center gap-1.5 font-medium text-[var(--accent)] underline-offset-4 hover:underline"
+                              className="inline-flex items-center gap-1.5 font-medium text-[var(--accent)] underline-offset-4 hover:underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
                             >
-                              <Play className="h-3.5 w-3.5" />
+                              <Play className="h-3.5 w-3.5" aria-hidden="true" />
                               {p.demoLabel ?? "Try it"}
                             </Link>
                           )}
@@ -285,9 +285,9 @@ export default function Home() {
                             href={p.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-stone-400 hover:text-stone-100 transition-colors"
+                            className="inline-flex items-center gap-1.5 text-stone-300 hover:text-stone-100 transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
                           >
-                            <Github className="h-4 w-4" />
+                            <Github className="h-4 w-4" aria-hidden="true" />
                             source
                           </a>
                         </div>
@@ -313,7 +313,7 @@ export default function Home() {
               <h2 className="text-xl font-semibold tracking-tight text-stone-100 sm:text-2xl">
                 Also built
               </h2>
-              <p className="hidden text-xs text-stone-500 sm:block">
+              <p className="hidden text-xs text-stone-400 sm:block">
                 learning tools I made while learning the tools
               </p>
             </div>
@@ -334,7 +334,7 @@ export default function Home() {
                   </p>
                   <div className="mt-4 flex flex-wrap gap-1.5">
                     {p.tech.map(t => (
-                      <span key={t} className="text-[10px] font-mono text-stone-500 bg-stone-950 px-2 py-0.5 rounded border border-stone-800">
+                      <span key={t} className="text-[10px] font-mono text-stone-300 bg-stone-950 px-2 py-0.5 rounded border border-stone-800">
                         {t}
                       </span>
                     ))}
@@ -344,18 +344,18 @@ export default function Home() {
                       href={p.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-[var(--accent)] underline-offset-4 hover:underline"
+                      className="inline-flex items-center gap-1.5 text-[var(--accent)] underline-offset-4 hover:underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
                     >
-                      <ExternalLink className="h-3.5 w-3.5" />
+                      <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                       live site
                     </a>
                     <a
                       href={p.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-stone-400 hover:text-stone-100 transition-colors"
+                      className="inline-flex items-center gap-1.5 text-stone-300 hover:text-stone-100 transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
                     >
-                      <Github className="h-4 w-4" />
+                      <Github className="h-4 w-4" aria-hidden="true" />
                       source
                     </a>
                   </div>
@@ -404,7 +404,7 @@ export default function Home() {
 
               <dl className="space-y-8 text-sm bg-stone-900/20 p-6 rounded-2xl border border-stone-800/40 h-fit">
                 <div>
-                  <dt className="text-xs uppercase tracking-widest font-semibold text-stone-500 mb-2">Tools I reach for</dt>
+                  <dt className="text-xs uppercase tracking-widest font-semibold text-stone-300 mb-2">Tools I reach for</dt>
                   <dd className="flex flex-wrap gap-2">
                     {toolsIReachFor.map(tool => (
                       <button
@@ -417,10 +417,11 @@ export default function Home() {
                           setActiveFilter(tool);
                           document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
                         }}
-                        className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-all cursor-pointer ${
+                        aria-pressed={activeFilter === tool}
+                        className={`px-3.5 py-2 text-xs font-medium rounded-md border transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 ${
                           highlightedTech === tool || activeFilter === tool
-                            ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent)]" 
-                            : "bg-stone-900/50 border-stone-800 text-stone-300 hover:border-stone-600 hover:text-stone-100"
+                            ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent)]"
+                            : "bg-stone-900/50 border-stone-800 text-stone-200 hover:border-stone-600 hover:text-stone-100"
                         }`}
                       >
                         {tool}
@@ -428,19 +429,19 @@ export default function Home() {
                     ))}
                   </dd>
                 </div>
-                
+
                 <div>
-                  <dt className="text-xs uppercase tracking-widest font-semibold text-stone-500 mb-2">Education</dt>
-                  <dd className="mt-1.5 text-stone-200">WCTC · AAS, AI Data Specialist <span className="text-stone-500">(2027)</span></dd>
-                  <dd className="text-stone-200">MATC · Associate, IT Network <span className="text-stone-500">(2023)</span></dd>
+                  <dt className="text-xs uppercase tracking-widest font-semibold text-stone-300 mb-2">Education</dt>
+                  <dd className="mt-1.5 text-stone-200">WCTC · AAS, AI Data Specialist <span className="text-stone-400">(2027)</span></dd>
+                  <dd className="text-stone-200">MATC · Associate, IT Network <span className="text-stone-400">(2023)</span></dd>
                 </div>
                 <div>
-                  <dt className="text-xs uppercase tracking-widest font-semibold text-stone-500 mb-2">Certifications</dt>
+                  <dt className="text-xs uppercase tracking-widest font-semibold text-stone-300 mb-2">Certifications</dt>
                   <dd className="mt-1.5 text-stone-200">CompTIA A+, Network+</dd>
                   <dd className="text-stone-200">Cisco CCNA</dd>
                 </div>
                 <div>
-                  <dt className="text-xs uppercase tracking-widest font-semibold text-stone-500 mb-2">Currently learning</dt>
+                  <dt className="text-xs uppercase tracking-widest font-semibold text-stone-300 mb-2">Currently learning</dt>
                   <dd className="mt-1.5 text-stone-300 leading-relaxed">
                     More serious DAX. Window functions in production-scale data.
                     How to make a dashboard people actually use.
@@ -456,31 +457,31 @@ export default function Home() {
         {/* Footer */}
         <footer>
           <div className="mx-auto flex max-w-5xl flex-col gap-3 px-6 py-10 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-stone-500 font-mono">
+            <p className="text-sm text-stone-400 font-mono">
               Nicholas D&apos;Amato · Pewaukee, WI
             </p>
-            <div className="flex gap-5 text-sm text-stone-400">
+            <div className="flex gap-5 text-sm text-stone-300">
               <a
                 href="mailto:nickdamatoit@gmail.com"
-                className="inline-flex items-center gap-1.5 hover:text-[var(--accent)] transition-colors"
+                className="inline-flex items-center gap-1.5 rounded hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
               >
-                <Mail className="h-4 w-4" /> Email
+                <Mail className="h-4 w-4" aria-hidden="true" /> Email
               </a>
               <a
                 href="https://linkedin.com/in/nicholas-damato2"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 hover:text-[var(--accent)] transition-colors"
+                className="inline-flex items-center gap-1.5 rounded hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
               >
-                <Linkedin className="h-4 w-4" /> LinkedIn
+                <Linkedin className="h-4 w-4" aria-hidden="true" /> LinkedIn
               </a>
               <a
                 href="https://github.com/Damatnic"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 hover:text-[var(--accent)] transition-colors"
+                className="inline-flex items-center gap-1.5 rounded hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
               >
-                <Github className="h-4 w-4" /> GitHub
+                <Github className="h-4 w-4" aria-hidden="true" /> GitHub
               </a>
             </div>
           </div>

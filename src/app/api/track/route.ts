@@ -117,6 +117,16 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ ok: false, error: 'invalid_json' }, { status: 400 });
   }
 
+  const ALLOWED_TYPES = new Set(['pageview', 'click', 'link_click', 'resume_download']);
+  const rawTypeIn = body.type;
+  if (typeof rawTypeIn !== 'string' || !ALLOWED_TYPES.has(rawTypeIn)) {
+    return NextResponse.json({ ok: false, error: 'invalid_type' }, { status: 400 });
+  }
+  const clip = (v: unknown, max = 500): string | null => {
+    if (typeof v !== 'string') return null;
+    return v.length > max ? v.slice(0, max) : v;
+  };
+
   const userAgent = req.headers.get('user-agent');
   const country = req.headers.get('x-vercel-ip-country') ?? req.headers.get('cf-ipcountry') ?? null;
   const region = req.headers.get('x-vercel-ip-country-region') ?? null;
@@ -133,22 +143,22 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return h.split(':')[0]?.toLowerCase() ?? null;
   })();
 
-  const rawType = body.type ?? 'unknown';
-  const normalizedType = rawType === 'click' ? 'link_click' : rawType;
+  const normalizedType = rawTypeIn === 'click' ? 'link_click' : rawTypeIn;
+  const clippedReferrer = clip(body.referrer);
 
   const record = {
     type: normalizedType,
-    path: body.path ?? null,
-    href: body.href ?? null,
-    label: body.label ?? null,
-    kind: body.kind ?? null,
-    target: body.target ?? null,
-    referrer: body.referrer ?? null,
-    referrerSource: classifyReferrer((body.referrer as string | null) ?? null, selfHost),
-    sessionId: typeof body.sessionId === 'string' ? body.sessionId : null,
+    path: clip(body.path, 200),
+    href: clip(body.href),
+    label: clip(body.label, 200),
+    kind: clip(body.kind, 32),
+    target: clip(body.target, 32),
+    referrer: clippedReferrer,
+    referrerSource: classifyReferrer(clippedReferrer, selfHost),
+    sessionId: typeof body.sessionId === 'string' && body.sessionId.length <= 64 ? body.sessionId : null,
     sessionStart: typeof body.sessionStart === 'number' ? body.sessionStart : null,
     isFirstPageview: body.isFirstPageview === true,
-    userAgent,
+    userAgent: clip(userAgent, 500),
     country,
     region,
     city,
