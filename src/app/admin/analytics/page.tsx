@@ -35,13 +35,18 @@ function TableCard({ title, headers, rows, cols }: {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, ri) => (
-              <tr key={ri} className="border-b border-stone-800/50 last:border-0">
-                {row.map((cell, ci) => (
-                  <td key={ci} className="py-2 pr-4 text-stone-300">{cell[cols[ci] as string] ?? cell[ci] ?? ""}</td>
-                ))}
-              </tr>
-            ))}
+            {rows.map((row, ri) => {
+              const cell = Object.assign({}, ...row) as Record<string, string | number>;
+              return (
+                <tr key={ri} className="border-b border-stone-800/50 last:border-0">
+                  {cols.map((col) => (
+                    <td key={col} className="py-2 pr-4 text-stone-300">
+                      {typeof cell[col] === "number" ? cell[col].toLocaleString() : (cell[col] ?? "")}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -49,10 +54,9 @@ function TableCard({ title, headers, rows, cols }: {
   );
 }
 
-function ReferrerTable({ title, rows, cols }: {
+function ReferrerTable({ title, rows }: {
   title: string;
   rows: { source: string; count: number }[];
-  cols: string[];
 }) {
   return (
     <div className="rounded border border-stone-800 bg-stone-900/50 p-4">
@@ -101,7 +105,7 @@ function EventsTable({ title, events }: { title: string; events: { type?: string
                 <td className="py-1.5 pr-3 text-stone-300">{e.type}</td>
                 <td className="py-1.5 pr-3 text-stone-300 max-w-[200px] truncate">{e.path ?? e.href ?? "—"}</td>
                 <td className="py-1.5 pr-3 text-stone-500">{[e.city, e.country].filter(Boolean).join(", ") || "—"}</td>
-                <td className="py-1.5 text-stone-500">{e.bot ? "🤖" : "—"}</td>
+                <td className="py-1.5 text-stone-500">{e.bot ? "Yes" : "No"}</td>
               </tr>
             ))}
           </tbody>
@@ -215,12 +219,12 @@ export default async function AnalyticsPage({
 
       <section className="mb-10 grid gap-4 md:grid-cols-2">
         <TableCard title="Top referrers" headers={["Referrer", "Count"]} rows={summary.topReferrers.map((r) => [{ referrer: r.referrer, count: r.count }])} cols={["referrer", "count"]} />
-        <ReferrerTable title="Traffic sources" rows={summary.referrerSources} cols={["source", "count"]} />
+        <ReferrerTable title="Traffic sources" rows={summary.referrerSources} />
       </section>
 
       <section className="mb-10 grid gap-4 md:grid-cols-2">
         <TableCard title="Top countries" headers={["Country", "Count"]} rows={summary.topCountries.map((c) => [{ country: c.country, count: c.count }])} cols={["country", "count"]} />
-        <TableCard title="Top cities" headers={["City", "Region", "Country", "Count"]} rows={summary.topCities.map((c) => [{ val: [c.city, c.region, c.country].filter(Boolean).join(", "), count: c.count }])} cols={["val", "count"]} />
+        <TableCard title="Top cities" headers={["City", "Region", "Country", "Count"]} rows={summary.topCities.map((c) => [{ city: c.city, region: c.region, country: c.country, count: c.count }])} cols={["city", "region", "country", "count"]} />
       </section>
 
       <section className="mb-10 grid gap-4 md:grid-cols-2">

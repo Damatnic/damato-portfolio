@@ -48,18 +48,6 @@ function classifyReferrer(referrer: string | null, selfHost: string | null): 'di
   return 'other';
 }
 
-function kvPipelineUrl(): string | null {
-  const url = process.env.KV_REST_API_URL?.trim();
-  const token = process.env.KV_REST_API_TOKEN?.trim();
-  if (!url || !token) return null;
-
-  const date = todayKey();
-
-  // Build the command pipeline using the Upstash REST pipeline endpoint
-  // We'll construct it from the base URL
-  return url;
-}
-
 async function pushToKV(record: Record<string, unknown>): Promise<void> {
   const url = process.env.KV_REST_API_URL?.trim();
   const token = process.env.KV_REST_API_TOKEN?.trim();
@@ -145,8 +133,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return h.split(':')[0]?.toLowerCase() ?? null;
   })();
 
+  const rawType = body.type ?? 'unknown';
+  const normalizedType = rawType === 'click' ? 'link_click' : rawType;
+
   const record = {
-    type: body.type ?? 'unknown',
+    type: normalizedType,
     path: body.path ?? null,
     href: body.href ?? null,
     label: body.label ?? null,

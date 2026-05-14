@@ -29,6 +29,39 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Dashboard at `/admin/analytics?secret=<ANALYTICS_SECRET>`
 - See Obsidian → System → About Nick → `damato-data Portfolio.md` for full docs
 
+**Environment variables (Vercel + local):**
+
+| Variable | Production / Preview | Development (Vercel “Development”) | Local `.env.local` |
+|----------|----------------------|-----------------------------------|--------------------|
+| `NEXT_PUBLIC_SITE_URL` | `https://damato-data.vercel.app` (no trailing slash) | `http://localhost:3000` | Same as Development column |
+| `ANALYTICS_SECRET` | Set in dashboard or CLI | Same if you test `/admin/analytics` locally | Copy from Vercel or set your own |
+| KV (`KV_REST_API_*`) | From Upstash / Vercel Storage | Optional; `vercel dev` can inject from linked project | `vercel env pull` or leave empty |
+
+`NEXT_PUBLIC_SITE_URL` drives analytics self-referrer filtering (`analyticsStore`) and the cron digest “full dashboard” link (`api/cron/digest`). After changing it, **redeploy** (or wait for the next deploy) so server bundles pick up the new value.
+
+**CLI (from linked repo root, `vercel whoami` must work):**
+
+```bash
+# Production
+vercel env add NEXT_PUBLIC_SITE_URL production --value "https://damato-data.vercel.app" --no-sensitive --yes
+
+# Preview — third arg "" applies to all preview branches (non-interactive)
+vercel env add NEXT_PUBLIC_SITE_URL preview "" --value "https://damato-data.vercel.app" --no-sensitive --yes
+
+# Vercel “Development” (used by vercel env pull / vercel dev)
+vercel env add NEXT_PUBLIC_SITE_URL development --value "http://localhost:3000" --no-sensitive --yes
+```
+
+Dashboard alternative: Vercel → **damato-portfolio** → **Settings** → **Environment Variables** — same names and targets as the table.
+
+Sync cloud Development vars into `.env.local` (merge by hand if you already have secrets there):
+
+```bash
+vercel env pull
+```
+
+Template without secrets: [`env.example`](env.example).
+
 **Deployment:** `vercel --prod` from project root. Live at https://damato-data.vercel.app. Vercel project: astral-productions/damato-portfolio.
 
 **Build checks before shipping:**

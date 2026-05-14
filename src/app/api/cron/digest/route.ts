@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { dayKey, lastNDayKeys } from "@/lib/analyticsTime";
-import type { AnalyticsRecord, AnalyticsSummary } from "@/lib/analyticsStore";
+import type { AnalyticsRecord } from "@/lib/analyticsStore";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+function analyticsDashboardUrl(): string {
+  const base =
+    process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ??
+    "https://damato-data.vercel.app";
+  const secret = process.env.ANALYTICS_SECRET ?? "";
+  return `${base}/admin/analytics?secret=${encodeURIComponent(secret)}`;
+}
 
 function kvConfig(): { url: string; token: string } | null {
   const url = process.env.KV_REST_API_URL?.trim();
@@ -67,6 +75,7 @@ function htmlDigest(summary: {
   topReferrers: Array<{ source: string; count: number }>;
   topCountries: Array<{ country: string; count: number }>;
   weekTrend: Array<{ date: string; pv: number; clicks: number }>;
+  dashboardUrl: string;
 }): string {
   const weekBars = summary.weekTrend
     .map(
@@ -153,7 +162,7 @@ ${countries || "<p style='color:#a1a1aa;font-size:12px'>No location data</p>"}
 </table>
 </td></tr>
 <tr><td style="padding:16px 32px 32px;text-align:center;font-size:11px;color:#52525b">
-<a href="https://damato-portfolio-pearl.vercel.app/admin/analytics?secret=${process.env.ANALYTICS_SECRET ?? ""}" style="color:#818cf8;text-decoration:none">Full dashboard →</a>
+<a href="${summary.dashboardUrl}" style="color:#818cf8;text-decoration:none">Full dashboard →</a>
 </td></tr>
 </table>
 </td></tr></table>
@@ -187,7 +196,7 @@ export async function GET(req: NextRequest) {
 
   const human = events.filter((e) => !e.bot);
   const pageviews = human.filter((e) => e.type === "pageview");
-  const clicks = human.filter((e) => e.type === "link_click");
+  const clicks = human.filter((e) => e.type === "link_click" || e.type === "click");
   const allEvents = human.length;
 
   const countries = new Set(human.map((e) => e.country).filter(Boolean));
@@ -246,6 +255,7 @@ export async function GET(req: NextRequest) {
   for (const d of buckets) {
     counterCmds.push(["GET", `analytics:counters:pageview:${d}`]);
     counterCmds.push(["GET", `analytics:counters:link_click:${d}`]);
+    counterCmds.push(["GET", `analytics:counters:click:${d}`]);
   }
   let weekCounters: Array<string | null> = [];
   try {
@@ -266,11 +276,16 @@ export async function GET(req: NextRequest) {
     /* leave empty */
   }
 
-  const weekTrend = buckets.map((date, i) => ({
-    date,
-    pv: parseInt(weekCounters[i * 2] ?? "0", 10) || 0,
-    clicks: parseInt(weekCounters[i * 2 + 1] ?? "0", 10) || 0,
-  }));
+  const weekTrend = buckets.map((date, i) => {
+    const base = i * 3;
+    const linkClicks = parseInt(weekCounters[base + 1] ?? "0", 10) || 0;
+    const legacyClicks = parseInt(weekCounters[base + 2] ?? "0", 10) || 0;
+    return {
+      date,
+      pv: parseInt(weekCounters[base] ?? "0", 10) || 0,
+      clicks: linkClicks + legacyClicks,
+    };
+  });
 
   const today = new Intl.DateTimeFormat("en-US", {
     timeZone: "America/Chicago",
@@ -310,6 +325,7 @@ export async function GET(req: NextRequest) {
       topReferrers,
       topCountries,
       weekTrend,
+      dashboardUrl: analyticsDashboardUrl(),
     }),
   });
 

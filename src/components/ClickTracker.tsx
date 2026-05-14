@@ -76,7 +76,7 @@ export function ClickTracker() {
       const label = (anchor.textContent ?? "").trim().replace(/\s+/g, " ").slice(0, 80);
       const session = getOrCreateSession();
       postEvent({
-        type: "click", href, label, kind: classifyHref(href, window.location.hostname),
+        type: "link_click", href, label, kind: classifyHref(href, window.location.hostname),
         path: window.location.pathname, target: anchor.getAttribute("target") ?? "_self",
         sessionId: session.id, ts: Date.now(),
       });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Search } from "lucide-react";
 import {
@@ -58,6 +58,11 @@ const CONTINENT_OPTIONS = [
 const MEDAL_OPTIONS = ["Gold", "Silver", "Bronze"] as const;
 
 export default function OlympicMedalsPage() {
+  const [chartsReady, setChartsReady] = useState(false);
+  useEffect(() => {
+    setChartsReady(true);
+  }, []);
+
   const [olympics, setOlympics] = useState<string>("All");
   const [continent, setContinent] = useState<string>("All");
   const [medals, setMedals] = useState<string[]>(["Gold", "Silver", "Bronze"]);
@@ -284,9 +289,11 @@ export default function OlympicMedalsPage() {
           <div className="lg:col-span-3">
             <h3 className="text-base font-medium text-stone-100">Top 10 countries</h3>
             <p className="mt-1 text-xs text-stone-500">Stacked by medal type.</p>
-            <div className="mt-5 h-80">
+            <div className="mt-5 h-80 w-full min-w-0 min-h-0">
               {topCountries.length === 0 ? (
                 <EmptyState />
+              ) : !chartsReady ? (
+                <ChartMountPlaceholder />
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={topCountries} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
@@ -314,9 +321,11 @@ export default function OlympicMedalsPage() {
           <div className="lg:col-span-2">
             <h3 className="text-base font-medium text-stone-100">By continent</h3>
             <p className="mt-1 text-xs text-stone-500">Share of filtered medals.</p>
-            <div className="mt-5 h-80">
+            <div className="mt-5 h-80 w-full min-w-0 min-h-0">
               {continentBreakdown.length === 0 ? (
                 <EmptyState />
+              ) : !chartsReady ? (
+                <ChartMountPlaceholder />
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -382,13 +391,13 @@ export default function OlympicMedalsPage() {
         <div className="border-t border-stone-800/60 pt-10 text-sm leading-relaxed text-stone-400">
           <h3 className="text-base font-medium text-stone-100">How this works</h3>
           <p className="mt-3">
-            The data on this page is the same JSON the ETL produces. The Python
+            The data on this page is the same JSON the ETL exports. The Python
             notebook scrapes the Tokyo 2020 and Beijing 2022 medal pages from
             Olympedia, parses them with BeautifulSoup (pandas.read_html choked
-            on embedded flag image tags), and originally enriched the records
-            by joining against a SQL Server <code className="rounded bg-stone-900 px-1 py-0.5 text-xs text-stone-200">World</code> database for continent and capital. For this
-            public demo the continent enrichment is replayed in JavaScript so
-            it works without DB access.
+            on embedded flag image tags), and joins against a SQL Server{" "}
+            <code className="rounded bg-stone-900 px-1 py-0.5 text-xs text-stone-200">World</code> database for
+            continent and capital. Those fields are baked into this file for the
+            public demo so nothing needs a database at view time.
           </p>
           <p className="mt-3">
             The charts and table are filtered client-side from the same
@@ -433,6 +442,17 @@ function EmptyState() {
   return (
     <div className="flex h-full items-center justify-center text-sm text-stone-500">
       No data matches the current filter.
+    </div>
+  );
+}
+
+function ChartMountPlaceholder() {
+  return (
+    <div
+      className="flex h-full w-full items-center justify-center rounded border border-dashed border-stone-800 bg-stone-900/20 text-xs text-stone-600"
+      aria-hidden
+    >
+      Loading charts…
     </div>
   );
 }

@@ -43,7 +43,7 @@ const timelineData: TimelineItem[] = [
     company: "CTAccess, Waukesha WI",
     type: "work",
     description:
-      "MSP service desk: 20-30 tickets a day across multiple client networks. Hardware, software, VPN issues, user accounts — all the standard tier-1 stuff. First place I used Active Directory every single day.",
+      "MSP service desk: 20-30 tickets a day across multiple client networks. Hardware, software, VPN issues, user accounts, all the standard tier-1 stuff. First place I used Active Directory every single day.",
   },
   {
     id: "wauwatosa",

@@ -50,6 +50,19 @@ export interface AnalyticsSummary {
   topTriples: Array<{ a: string; b: string; c: string; count: number }>;
 }
 
+/** Treats in-app navigation referrers as self so they do not dominate “Top referrers”. */
+function isLikelySelfReferrer(referrer: string): boolean {
+  const canonical = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ?? "";
+  if (canonical && referrer.includes(canonical)) return true;
+  try {
+    const { hostname } = new URL(referrer);
+    const h = hostname.toLowerCase();
+    return h === "localhost" || h === "127.0.0.1" || h === "[::1]" || h === "::1";
+  } catch {
+    return false;
+  }
+}
+
 function kvConfig(): { url: string; token: string } | null {
   const url = process.env.KV_REST_API_URL?.trim();
   const token = process.env.KV_REST_API_TOKEN?.trim();
@@ -143,7 +156,7 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
   const human = events.filter((e) => !e.bot);
 
   const pageviews = human.filter((e) => e.type === 'pageview');
-  const clicks = human.filter((e) => e.type === 'link_click');
+  const clicks = human.filter((e) => e.type === 'link_click' || e.type === 'click');
 
   const topPaths = topN(
     pageviews.map((e) => ({ path: e.path ?? '/' })),
@@ -159,7 +172,7 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
 
   const topReferrers = topN(
     pageviews
-      .filter((e) => e.referrer && !e.referrer.includes(process.env.NEXT_PUBLIC_SITE_URL ?? 'localhost'))
+      .filter((e) => e.referrer && !isLikelySelfReferrer(e.referrer as string))
       .map((e) => ({ referrer: e.referrer as string })),
     'referrer',
     10
@@ -206,6 +219,7 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
   for (const d of buckets) {
     counterCmds.push(['GET', `analytics:counters:pageview:${d}`]);
     counterCmds.push(['GET', `analytics:counters:link_click:${d}`]);
+    counterCmds.push(['GET', `analytics:counters:click:${d}`]);
   }
   let counters: Array<string | null> = [];
   try {
@@ -226,11 +240,16 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
     /* leave counters empty */
   }
 
-  const countersLast7Days = buckets.map((date, i) => ({
-    date,
-    pageviews: parseInt(counters[i * 2] ?? '0', 10) || 0,
-    clicks: parseInt(counters[i * 2 + 1] ?? '0', 10) || 0,
-  }));
+  const countersLast7Days = buckets.map((date, i) => {
+    const base = i * 3;
+    const linkClicks = parseInt(counters[base + 1] ?? '0', 10) || 0;
+    const legacyClicks = parseInt(counters[base + 2] ?? '0', 10) || 0;
+    return {
+      date,
+      pageviews: parseInt(counters[base] ?? '0', 10) || 0,
+      clicks: linkClicks + legacyClicks,
+    };
+  });
 
   const journeys = new Map<string, AnalyticsRecord[]>();
   for (const e of pageviews) {
