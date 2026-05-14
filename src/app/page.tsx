@@ -25,7 +25,27 @@ function Linkedin({ className }: { className?: string }) {
   );
 }
 
+/** Sidebar "Tools I reach for" uses plain "SQL"; flagship projects tag T-SQL / SQL Server. */
+const TECH_FILTER_ALIASES: Record<string, string[]> = {
+  SQL: ["T-SQL", "SQL Server"],
+};
 
+function projectUsesFilterTech(projectTech: string[], filter: string): boolean {
+  if (filter === "All") return true;
+  const needles = TECH_FILTER_ALIASES[filter] ?? [filter];
+  return needles.some((n) => projectTech.includes(n));
+}
+
+function techTagMatchesToolSelection(
+  tag: string,
+  highlight: string | null,
+  filter: string,
+): boolean {
+  const expand = (label: string) => TECH_FILTER_ALIASES[label] ?? [label];
+  if (filter !== "All" && expand(filter).includes(tag)) return true;
+  if (highlight && expand(highlight).includes(tag)) return true;
+  return false;
+}
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -42,7 +62,7 @@ export default function Home() {
 
   const filteredProjects = activeFilter === "All"
     ? projects
-    : projects.filter((p) => p.tech.includes(activeFilter));
+    : projects.filter((p) => projectUsesFilterTech(p.tech, activeFilter));
 
   const toolsIReachFor = [
     "Python", "pandas", "SQL", "T-SQL", "Power BI", "DAX", "Excel",
@@ -186,7 +206,8 @@ export default function Home() {
             <ol className="mt-12 divide-y divide-stone-800/60">
               <AnimatePresence mode="popLayout">
                 {filteredProjects.map((p, i) => {
-                  const isHighlighted = highlightedTech && p.tech.includes(highlightedTech);
+                  const isHighlighted =
+                    !!highlightedTech && projectUsesFilterTech(p.tech, highlightedTech);
                   return (
                     <motion.li
                       layout
@@ -240,7 +261,7 @@ export default function Home() {
                             <span 
                               key={t} 
                               className={`px-2.5 py-1 text-[10px] uppercase tracking-wider font-semibold rounded-md border ${
-                                highlightedTech === t || activeFilter === t 
+                                techTagMatchesToolSelection(t, highlightedTech, activeFilter)
                                   ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent)]" 
                                   : "bg-stone-900/50 border-stone-800 text-stone-400"
                               }`}
@@ -360,12 +381,12 @@ export default function Home() {
                 </h2>
                 <p className="max-w-[65ch]">
                   Last few years I did IT support. Service desk, ticketing, AD,
-                  ServiceNow, some PowerShell. Three years across Puget Sound
-                  Energy, Wolter, CTAccess, and the City of Wauwatosa. Being
-                  inside the systems that generate the data turns out to be a
-                  pretty good head start for moving into analytics, especially
-                  when half the job is figuring out what the data is actually
-                  saying versus what people <em>think</em> it&apos;s saying.
+                  ServiceNow, some PowerShell. Puget Sound Energy, Wolter,
+                  CTAccess. Being inside the systems that generate the data
+                  turns out to be a pretty good head start for moving into
+                  analytics, especially when half the job is figuring out what
+                  the data is actually saying versus what people{" "}
+                  <em>think</em> it&apos;s saying.
                 </p>
                 <p className="max-w-[65ch]">
                   The three projects above are real work from my WCTC program,
@@ -397,7 +418,7 @@ export default function Home() {
                           document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
                         }}
                         className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-all cursor-pointer ${
-                          highlightedTech === tool 
+                          highlightedTech === tool || activeFilter === tool
                             ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent)]" 
                             : "bg-stone-900/50 border-stone-800 text-stone-300 hover:border-stone-600 hover:text-stone-100"
                         }`}

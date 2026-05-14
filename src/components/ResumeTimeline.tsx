@@ -24,7 +24,8 @@ const timelineData: TimelineItem[] = [
     title: "IT Help Desk Technician",
     company: "Puget Sound Energy (Contract/Remote)",
     type: "work",
-    description: "Provided remote IT support, managing tickets and resolving technical issues for end users."
+    description:
+      "Remote tier-1 and tier-2 for a big Pacific Northwest utility. 150+ ServiceNow tickets a month, 5,000-user support pool, mostly via Cisco Jabber and Cisco Finesse. You get fast at triaging when the queue never gets shorter.",
   },
   {
     id: "wolter",
@@ -32,7 +33,8 @@ const timelineData: TimelineItem[] = [
     title: "Technical Support Administrator",
     company: "Wolter Inc., Pewaukee WI",
     type: "work",
-    description: "Administered technical support and systems administration."
+    description:
+      "Internal IT for a forklift dealer, 200+ users across onsite and remote environments. 40-60 requests a week: AD issues, hardware failures, imaging, M365 administration. Wrote PowerShell scripts to automate the tedious stuff.",
   },
   {
     id: "ctaccess",
@@ -40,7 +42,8 @@ const timelineData: TimelineItem[] = [
     title: "Service Desk Technician",
     company: "CTAccess, Waukesha WI",
     type: "work",
-    description: "Handled service desk ticketing and Active Directory management."
+    description:
+      "MSP service desk: 20-30 tickets a day across multiple client networks. Hardware, software, VPN issues, user accounts — all the standard tier-1 stuff. First place I used Active Directory every single day.",
   },
   {
     id: "matc",
