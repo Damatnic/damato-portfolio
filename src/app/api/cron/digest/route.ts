@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { dayKey, lastNDayKeys } from "@/lib/analyticsTime";
-import type { AnalyticsRecord } from "@/lib/analyticsStore";
+import { dayKey } from "@/lib/analyticsTime";
+import { getAnalyticsSummary, countryFlag } from "@/lib/analyticsStore";
+import type { AnalyticsSummary } from "@/lib/analyticsStore";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -13,156 +14,234 @@ function analyticsDashboardUrl(): string {
   return `${base}/admin/analytics?secret=${encodeURIComponent(secret)}`;
 }
 
-function kvConfig(): { url: string; token: string } | null {
-  const url = process.env.KV_REST_API_URL?.trim();
-  const token = process.env.KV_REST_API_TOKEN?.trim();
-  if (!url || !token) return null;
-  return { url, token };
+function trendArrow(pct: number | null): string {
+  if (pct === null) return "·";
+  if (pct === 0) return "→";
+  return pct > 0 ? "↑" : "↓";
 }
 
-async function kvCommand<T>(cmd: string[]): Promise<T | null> {
-  const cfg = kvConfig();
-  if (!cfg) return null;
-  try {
-    const res = await fetch(cfg.url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${cfg.token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(cmd),
-      cache: "no-store",
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as { result?: T };
-    return data.result ?? null;
-  } catch {
-    return null;
+function trendLabel(pct: number | null): string {
+  if (pct === null) return "new";
+  if (pct === 0) return "flat";
+  return `${pct > 0 ? "+" : ""}${pct}%`;
+}
+
+function trendColor(pct: number | null): string {
+  if (pct === null) return "#a1a1aa";
+  if (pct === 0) return "#a1a1aa";
+  return pct > 0 ? "#34d399" : "#fb7185";
+}
+
+/** Inline SVG bar sparkline. Renders in Gmail web, Apple Mail, Outlook 365. */
+function sparkline(values: number[], color: string, width = 200, height = 36): string {
+  if (values.length === 0) return "";
+  const max = Math.max(...values, 1);
+  const gap = 2;
+  const barW = Math.max((width - gap * (values.length - 1)) / values.length, 1);
+  const bars = values
+    .map((v, i) => {
+      const h = Math.max((v / max) * (height - 2), 1);
+      const x = i * (barW + gap);
+      const y = height - h;
+      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" rx="1" fill="${color}"/>`;
+    })
+    .join("");
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="7-day trend">${bars}</svg>`;
+}
+
+function buildHighlights(summary: AnalyticsSummary): string[] {
+  const out: string[] = [];
+  const todayStart = (() => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  })();
+
+  const downloadsToday = summary.recentResumeDownloads.filter((d) => d.ts >= todayStart).length;
+  if (downloadsToday > 0) {
+    const word = downloadsToday === 1 ? "download" : "downloads";
+    out.push(`<strong>${downloadsToday} resume ${word}</strong> today.`);
   }
-}
 
-function topN<K extends string>(
-  items: Array<Record<K, string | number>>,
-  key: K,
-  n: number
-): Array<Record<K, string | number> & { count: number }> {
-  const counts = new Map<string, { count: number }>();
-  for (const it of items) {
-    const k = String(it[key] ?? "");
-    if (!k) continue;
-    const existing = counts.get(k);
-    if (existing) existing.count += 1;
-    else counts.set(k, { count: 1 });
+  // New country in the last 24h: appears in this week's events but not in any prior recent window
+  const sevenDaysAgo = Date.now() - 7 * 86_400_000;
+  const recentCountries = new Set(
+    summary.recent
+      .filter((e) => !e.bot && (e.receivedAt ?? e.ts) >= todayStart)
+      .map((e) => e.country)
+      .filter(Boolean) as string[]
+  );
+  const priorCountries = new Set(
+    summary.recent
+      .filter((e) => !e.bot && (e.receivedAt ?? e.ts) < todayStart && (e.receivedAt ?? e.ts) >= sevenDaysAgo)
+      .map((e) => e.country)
+      .filter(Boolean) as string[]
+  );
+  const newCountries = Array.from(recentCountries).filter((c) => !priorCountries.has(c));
+  if (newCountries.length > 0) {
+    const labels = newCountries.map((c) => `${countryFlag(c)} ${c}`).join(", ");
+    out.push(`First visit today from ${labels}.`);
   }
-  return Array.from(counts.entries())
-    .sort((a, b) => b[1].count - a[1].count)
-    .slice(0, n)
-    .map(([key, val]) => ({ [key as K]: key, count: val.count } as Record<K, string | number> & { count: number }));
+
+  const top = summary.topReferrers[0];
+  if (top && top.count > 0) {
+    try {
+      const host = new URL(top.referrer).hostname;
+      out.push(`Top referrer this week: <strong>${host}</strong> (${top.count} visits).`);
+    } catch {
+      out.push(`Top referrer this week: <strong>${top.referrer}</strong> (${top.count} visits).`);
+    }
+  }
+
+  return out;
 }
 
-function htmlDigest(summary: {
-  today: string;
-  totalEvents: number;
-  pageviews: number;
-  clicks: number;
-  uniqueCountries: number;
-  uniqueCities: number;
-  uniqueSessions: number;
-  bounceRate: number;
-  avgDuration: string;
-  topPaths: Array<{ path: string; count: number }>;
-  topLinks: Array<{ href: string; label: string; count: number }>;
-  topReferrers: Array<{ source: string; count: number }>;
-  topCountries: Array<{ country: string; count: number }>;
-  weekTrend: Array<{ date: string; pv: number; clicks: number }>;
-  dashboardUrl: string;
-}): string {
-  const weekBars = summary.weekTrend
+function htmlDigest(summary: AnalyticsSummary, dashboardUrl: string, today: string): string {
+  const accent = "#818cf8";
+  const muted = "#a1a1aa";
+  const card = "#27272a";
+  const surface = "#18181b";
+  const bg = "#09090b";
+
+  const pvSpark = sparkline(summary.countersLast7Days.map((d) => d.pageviews), accent);
+  const clickSpark = sparkline(summary.countersLast7Days.map((d) => d.clicks), "#a1a1aa");
+
+  const pvDelta = summary.weeklyDelta.pageviewsPct;
+  const clickDelta = summary.weeklyDelta.clicksPct;
+  const sessionDelta = summary.weeklyDelta.sessionsPct;
+
+  const highlights = buildHighlights(summary);
+
+  const pathsRows = summary.topPaths
+    .slice(0, 5)
     .map(
-      (d) =>
-        `<tr><td style="padding:2px 8px;color:#a1a1aa">${d.date.slice(5)}</td><td style="padding:2px 8px">${d.pv}</td><td style="padding:2px 8px">${d.clicks}</td></tr>`
+      (p) =>
+        `<tr><td style="padding:4px 8px;color:#d4d4d8;font-family:ui-monospace,monospace">${p.path}</td><td style="padding:4px 8px;text-align:right;color:#f4f4f5">${p.count}</td></tr>`
+    )
+    .join("");
+  const refRows = summary.topReferrers
+    .slice(0, 5)
+    .map((r) => {
+      let host = r.referrer;
+      try { host = new URL(r.referrer).hostname; } catch {}
+      return `<tr><td style="padding:4px 8px;color:#d4d4d8">${host}</td><td style="padding:4px 8px;text-align:right;color:#f4f4f5">${r.count}</td></tr>`;
+    })
+    .join("");
+  const countryRows = summary.topCountries
+    .slice(0, 5)
+    .map(
+      (c) =>
+        `<tr><td style="padding:4px 8px;color:#d4d4d8">${countryFlag(c.code)} ${c.country}</td><td style="padding:4px 8px;text-align:right;color:#f4f4f5">${c.count}</td></tr>`
     )
     .join("");
 
-  const paths = summary.topPaths
-    .map((p) => `<tr><td style="padding:2px 8px;color:#d4d4d8">${p.path}</td><td style="padding:2px 8px;text-align:center">${p.count}</td></tr>`)
+  const resumeRows = summary.recentResumeDownloads
+    .slice(0, 5)
+    .map((d) => {
+      const time = new Date(d.ts).toLocaleString("en-US", {
+        timeZone: process.env.NEXT_PUBLIC_SITE_TZ?.trim() || "America/Chicago",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+      const loc = [d.city, d.country].filter(Boolean).join(", ") || "—";
+      return `<tr><td style="padding:4px 8px;color:#d4d4d8;font-family:ui-monospace,monospace;font-size:11px">${time}</td><td style="padding:4px 8px;color:#d4d4d8">${countryFlag(d.country)} ${loc}</td></tr>`;
+    })
     .join("");
-  const refs = summary.topReferrers
-    .map((r) => `<tr><td style="padding:2px 8px;color:#d4d4d8">${r.source}</td><td style="padding:2px 8px;text-align:center">${r.count}</td></tr>`)
-    .join("");
-  const countries = summary.topCountries
-    .map((c) => `<tr><td style="padding:2px 8px;color:#d4d4d8">${c.country}</td><td style="padding:2px 8px;text-align:center">${c.count}</td></tr>`)
-    .join("");
+
+  const highlightsBlock = highlights.length
+    ? `<tr><td style="padding:16px 32px"><div style="background:${card};border-radius:8px;padding:12px 16px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:${muted};margin-bottom:6px">Highlights</div>${highlights.map((h) => `<div style="font-size:13px;color:#e4e4e7;line-height:1.5;margin-top:2px">• ${h}</div>`).join("")}</div></td></tr>`
+    : "";
+
+  const resumeBlock = resumeRows
+    ? `<tr><td style="padding:0 32px"><hr style="border:none;border-top:1px solid ${card};margin:0"></td></tr><tr><td style="padding:16px 32px"><h2 style="margin:0 0 8px;font-size:14px;font-weight:600;color:#f4f4f5">Resume downloads (${summary.resumeDownloads} total)</h2><table width="100%" cellpadding="0" cellspacing="0" style="font-size:12px">${resumeRows}</table></td></tr>`
+    : "";
 
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#09090b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#e4e4e7">
+<body style="margin:0;padding:0;background:${bg};font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#e4e4e7">
 <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:40px 16px">
-<table width="560" cellpadding="0" cellspacing="0" style="background:#18181b;border-radius:12px;border:1px solid #27272a">
-<tr><td style="padding:32px 32px 16px">
+<table width="560" cellpadding="0" cellspacing="0" style="background:${surface};border-radius:12px;border:1px solid ${card}">
+<tr><td style="padding:32px 32px 12px">
 <h1 style="margin:0;font-size:22px;font-weight:600;color:#f4f4f5">damato-data daily</h1>
-<p style="margin:8px 0 0;font-size:13px;color:#a1a1aa">${summary.today}</p>
+<p style="margin:8px 0 0;font-size:13px;color:${muted}">${today}</p>
 </td></tr>
+
 <tr><td style="padding:16px 32px">
 <table width="100%" cellpadding="0" cellspacing="0">
 <tr>
-<td width="25%" style="text-align:center;padding:12px 4px;background:#27272a;border-radius:8px"><div style="font-size:20px;font-weight:700;color:#f4f4f5">${summary.pageviews}</div><div style="font-size:10px;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px">Pageviews</div></td>
-<td width="8%"></td>
-<td width="25%" style="text-align:center;padding:12px 4px;background:#27272a;border-radius:8px"><div style="font-size:20px;font-weight:700;color:#f4f4f5">${summary.clicks}</div><div style="font-size:10px;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px">Clicks</div></td>
-<td width="8%"></td>
-<td width="25%" style="text-align:center;padding:12px 4px;background:#27272a;border-radius:8px"><div style="font-size:20px;font-weight:700;color:#f4f4f5">${summary.uniqueSessions}</div><div style="font-size:10px;color:#a1a1aa;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px">Sessions</div></td>
+<td width="32%" style="text-align:center;padding:14px 6px;background:${card};border-radius:8px;vertical-align:top">
+<div style="font-size:22px;font-weight:700;color:#f4f4f5">${summary.currentWeekTotals.pageviews}</div>
+<div style="font-size:10px;color:${muted};text-transform:uppercase;letter-spacing:0.5px;margin-top:2px">Pageviews · 7d</div>
+<div style="font-size:11px;color:${trendColor(pvDelta)};margin-top:4px">${trendArrow(pvDelta)} ${trendLabel(pvDelta)}</div>
+</td>
+<td width="2%"></td>
+<td width="32%" style="text-align:center;padding:14px 6px;background:${card};border-radius:8px;vertical-align:top">
+<div style="font-size:22px;font-weight:700;color:#f4f4f5">${summary.currentWeekTotals.clicks}</div>
+<div style="font-size:10px;color:${muted};text-transform:uppercase;letter-spacing:0.5px;margin-top:2px">Clicks · 7d</div>
+<div style="font-size:11px;color:${trendColor(clickDelta)};margin-top:4px">${trendArrow(clickDelta)} ${trendLabel(clickDelta)}</div>
+</td>
+<td width="2%"></td>
+<td width="32%" style="text-align:center;padding:14px 6px;background:${card};border-radius:8px;vertical-align:top">
+<div style="font-size:22px;font-weight:700;color:#f4f4f5">${summary.currentWeekTotals.sessions}</div>
+<div style="font-size:10px;color:${muted};text-transform:uppercase;letter-spacing:0.5px;margin-top:2px">Sessions · 7d</div>
+<div style="font-size:11px;color:${trendColor(sessionDelta)};margin-top:4px">${trendArrow(sessionDelta)} ${trendLabel(sessionDelta)}</div>
+</td>
 </tr>
 </table>
 </td></tr>
-<tr><td style="padding:8px 32px 16px">
+
+<tr><td style="padding:0 32px 8px">
 <table width="100%" cellpadding="0" cellspacing="0">
 <tr>
-<td width="33%" style="text-align:center;font-size:13px;color:#a1a1aa">${summary.uniqueCountries} countries</td>
-<td width="33%" style="text-align:center;font-size:13px;color:#a1a1aa">${summary.uniqueCities} cities</td>
-<td width="33%" style="text-align:center;font-size:13px;color:#a1a1aa">${summary.bounceRate}% bounce</td>
+<td width="33%" style="text-align:center;font-size:12px;color:${muted}">${summary.uniqueCountries} countries</td>
+<td width="33%" style="text-align:center;font-size:12px;color:${muted}">${summary.uniqueCities} cities</td>
+<td width="33%" style="text-align:center;font-size:12px;color:${muted}">${summary.bounceRatePct}% bounce</td>
 </tr>
 </table>
 </td></tr>
-<tr><td style="padding:0 32px">
-<hr style="border:none;border-top:1px solid #27272a;margin:0">
-</td></tr>
+
+${highlightsBlock}
+
+<tr><td style="padding:0 32px"><hr style="border:none;border-top:1px solid ${card};margin:0"></td></tr>
 <tr><td style="padding:16px 32px">
 <h2 style="margin:0 0 8px;font-size:14px;font-weight:600;color:#f4f4f5">7-day trend</h2>
 <table width="100%" cellpadding="0" cellspacing="0" style="font-size:12px">
-<tr style="color:#a1a1aa"><th align="left" style="padding:4px 8px;border-bottom:1px solid #27272a">Day</th><th align="left" style="padding:4px 8px;border-bottom:1px solid #27272a">Pageviews</th><th align="left" style="padding:4px 8px;border-bottom:1px solid #27272a">Clicks</th></tr>
-${weekBars}
+<tr><td style="padding:4px 0;color:${muted};width:80px">Pageviews</td><td style="padding:4px 0">${pvSpark}</td></tr>
+<tr><td style="padding:4px 0;color:${muted}">Clicks</td><td style="padding:4px 0">${clickSpark}</td></tr>
 </table>
 </td></tr>
-<tr><td style="padding:0 32px">
-<hr style="border:none;border-top:1px solid #27272a;margin:0">
-</td></tr>
+
+${resumeBlock}
+
+<tr><td style="padding:0 32px"><hr style="border:none;border-top:1px solid ${card};margin:0"></td></tr>
 <tr><td style="padding:16px 32px">
 <h2 style="margin:0 0 8px;font-size:14px;font-weight:600;color:#f4f4f5">Top pages</h2>
 <table width="100%" cellpadding="0" cellspacing="0" style="font-size:12px">
-${paths || "<p style='color:#a1a1aa;font-size:12px'>No pageviews yet</p>"}
+${pathsRows || `<tr><td style='padding:4px 8px;color:${muted}'>No pageviews yet</td></tr>`}
 </table>
 </td></tr>
-<tr><td style="padding:0 32px">
-<hr style="border:none;border-top:1px solid #27272a;margin:0">
-</td></tr>
+
+<tr><td style="padding:0 32px"><hr style="border:none;border-top:1px solid ${card};margin:0"></td></tr>
 <tr><td style="padding:16px 32px">
 <h2 style="margin:0 0 8px;font-size:14px;font-weight:600;color:#f4f4f5">Traffic sources</h2>
 <table width="100%" cellpadding="0" cellspacing="0" style="font-size:12px">
-${refs || "<p style='color:#a1a1aa;font-size:12px'>No external referrers</p>"}
+${refRows || `<tr><td style='padding:4px 8px;color:${muted}'>No external referrers</td></tr>`}
 </table>
 </td></tr>
-<tr><td style="padding:0 32px">
-<hr style="border:none;border-top:1px solid #27272a;margin:0">
-</td></tr>
+
+<tr><td style="padding:0 32px"><hr style="border:none;border-top:1px solid ${card};margin:0"></td></tr>
 <tr><td style="padding:16px 32px">
 <h2 style="margin:0 0 8px;font-size:14px;font-weight:600;color:#f4f4f5">Top countries</h2>
 <table width="100%" cellpadding="0" cellspacing="0" style="font-size:12px">
-${countries || "<p style='color:#a1a1aa;font-size:12px'>No location data</p>"}
+${countryRows || `<tr><td style='padding:4px 8px;color:${muted}'>No location data</td></tr>`}
 </table>
 </td></tr>
+
 <tr><td style="padding:16px 32px 32px;text-align:center;font-size:11px;color:#52525b">
-<a href="${summary.dashboardUrl}" style="color:#818cf8;text-decoration:none">Full dashboard →</a>
+<a href="${dashboardUrl}" style="color:${accent};text-decoration:none;font-weight:500">Full dashboard →</a>
 </td></tr>
 </table>
 </td></tr></table>
@@ -181,117 +260,13 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  const cfg = kvConfig();
-  if (!cfg) {
+  const summary = await getAnalyticsSummary();
+  if (!summary.kvConfigured) {
     return NextResponse.json({ error: "KV not configured" }, { status: 500 });
   }
 
-  const eventStrs = await kvCommand<string[]>(["LRANGE", "analytics:events", "0", "999"]);
-  const events: AnalyticsRecord[] = (eventStrs ?? [])
-    .map((s) => {
-      try {
-        return JSON.parse(s) as AnalyticsRecord;
-      } catch {
-        return null;
-      }
-    })
-    .filter((x): x is AnalyticsRecord => x !== null);
-
-  const human = events.filter((e) => !e.bot);
-  const pageviews = human.filter((e) => e.type === "pageview");
-  const clicks = human.filter((e) => e.type === "link_click" || e.type === "click");
-  const allEvents = human.length;
-
-  const countries = new Set(human.map((e) => e.country).filter(Boolean));
-  const cities = new Set(human.map((e) => e.city).filter(Boolean));
-
-  const sessions = new Set(pageviews.map((e) => e.sessionId).filter(Boolean));
-  const bounced = pageviews.filter(
-    (e, _i, arr) => e.sessionId && arr.filter((p) => p.sessionId === e.sessionId).length === 1
-  );
-  const uniqueBounced = new Set(bounced.map((e) => e.sessionId).filter(Boolean));
-  const bounceRate = sessions.size > 0 ? Math.round((uniqueBounced.size / sessions.size) * 100) : 0;
-
-  const topPaths = topN(
-    pageviews.map((e) => ({ path: e.path ?? "/" })),
-    "path",
-    5
-  ) as Array<{ path: string; count: number }>;
-
-  const topLinks = topN(
-    clicks.map((e) => ({ href: e.href ?? "", label: e.label ?? "" })),
-    "href",
-    5
-  ) as Array<{ href: string; label: string; count: number }>;
-
-  const referrerSources = new Map<string, number>();
-  for (const e of pageviews) {
-    const src = e.referrer ?? "direct";
-    const host = (() => {
-      try {
-        return new URL(src).hostname;
-      } catch {
-        return src;
-      }
-    })();
-    if (host === "direct") continue;
-    referrerSources.set(host, (referrerSources.get(host) ?? 0) + 1);
-  }
-  const topReferrers = Array.from(referrerSources.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([source, count]) => ({ source, count }));
-
-  const countryCounts = new Map<string, number>();
-  for (const e of human) {
-    if (!e.country) continue;
-    countryCounts.set(e.country, (countryCounts.get(e.country) ?? 0) + 1);
-  }
-  const topCountries = Array.from(countryCounts.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([country, count]) => ({ country, count }));
-
-  const now = Date.now();
-  const buckets = lastNDayKeys(7, now);
-  const counterCmds: string[][] = [];
-  for (const d of buckets) {
-    counterCmds.push(["GET", `analytics:counters:pageview:${d}`]);
-    counterCmds.push(["GET", `analytics:counters:link_click:${d}`]);
-    counterCmds.push(["GET", `analytics:counters:click:${d}`]);
-  }
-  let weekCounters: Array<string | null> = [];
-  try {
-    const res = await fetch(`${cfg.url}/pipeline`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${cfg.token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(counterCmds),
-      cache: "no-store",
-    });
-    if (res.ok) {
-      const data = (await res.json()) as Array<{ result: string | null }>;
-      weekCounters = data.map((c) => c.result);
-    }
-  } catch {
-    /* leave empty */
-  }
-
-  const weekTrend = buckets.map((date, i) => {
-    const base = i * 3;
-    const linkClicks = parseInt(weekCounters[base + 1] ?? "0", 10) || 0;
-    const legacyClicks = parseInt(weekCounters[base + 2] ?? "0", 10) || 0;
-    return {
-      date,
-      pv: parseInt(weekCounters[base] ?? "0", 10) || 0,
-      clicks: linkClicks + legacyClicks,
-    };
-  });
-
   const today = new Intl.DateTimeFormat("en-US", {
-    timeZone: "America/Chicago",
+    timeZone: process.env.NEXT_PUBLIC_SITE_TZ?.trim() || "America/Chicago",
     weekday: "long",
     year: "numeric",
     month: "long",
@@ -303,8 +278,20 @@ export async function GET(req: NextRequest) {
   const notifyFrom = process.env.NOTIFY_EMAIL_FROM ?? "onboarding@resend.dev";
 
   if (!resendKey || !notifyTo) {
-    return NextResponse.json({ error: "Resend or notify email not configured" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Resend or notify email not configured" },
+      { status: 500 }
+    );
   }
+
+  const pvDelta = summary.weeklyDelta.pageviewsPct;
+  const arrow = trendArrow(pvDelta);
+  const trendBit =
+    pvDelta === null
+      ? ""
+      : pvDelta === 0
+      ? ` (${arrow} flat)`
+      : ` (${arrow} ${Math.abs(pvDelta)}% pv)`;
 
   const { Resend } = await import("resend");
   const resend = new Resend(resendKey);
@@ -312,24 +299,8 @@ export async function GET(req: NextRequest) {
   await resend.emails.send({
     from: notifyFrom,
     to: notifyTo,
-    subject: `damato-data daily — ${dayKey(now)} (${pageviews.length} pv, ${clicks.length} clicks)`,
-    html: htmlDigest({
-      today,
-      totalEvents: allEvents,
-      pageviews: pageviews.length,
-      clicks: clicks.length,
-      uniqueCountries: countries.size,
-      uniqueCities: cities.size,
-      uniqueSessions: sessions.size,
-      bounceRate,
-      avgDuration: "—",
-      topPaths,
-      topLinks,
-      topReferrers,
-      topCountries,
-      weekTrend,
-      dashboardUrl: analyticsDashboardUrl(),
-    }),
+    subject: `damato-data daily — ${dayKey(Date.now())}${trendBit}`,
+    html: htmlDigest(summary, analyticsDashboardUrl(), today),
   });
 
   return NextResponse.json({ ok: true, sent: true });

@@ -1,4 +1,11 @@
-import { dayKey, lastNDayKeys, formatLocalTime } from './analyticsTime';
+import {
+  dayKey,
+  lastNDayKeys,
+  formatLocalTime,
+  localHour,
+  localWeekday,
+  WEEKDAY_LABELS,
+} from './analyticsTime';
 
 export interface AnalyticsRecord {
   type: string;
@@ -24,6 +31,31 @@ export interface AnalyticsRecord {
   receivedAt: number;
 }
 
+export interface ResumeDownloadEvent {
+  ts: number;
+  href: string | null;
+  referrer: string | null;
+  referrerSource: string | null;
+  country: string | null;
+  region: string | null;
+  city: string | null;
+  path: string | null;
+}
+
+export interface WeeklyTotals {
+  pageviews: number;
+  clicks: number;
+  sessions: number;
+  resumeDownloads: number;
+}
+
+export interface WeeklyDelta {
+  pageviewsPct: number | null;
+  clicksPct: number | null;
+  sessionsPct: number | null;
+  resumeDownloadsPct: number | null;
+}
+
 export interface AnalyticsSummary {
   kvConfigured: boolean;
   totalEvents: number;
@@ -39,16 +71,25 @@ export interface AnalyticsSummary {
   topPaths: Array<{ path: string; count: number }>;
   topLinks: Array<{ href: string; label: string; count: number }>;
   topReferrers: Array<{ referrer: string; count: number }>;
-  topCountries: Array<{ country: string; count: number }>;
+  topCountries: Array<{ country: string; count: number; code: string }>;
   topCities: Array<{ city: string; region: string; country: string; count: number; lat?: string; lon?: string }>;
   recent: AnalyticsRecord[];
   countersLast7Days: Array<{ date: string; pageviews: number; clicks: number }>;
+  countersPrev7Days: Array<{ date: string; pageviews: number; clicks: number }>;
   referrerSources: Array<{ source: string; count: number }>;
   topEntryPages: Array<{ path: string; count: number }>;
   topExitPages: Array<{ path: string; count: number }>;
   topPairs: Array<{ from: string; to: string; count: number }>;
   topTriples: Array<{ a: string; b: string; c: string; count: number }>;
   resumeDownloads: number;
+  recentResumeDownloads: ResumeDownloadEvent[];
+  currentWeekTotals: WeeklyTotals;
+  prevWeekTotals: WeeklyTotals;
+  weeklyDelta: WeeklyDelta;
+  dayOfWeekDistribution: Array<{ day: string; count: number }>;
+  hourOfDayDistribution: Array<{ hour: number; count: number }>;
+  lastEventTs: number | null;
+  botEventCount: number;
 }
 
 /** Treats in-app navigation referrers as self so they do not dominate “Top referrers”. */
@@ -111,6 +152,14 @@ function topN<K extends string | number>(
     .map((v) => ({ ...v.sample, count: v.count }));
 }
 
+const EMPTY_WEEKLY: WeeklyTotals = { pageviews: 0, clicks: 0, sessions: 0, resumeDownloads: 0 };
+const EMPTY_DELTA: WeeklyDelta = {
+  pageviewsPct: null,
+  clicksPct: null,
+  sessionsPct: null,
+  resumeDownloadsPct: null,
+};
+
 const EMPTY_SUMMARY: AnalyticsSummary = {
   kvConfigured: false,
   totalEvents: 0,
@@ -130,13 +179,27 @@ const EMPTY_SUMMARY: AnalyticsSummary = {
   topCities: [],
   recent: [],
   countersLast7Days: [],
+  countersPrev7Days: [],
   referrerSources: [],
   topEntryPages: [],
   topExitPages: [],
   topPairs: [],
   topTriples: [],
   resumeDownloads: 0,
+  recentResumeDownloads: [],
+  currentWeekTotals: { ...EMPTY_WEEKLY },
+  prevWeekTotals: { ...EMPTY_WEEKLY },
+  weeklyDelta: { ...EMPTY_DELTA },
+  dayOfWeekDistribution: WEEKDAY_LABELS.map((day) => ({ day, count: 0 })),
+  hourOfDayDistribution: Array.from({ length: 24 }, (_, hour) => ({ hour, count: 0 })),
+  lastEventTs: null,
+  botEventCount: 0,
 };
+
+function pctChange(current: number, prev: number): number | null {
+  if (prev === 0) return current === 0 ? 0 : null;
+  return Math.round(((current - prev) / prev) * 100);
+}
 
 export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
   const cfg = kvConfig();
@@ -205,23 +268,24 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
     .sort((a, b) => b.count - a.count)
     .slice(0, 10);
 
-  const countryCounts = new Map<string, { country: string; count: number }>();
+  const countryCounts = new Map<string, { country: string; count: number; code: string }>();
   for (const e of human) {
     if (!e.country) continue;
     const ex = countryCounts.get(e.country);
     if (ex) ex.count += 1;
-    else countryCounts.set(e.country, { country: e.country, count: 1 });
+    else countryCounts.set(e.country, { country: e.country, count: 1, code: e.country });
   }
   const topCountries = Array.from(countryCounts.values())
     .sort((a, b) => b.count - a.count)
     .slice(0, 10);
 
-  const buckets = lastNDayKeys(7, Date.now());
+  const buckets14 = lastNDayKeys(14, Date.now());
   const counterCmds: string[][] = [];
-  for (const d of buckets) {
+  for (const d of buckets14) {
     counterCmds.push(['GET', `analytics:counters:pageview:${d}`]);
     counterCmds.push(['GET', `analytics:counters:link_click:${d}`]);
     counterCmds.push(['GET', `analytics:counters:click:${d}`]);
+    counterCmds.push(['SCARD', `analytics:sessions:${d}`]);
   }
   let counters: Array<string | null> = [];
   try {
@@ -242,16 +306,31 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
     /* leave counters empty */
   }
 
-  const countersLast7Days = buckets.map((date, i) => {
-    const base = i * 3;
+  const dailyCounters = buckets14.map((date, i) => {
+    const base = i * 4;
     const linkClicks = parseInt(counters[base + 1] ?? '0', 10) || 0;
     const legacyClicks = parseInt(counters[base + 2] ?? '0', 10) || 0;
+    const sessionsRaw = counters[base + 3];
+    const sessions =
+      typeof sessionsRaw === 'number' ? sessionsRaw : parseInt(sessionsRaw ?? '0', 10) || 0;
     return {
       date,
       pageviews: parseInt(counters[base] ?? '0', 10) || 0,
       clicks: linkClicks + legacyClicks,
+      sessions,
     };
   });
+  const countersPrev7Days = dailyCounters.slice(0, 7).map(({ date, pageviews, clicks }) => ({ date, pageviews, clicks }));
+  const countersLast7Days = dailyCounters.slice(7).map(({ date, pageviews, clicks }) => ({ date, pageviews, clicks }));
+
+  const sumPageviews = (arr: typeof dailyCounters) => arr.reduce((s, d) => s + d.pageviews, 0);
+  const sumClicks = (arr: typeof dailyCounters) => arr.reduce((s, d) => s + d.clicks, 0);
+  const sumSessions = (arr: typeof dailyCounters) => arr.reduce((s, d) => s + d.sessions, 0);
+
+  const currentWindow = dailyCounters.slice(7);
+  const prevWindow = dailyCounters.slice(0, 7);
+  const currentWeekStartMs = Date.now() - 7 * 86_400_000;
+  const prevWeekStartMs = Date.now() - 14 * 86_400_000;
 
   const journeys = new Map<string, AnalyticsRecord[]>();
   for (const e of pageviews) {
@@ -357,9 +436,66 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
       ? Math.round(totalSessionTimeMs / sessionsWithDuration / 1000)
       : 0;
 
-  const resumeDownloads = clicks.filter(
+  const resumeClicks = clicks.filter(
     (e) => e.href && e.href.toLowerCase().includes('resume')
+  );
+  const resumeDownloads = resumeClicks.length;
+
+  const recentResumeDownloads: ResumeDownloadEvent[] = resumeClicks
+    .slice()
+    .sort((a, b) => (b.receivedAt ?? b.ts) - (a.receivedAt ?? a.ts))
+    .slice(0, 10)
+    .map((e) => ({
+      ts: e.receivedAt ?? e.ts,
+      href: e.href,
+      referrer: e.referrer,
+      referrerSource: e.referrerSource ?? null,
+      country: e.country,
+      region: e.region,
+      city: e.city,
+      path: e.path,
+    }));
+
+  const resumeDownloadsCurrent = resumeClicks.filter(
+    (e) => (e.receivedAt ?? e.ts) >= currentWeekStartMs
   ).length;
+  const resumeDownloadsPrev = resumeClicks.filter((e) => {
+    const t = e.receivedAt ?? e.ts;
+    return t >= prevWeekStartMs && t < currentWeekStartMs;
+  }).length;
+
+  const currentWeekTotals: WeeklyTotals = {
+    pageviews: sumPageviews(currentWindow),
+    clicks: sumClicks(currentWindow),
+    sessions: sumSessions(currentWindow),
+    resumeDownloads: resumeDownloadsCurrent,
+  };
+  const prevWeekTotals: WeeklyTotals = {
+    pageviews: sumPageviews(prevWindow),
+    clicks: sumClicks(prevWindow),
+    sessions: sumSessions(prevWindow),
+    resumeDownloads: resumeDownloadsPrev,
+  };
+  const weeklyDelta: WeeklyDelta = {
+    pageviewsPct: pctChange(currentWeekTotals.pageviews, prevWeekTotals.pageviews),
+    clicksPct: pctChange(currentWeekTotals.clicks, prevWeekTotals.clicks),
+    sessionsPct: pctChange(currentWeekTotals.sessions, prevWeekTotals.sessions),
+    resumeDownloadsPct: pctChange(currentWeekTotals.resumeDownloads, prevWeekTotals.resumeDownloads),
+  };
+
+  const dayOfWeekBuckets = new Array(7).fill(0);
+  const hourOfDayBuckets = new Array(24).fill(0);
+  for (const e of pageviews) {
+    const t = e.receivedAt ?? e.ts;
+    if (!t) continue;
+    dayOfWeekBuckets[localWeekday(t)] += 1;
+    hourOfDayBuckets[localHour(t)] += 1;
+  }
+  const dayOfWeekDistribution = WEEKDAY_LABELS.map((day, i) => ({ day, count: dayOfWeekBuckets[i] }));
+  const hourOfDayDistribution = hourOfDayBuckets.map((count, hour) => ({ hour, count }));
+
+  const lastEventTs = events.length > 0 ? events[0]!.receivedAt ?? events[0]!.ts : null;
+  const botEventCount = events.filter((e) => e.bot).length;
 
   return {
     kvConfigured: true,
@@ -381,16 +517,39 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
     topCities,
     recent: events.slice(0, 50),
     countersLast7Days,
+    countersPrev7Days,
     referrerSources,
     topEntryPages,
     topExitPages,
     topPairs,
     topTriples,
+    recentResumeDownloads,
+    currentWeekTotals,
+    prevWeekTotals,
+    weeklyDelta,
+    dayOfWeekDistribution,
+    hourOfDayDistribution,
+    lastEventTs,
+    botEventCount,
   };
 }
 
 export function formatTime(ms: number): string {
   return formatLocalTime(ms);
+}
+
+/** ISO 3166-1 alpha-2 country code to regional-indicator emoji flag. */
+export function countryFlag(code: string | null | undefined): string {
+  if (!code) return '';
+  const trimmed = code.trim().toUpperCase();
+  if (trimmed.length !== 2) return '';
+  const A = 0x1f1e6;
+  const codePoints = [
+    A + (trimmed.charCodeAt(0) - 65),
+    A + (trimmed.charCodeAt(1) - 65),
+  ];
+  if (codePoints.some((cp) => cp < A || cp > A + 25)) return '';
+  return String.fromCodePoint(...codePoints);
 }
 
 export { dayKey as bucketDate };

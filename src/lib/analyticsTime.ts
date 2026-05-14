@@ -61,3 +61,17 @@ export function localHour(now: number = Date.now()): number {
   const h = parseInt(hourStr, 10);
   return Number.isFinite(h) ? h % 24 : 0;
 }
+
+const WEEKDAY_INDEX: Record<string, number> = {
+  Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6,
+};
+
+export const WEEKDAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const;
+
+export function localWeekday(now: number = Date.now()): number {
+  const label = new Intl.DateTimeFormat('en-US', {
+    timeZone: SITE_TZ,
+    weekday: 'short',
+  }).format(new Date(now));
+  return WEEKDAY_INDEX[label] ?? 0;
+}
