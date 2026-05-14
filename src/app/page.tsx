@@ -282,7 +282,7 @@ export default function Home() {
         </section>
 
         {/* Also built */}
-        <section id="also-built" className="border-b border-stone-800/60 scroll-mt-14">
+        <section id="also-built" className="border-b border-stone-800/60 scroll-mt-14 overflow-hidden">
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -307,7 +307,7 @@ export default function Home() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
                   key={p.slug}
-                  className="group relative p-6 rounded-2xl bg-stone-900/30 border border-stone-800/60 hover:bg-stone-900/60 hover:border-stone-700 transition-all"
+                  className="group relative p-6 rounded-2xl bg-stone-900/30 border border-stone-800/60 hover:bg-stone-900/60 hover:border-stone-700 transition-all min-w-0 break-words"
                 >
                   <h3 className="font-mono text-base text-[var(--accent)]">{p.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-stone-300">
@@ -355,7 +355,7 @@ export default function Home() {
             variants={fadeUp}
             className="mx-auto max-w-5xl px-6 py-14"
           >
-            <div className="grid gap-10 sm:grid-cols-[2fr_1fr]">
+            <div className="grid gap-10 lg:grid-cols-[2fr_1fr] mb-14">
               <div className="space-y-5 leading-relaxed text-stone-200">
                 <h2 className="text-2xl font-semibold tracking-tight text-stone-100 sm:text-3xl mb-8">
                   About
@@ -381,8 +381,6 @@ export default function Home() {
                   what I&apos;m after, Milwaukee or Waukesha is fine. Full-time
                   works too if the role fits.
                 </p>
-                
-                <ResumeTimeline />
               </div>
 
               <dl className="space-y-8 text-sm bg-stone-900/20 p-6 rounded-2xl border border-stone-800/40 h-fit">
@@ -431,6 +429,8 @@ export default function Home() {
                 </div>
               </dl>
             </div>
+            
+            <ResumeTimeline />
           </motion.div>
         </section>
 
