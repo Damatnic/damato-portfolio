@@ -8,6 +8,7 @@ import { Mail, MapPin, Play, ExternalLink } from "lucide-react";
 import { projects, sideProjects } from "@/lib/projects";
 import { ResumeDownload } from "@/components/ResumeDownload";
 import { ResumeTimeline } from "@/components/ResumeTimeline";
+import { LiveStats } from "@/components/LiveStats";
 
 function Github({ className }: { className?: string }) {
   return (
@@ -123,6 +124,8 @@ export default function Home() {
                 <div className="mt-7">
                   <ResumeDownload />
                 </div>
+
+                <LiveStats />
 
                 <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-stone-300">
                   <span className="inline-flex items-center gap-1.5 bg-stone-900/50 px-3 py-1.5 rounded-full border border-stone-800 shadow-sm">

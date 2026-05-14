@@ -24,8 +24,8 @@ export const sideProjects: SideProject[] = [
     slug: "python-mastery",
     title: "python-mastery",
     description:
-      "Interactive Python lessons that run actual code in the browser via Pyodide. Built it while re-learning Python fundamentals for the AAS program. Teaching it back to myself turned out to be the best way to make it stick.",
-    tech: ["Next.js", "TypeScript", "Pyodide", "Tailwind"],
+      "Couldn't find a Python lessons site that ran real code against real data and tracked what I'd forgotten. Built one. 51 lessons, Pyodide in a Web Worker (real infinite-loop kill), pandas + numpy preloaded, spaced-repetition review queue that surfaces the lessons I last opened the longest ago. Runs entirely in the browser, no signup.",
+    tech: ["Next.js", "TypeScript", "Pyodide (Worker)", "Tailwind"],
     github: "https://github.com/Damatnic/python-mastery",
     liveUrl: "https://damato-python.vercel.app",
   },
@@ -33,8 +33,8 @@ export const sideProjects: SideProject[] = [
     slug: "sql-mastery",
     title: "sql-mastery",
     description:
-      "Interactive SQL lessons with a real SQLite engine running in the browser via SQL.js. Every query runs against actual sample data, not pretend results. Built it the same semester I was taking Advanced SQL.",
-    tech: ["Next.js", "TypeScript", "SQL.js", "Tailwind"],
+      "Same thing for SQL, built the semester I was taking Advanced SQL at WCTC. 52 lessons across 10 modules, real SQLite via sql.js, an AI tutor prompted to ask before answering, a /stats view with rank ladder and review queue. The playground hits the same engine the lessons use. Type `help` in the shell on the homepage.",
+    tech: ["Next.js", "TypeScript", "SQL.js", "OpenAI", "Tailwind"],
     github: "https://github.com/Damatnic/sql-mastery",
     liveUrl: "https://damato-sql.vercel.app",
   },
