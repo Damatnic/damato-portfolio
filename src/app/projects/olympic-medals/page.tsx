@@ -33,7 +33,7 @@ type Row = {
 const ALL_DATA = rawData as Row[];
 
 const MEDAL_COLORS: Record<string, string> = {
-  Gold: "#e8b53d",
+  Gold: "#d4af37", // Premium Gold
   Silver: "#a8a29e",
   Bronze: "#a07752",
 };
@@ -41,7 +41,7 @@ const MEDAL_COLORS: Record<string, string> = {
 const CONTINENT_COLORS: Record<string, string> = {
   Americas: "#d97757",
   Asia: "#c9886d",
-  Europe: "#e8b53d",
+  Europe: "#818cf8", // Matching the new Indigo theme
   Oceania: "#88a87a",
   Africa: "#a07752",
 };
