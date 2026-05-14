@@ -48,6 +48,7 @@ export interface AnalyticsSummary {
   topExitPages: Array<{ path: string; count: number }>;
   topPairs: Array<{ from: string; to: string; count: number }>;
   topTriples: Array<{ a: string; b: string; c: string; count: number }>;
+  resumeDownloads: number;
 }
 
 /** Treats in-app navigation referrers as self so they do not dominate “Top referrers”. */
@@ -134,6 +135,7 @@ const EMPTY_SUMMARY: AnalyticsSummary = {
   topExitPages: [],
   topPairs: [],
   topTriples: [],
+  resumeDownloads: 0,
 };
 
 export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
@@ -355,11 +357,16 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
       ? Math.round(totalSessionTimeMs / sessionsWithDuration / 1000)
       : 0;
 
+  const resumeDownloads = clicks.filter(
+    (e) => e.href && e.href.toLowerCase().includes('resume')
+  ).length;
+
   return {
     kvConfigured: true,
     totalEvents: events.length,
     totalPageviews: pageviews.length,
     totalClicks: clicks.length,
+    resumeDownloads,
     uniqueCountries: countries.size,
     uniqueCities: cityCounts.size,
     uniqueSessions,

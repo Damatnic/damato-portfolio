@@ -171,10 +171,11 @@ export default async function AnalyticsPage({
         </p>
       </header>
 
-      <section className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-5">
+      <section className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
         <Stat label="Total events" value={summary.totalEvents.toLocaleString()} />
         <Stat label="Pageviews (sample)" value={summary.totalPageviews.toLocaleString()} />
         <Stat label="Link clicks (sample)" value={summary.totalClicks.toLocaleString()} />
+        <Stat label="Resume downloads" value={summary.resumeDownloads.toLocaleString()} />
         <Stat label="Countries" value={summary.uniqueCountries.toLocaleString()} />
         <Stat label="Cities" value={summary.uniqueCities.toLocaleString()} />
       </section>
@@ -189,12 +190,18 @@ export default async function AnalyticsPage({
 
       {dayData.length > 0 && (
         <section className="mb-10">
-          <h2 className="mb-3 text-sm font-semibold text-stone-200">Last 7 days</h2>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold text-stone-200">Last 7 days</h2>
+            <div className="flex items-center gap-4 text-[10px] text-stone-500">
+              <span className="flex items-center gap-1.5"><span className="inline-block w-3 h-2 rounded-sm bg-[var(--accent)]" /> pageviews</span>
+              <span className="flex items-center gap-1.5"><span className="inline-block w-3 h-2 rounded-sm bg-stone-600" /> clicks</span>
+            </div>
+          </div>
           <div className="grid grid-cols-7 gap-2">
-            {dayData.map((d) => {
+            {(() => {
               const max = Math.max(...dayData.map((x) => Math.max(x.pageviews, x.clicks)), 1);
               const barH = (val: number) => `${Math.max((val / max) * 80, 2)}px`;
-              return (
+              return dayData.map((d) => (
                 <div key={d.date} className="flex flex-col items-center gap-1 rounded border border-stone-800 bg-stone-900/50 p-3">
                   <span className="text-[10px] text-stone-500">{d.date.slice(5)}</span>
                   <div className="flex items-end gap-1" style={{ height: "80px" }}>
@@ -206,8 +213,8 @@ export default async function AnalyticsPage({
                     <span>{d.clicks}</span>
                   </div>
                 </div>
-              );
-            })}
+              ));
+            })()}
           </div>
         </section>
       )}
