@@ -27,7 +27,7 @@ function formatRelativeTime(ms: number): string {
 
 function Trend({ pct }: { pct: number | null }) {
   if (pct === null) {
-    return <span className="text-stone-500">— vs last week</span>;
+    return <span className="text-stone-500">· vs last week</span>;
   }
   if (pct === 0) {
     return <span className="text-stone-400">flat vs last week</span>;
@@ -92,7 +92,7 @@ function ResumeDownloadsCallout({ events, total }: { events: ResumeDownloadEvent
             </span>
             <span className="text-stone-300">
               {countryFlag(d.country)}{" "}
-              {[d.city, d.country].filter(Boolean).join(", ") || "—"}
+              {[d.city, d.country].filter(Boolean).join(", ") || "·"}
             </span>
           </li>
         ))}
@@ -283,8 +283,8 @@ function EventsTable({ title, events }: { title: string; events: { type?: string
               <tr key={i} className="border-b border-stone-800/50 last:border-0">
                 <td className="py-1.5 pr-3 text-stone-500 whitespace-nowrap">{formatTime(e.receivedAt ?? e.ts ?? 0)}</td>
                 <td className="py-1.5 pr-3 text-stone-300">{e.type}</td>
-                <td className="py-1.5 pr-3 text-stone-300 max-w-[200px] truncate">{e.path ?? e.href ?? "—"}</td>
-                <td className="py-1.5 pr-3 text-stone-500">{[e.city, e.country].filter(Boolean).join(", ") || "—"}</td>
+                <td className="py-1.5 pr-3 text-stone-300 max-w-[200px] truncate">{e.path ?? e.href ?? "·"}</td>
+                <td className="py-1.5 pr-3 text-stone-500">{[e.city, e.country].filter(Boolean).join(", ") || "·"}</td>
                 <td className="py-1.5 text-stone-500">{e.bot ? "Yes" : "No"}</td>
               </tr>
             ))}

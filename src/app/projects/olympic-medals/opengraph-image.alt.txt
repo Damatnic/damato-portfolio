@@ -1,1 +1,1 @@
-Olympic Medal Dashboard — interactive Python ETL output
+Olympic Medal Dashboard · interactive Python ETL output

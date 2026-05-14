@@ -145,7 +145,7 @@ function htmlDigest(summary: AnalyticsSummary, dashboardUrl: string, today: stri
         minute: "2-digit",
         hour12: true,
       });
-      const loc = [d.city, d.country].filter(Boolean).join(", ") || "—";
+      const loc = [d.city, d.country].filter(Boolean).join(", ") || "·";
       return `<tr><td style="padding:4px 8px;color:#d4d4d8;font-family:ui-monospace,monospace;font-size:11px">${time}</td><td style="padding:4px 8px;color:#d4d4d8">${countryFlag(d.country)} ${loc}</td></tr>`;
     })
     .join("");
@@ -299,7 +299,7 @@ export async function GET(req: NextRequest) {
   await resend.emails.send({
     from: notifyFrom,
     to: notifyTo,
-    subject: `damato-data daily — ${dayKey(Date.now())}${trendBit}`,
+    subject: `damato-data daily · ${dayKey(Date.now())}${trendBit}`,
     html: htmlDigest(summary, analyticsDashboardUrl(), today),
   });
 
