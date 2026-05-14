@@ -109,24 +109,24 @@ export default function PowerBICaseStudy() {
         <H3>Dimensions</H3>
         <ul className="mt-2 space-y-2">
           <li>
-            <strong className="text-stone-100">Employee</strong> — Employee Key,
+            <strong className="text-stone-100">Employee.</strong> Employee Key,
             Base Rate, names (plus a calculated <Code>Full Name</Code>), Sales
             Territory Key, Title
           </li>
           <li>
-            <strong className="text-stone-100">Date</strong> — Date Key,
+            <strong className="text-stone-100">Date.</strong> Date Key,
             Calendar Year, Day Number Of Month, Full Date Alternate Key
           </li>
           <li>
-            <strong className="text-stone-100">Product</strong> — Model Name,
+            <strong className="text-stone-100">Product.</strong> Model Name,
             List Price, Product Key
           </li>
           <li>
-            <strong className="text-stone-100">Promotion</strong> — Promotion
+            <strong className="text-stone-100">Promotion.</strong> Promotion
             Key, Promotion Type, Promotion Name
           </li>
           <li>
-            <strong className="text-stone-100">Sales Reviews</strong> —
+            <strong className="text-stone-100">Sales Reviews.</strong>{" "}
             EmployeeID, names, JobTitle, Review Overall Score
           </li>
         </ul>
@@ -168,7 +168,7 @@ YoY Growth =
 
         <H2 id="pages">The three pages</H2>
 
-        <H3>Page 1 — Sales Overview</H3>
+        <H3>Page 1. Sales Overview</H3>
         <ul className="mt-3 space-y-2">
           <li>KPI cards for Total Sales, Total Orders, Average Order Value, YoY Growth</li>
           <li>Sales-over-time line chart with year and month drilldown</li>
@@ -177,7 +177,7 @@ YoY Growth =
           <li>Slicers: Year, Sales Territory, Product Category</li>
         </ul>
 
-        <H3>Page 2 — Sales Details</H3>
+        <H3>Page 2. Sales Details</H3>
         <ul className="mt-3 space-y-2">
           <li>
             Employee performance scorecard, filtered to active sales staff via{" "}
@@ -187,17 +187,17 @@ YoY Growth =
             Sales by employee with base rate vs earned commission side by side
           </li>
           <li>
-            Promotion effectiveness — Sales Amount and Order Quantity by
+            Promotion effectiveness, Sales Amount and Order Quantity by
             Promotion Type
           </li>
           <li>Right-click drill-through into individual employee detail</li>
         </ul>
 
-        <H3>Page 3 — Salary Analysis</H3>
+        <H3>Page 3. Salary Analysis</H3>
         <ul className="mt-3 space-y-2">
           <li>Employee compensation vs review scores</li>
           <li>Sales Reviews integrated via the 1:1 relationship to Employee</li>
-          <li>Outliers — highest review scores against lowest base rates</li>
+          <li>Outliers: highest review scores against lowest base rates</li>
           <li>Salary distribution by Title and Sales Territory</li>
         </ul>
 

@@ -17,7 +17,7 @@ export default function NotFound() {
         That page doesn&apos;t exist.
       </h1>
       <p className="mt-4 max-w-prose leading-relaxed text-stone-300">
-        Probably a stale link or a typo. The work is on the homepage — three
+        Probably a stale link or a typo. The work is on the homepage. Three
         flagship projects and a few side things.
       </p>
       <Link
