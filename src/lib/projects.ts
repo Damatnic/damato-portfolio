@@ -80,9 +80,9 @@ export const projects: Project[] = [
     description:
       "An 11-table SQL Server database built from an ER diagram for a small car rental business. Year-based table partitioning, history triggers for audit trails, and dynamic SQL so the script runs on any SQL Server install without editing.",
     bullets: [
-      "11 tables with surrogate keys, foreign keys, check constraints, and unique constraints on the original composite keys",
-      "Year-based partitioning on Rentals and Reservation, with the 2022 partition living on its own filegroup and data file",
-      "AFTER INSERT/UPDATE/DELETE history triggers across six tables for a full audit trail, plus filtered and covering indexes for the common queries",
+      "Swapped the ER diagram's composite PKs on the bridge tables for single-column surrogates with UNIQUE constraints on the original composite, after the app dev asked for simpler key access patterns",
+      "Year-based partitioning on Rentals and Reservation, with the 2022 partition living on its own filegroup and data file (path auto-detected via SERVERPROPERTY so the script ports across installs)",
+      "AFTER INSERT/UPDATE/DELETE history triggers across six tables for a full audit trail, plus filtered indexes for the common 'still out' and customer-lookup queries",
     ],
     tech: [
       "T-SQL",
@@ -92,6 +92,8 @@ export const projects: Project[] = [
       "Triggers",
     ],
     github: "https://github.com/Damatnic/car-rental-sql-server",
+    demoUrl: "/projects/car-rental-sql-server",
+    demoLabel: "Read the case study",
   },
   {
     slug: "power-bi-sales-dashboard",
@@ -106,5 +108,7 @@ export const projects: Project[] = [
     ],
     tech: ["Power BI", "DAX", "Star Schema"],
     github: "https://github.com/Damatnic/power-bi-sales-dashboard",
+    demoUrl: "/projects/power-bi-sales-dashboard",
+    demoLabel: "Read the case study",
   },
 ];
