@@ -43,3 +43,7 @@ next-env.d.ts
 
 # jupyter
 .ipynb_checkpoints/
+
+# playwright/test artifacts
+.playwright-mcp/
+trackers-*.png

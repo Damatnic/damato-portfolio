@@ -1,3 +1,0 @@
-[     937ms] [LOG] Loading beautifulsoup4, numpy, pandas, python-dateutil, pytz, six, soupsieve @ https://cdn.jsdelivr.net/pyodide/v0.27.0/full/pyodide.asm.js:9
-[    1214ms] [LOG] Loaded beautifulsoup4, numpy, pandas, python-dateutil, pytz, six, soupsieve @ https://cdn.jsdelivr.net/pyodide/v0.27.0/full/pyodide.asm.js:9
-[   67066ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5161/api/tutor:0
