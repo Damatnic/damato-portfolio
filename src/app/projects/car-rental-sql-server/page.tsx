@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
+import { CopyableQuery } from "@/components/CopyableQuery";
 
 export const metadata = {
   title: "Car Rental Database | Nicholas D'Amato",
@@ -187,6 +188,60 @@ export default function CarRentalCaseStudy() {
           <li>FK indexes on every foreign key so joins land on a seek, not a scan.</li>
         </ul>
 
+        <H2 id="queries">Five queries that justify the schema decisions</H2>
+        <p className="mt-3">
+          Every design choice above pays off in queries somewhere. These are
+          the five I&apos;d hand a reviewer if they wanted to see proof.
+        </p>
+
+        <CopyableQuery
+          title="What's currently out (filtered index payoff)"
+          sql={`SELECT RentalID, CustomerID, PickupDate, ExpectedReturn
+FROM Rentals
+WHERE ReturnDate IS NULL;`}
+          why={`Hits IX_Rentals_NotReturned, the filtered index defined WHERE ReturnDate IS NULL. The index only stores the rows that match, so the seek is cheap and the index footprint stays small even as the table grows.`}
+        />
+
+        <CopyableQuery
+          title="Customer lookup by name (covering index payoff)"
+          sql={`SELECT FirstName, LastName, PhoneNumber, EmailAddress
+FROM Customers
+WHERE LastName = @LastName AND FirstName = @FirstName;`}
+          why={`Every column the query returns is either the key (LastName, FirstName) or INCLUDEd in IX_Customers_LastFirst. SQL Server answers the query from the index alone. No key lookup against the clustered index.`}
+        />
+
+        <CopyableQuery
+          title="2022 rentals only (partition elimination)"
+          sql={`SELECT YEAR(PickupDate) AS yr, COUNT(*) AS rentals
+FROM Rentals
+WHERE PickupDate >= '2022-01-01'
+  AND PickupDate <  '2023-01-01'
+GROUP BY YEAR(PickupDate);`}
+          why={`The partition function on PickupDate eliminates every partition outside 2022. Only the FG_CarRental_2022 filegroup gets read. The plan output shows "Partition: 2" instead of scanning all five partitions.`}
+        />
+
+        <CopyableQuery
+          title="Audit trail for one rental (trigger-based history)"
+          sql={`SELECT ChangeOperation, ChangeDate, RentalID,
+       CustomerID, PickupDate, ReturnDate
+FROM Rentals_History
+WHERE RentalID = @RentalID
+ORDER BY ChangeDate DESC;`}
+          why={`Every INSERT, UPDATE, and DELETE on Rentals fires the AFTER trigger and writes a row to Rentals_History with the operation type. Reading the trail back is a normal indexed query against the history table.`}
+        />
+
+        <CopyableQuery
+          title="Active rentals with customer and vehicle (surrogate-PK payoff)"
+          sql={`SELECT r.RentalID, c.LastName, c.FirstName,
+       v.Make, v.Model, r.PickupDate
+FROM Rentals r
+JOIN Customers c          ON c.CustomerID = r.CustomerID
+JOIN RentalVehicles rv    ON rv.RentalID  = r.RentalID
+JOIN Vehicles v           ON v.VehicleID  = rv.VehicleID
+WHERE r.ReturnDate IS NULL;`}
+          why={`With surrogate IDENTITY PKs on every table including the bridge, the join chain is one column per ON clause. With the original composite PKs, every join would need two or three columns matched and the query would be twice as long.`}
+        />
+
         <H2 id="verify">How I proved it works</H2>
         <p className="mt-3">
           Three verification queries at the end of the script:
@@ -208,6 +263,34 @@ export default function CarRentalCaseStudy() {
             captured.
           </li>
         </ol>
+
+        <H2 id="tried-first">What I tried first that didn&apos;t work</H2>
+        <ul className="mt-3 space-y-2">
+          <li>
+            <strong className="text-stone-100">Composite primary keys on the bridges.</strong>{" "}
+            The ER diagram had them. They&apos;re cleaner. The web dev wanted
+            single-column FKs to point at, so the composites became{" "}
+            <Code>UNIQUE</Code> constraints and the PKs became surrogate{" "}
+            <Code>IDENTITY</Code> columns. Same business rule, easier to join
+            against from the app.
+          </li>
+          <li>
+            <strong className="text-stone-100">System-versioned temporal tables for the audit trail.</strong>{" "}
+            First attempt. They get awkward as soon as you partition the base
+            table, because the history table has to follow its own clustering
+            rules. Swapped to the classic{" "}
+            <Code>_History</Code> mirror + AFTER trigger pattern. More code,
+            but it composes with partitioning cleanly.
+          </li>
+          <li>
+            <strong className="text-stone-100">Hard-coded file paths in the filegroup setup.</strong>{" "}
+            Worked on my machine. Broke the second I tried to run the script
+            on the school&apos;s SQL Server install where the data directory
+            lives somewhere else. Dynamic SQL pulling{" "}
+            <Code>InstanceDefaultDataPath</Code> via{" "}
+            <Code>sp_executesql</Code> made it portable.
+          </li>
+        </ul>
 
         <H2 id="learnings">What I took from this</H2>
         <ul className="mt-3 space-y-2">

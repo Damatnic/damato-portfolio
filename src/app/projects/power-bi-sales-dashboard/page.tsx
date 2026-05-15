@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, FileDown } from "lucide-react";
 
@@ -201,14 +202,90 @@ YoY Growth =
           <li>Salary distribution by Title and Sales Territory</li>
         </ul>
 
-        <H2 id="screenshots">Screenshots</H2>
+        <H2 id="screenshots">The three pages</H2>
         <p className="mt-3">
-          The PBIX file is in the repo and downloads above. Static screenshots
-          of each page require a Windows machine with Power BI Desktop to
-          capture cleanly, so they&apos;ll get added the next time I&apos;m on
-          one. For now the data model and DAX above describe what each page
-          shows.
+          Captured from Power BI Desktop. The PBIX is in the repo if you want
+          to open it yourself and dig.
         </p>
+
+        <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
+          <Image
+            src="/projects/power-bi/page-1-sales-overview.png"
+            alt="Power BI Sales Overview page: KPI cards across the top showing Total Sales, Total Orders, Average Order Value, and YoY Growth. Below them a sales-over-time line chart, a map of sales by region, and a top products by revenue chart."
+            width={1600}
+            height={900}
+            sizes="(min-width: 768px) 768px, 100vw"
+            className="h-auto w-full"
+          />
+          <figcaption className="border-t border-stone-800 bg-stone-900/60 px-4 py-3 text-xs text-stone-300">
+            <strong className="text-stone-100">Page 1, Sales Overview.</strong>{" "}
+            Four KPI cards on a star-schema fact table. The YoY measure uses
+            <Code>SAMEPERIODLASTYEAR(Date[Full Date Alternate Key])</Code> and
+            relies on the Date dimension being marked as the date table. Top
+            slicers cascade to every visual on the page.
+          </figcaption>
+        </figure>
+
+        <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
+          <Image
+            src="/projects/power-bi/page-2-sales-details.png"
+            alt="Power BI Sales Details page: employee performance scorecard filtered to active sales staff. Bar chart comparing base rate against earned commission per employee. Promotion effectiveness chart showing Sales Amount and Order Quantity by promotion type."
+            width={1600}
+            height={900}
+            sizes="(min-width: 768px) 768px, 100vw"
+            className="h-auto w-full"
+          />
+          <figcaption className="border-t border-stone-800 bg-stone-900/60 px-4 py-3 text-xs text-stone-300">
+            <strong className="text-stone-100">Page 2, Sales Details.</strong>{" "}
+            Scorecard filtered to{" "}
+            <Code>Is Sales Employee = 1</Code> so admin staff don&apos;t
+            distort the comparison. Right-click on a row to drill through into
+            an individual employee detail page.
+          </figcaption>
+        </figure>
+
+        <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
+          <Image
+            src="/projects/power-bi/page-3-salary-analysis.png"
+            alt="Power BI Salary Analysis page: scatter plot of employee compensation against review score, salary distribution histogram by Title, and a table flagging outliers where high review scores meet low base rates."
+            width={1600}
+            height={900}
+            sizes="(min-width: 768px) 768px, 100vw"
+            className="h-auto w-full"
+          />
+          <figcaption className="border-t border-stone-800 bg-stone-900/60 px-4 py-3 text-xs text-stone-300">
+            <strong className="text-stone-100">Page 3, Salary Analysis.</strong>{" "}
+            Sales Reviews is joined to Employee 1:1. The outliers visual is
+            the actual interesting one: highest review scores against lowest
+            base rates.
+          </figcaption>
+        </figure>
+
+        <H2 id="tried-first">What I tried first that didn&apos;t work</H2>
+        <ul className="mt-3 space-y-2">
+          <li>
+            <strong className="text-stone-100">A single flat table.</strong>{" "}
+            Easier to load, ran fine on a few measures. As soon as I added{" "}
+            <Code>SAMEPERIODLASTYEAR</Code> the values went blank. Time
+            intelligence needs a proper Date dimension marked as the date
+            table. Rebuilding into a star schema fixed both that and the
+            cross-page filter context I&apos;d been fighting.
+          </li>
+          <li>
+            <strong className="text-stone-100">Calculated columns for &quot;previous year sales&quot;.</strong>{" "}
+            They worked in row context but blew up the model size and didn&apos;t
+            recalc when the slicers changed. Moving the same logic into a
+            measure with <Code>CALCULATE</Code> kept the model small and
+            actually responded to the page&apos;s filter context.
+          </li>
+          <li>
+            <strong className="text-stone-100">Free-floating slicers per page.</strong>{" "}
+            Users (read: me, demoing to the instructor) kept losing their
+            place because the Year slicer was in a different corner on every
+            page. Locked the slicer panel to the same position on all three
+            pages and the navigation immediately got easier to predict.
+          </li>
+        </ul>
 
         <H2 id="learnings">What I took from this</H2>
         <ul className="mt-3 space-y-2">

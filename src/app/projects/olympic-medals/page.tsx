@@ -392,6 +392,48 @@ export default function OlympicMedalsPage() {
           </div>
         </div>
 
+        {/* What I tried first */}
+        <div className="border-t border-stone-800/60 pt-10 text-sm leading-relaxed text-stone-300">
+          <h3 className="text-base font-medium text-stone-100">
+            What I tried first that didn&apos;t work
+          </h3>
+          <ul className="mt-4 space-y-3">
+            <li>
+              <strong className="text-stone-100">
+                pandas.read_html on the Olympedia medal tables.
+              </strong>{" "}
+              First attempt, one line of code, looked perfect. Then half the
+              country cells came back NaN because the embedded flag{" "}
+              <code className="rounded bg-stone-900 px-1 py-0.5 text-xs text-stone-200">
+                &lt;img&gt;
+              </code>{" "}
+              tags broke the column inference. Switched to BeautifulSoup with
+              an explicit row walker that pulled country from the{" "}
+              <code className="rounded bg-stone-900 px-1 py-0.5 text-xs text-stone-200">
+                alt
+              </code>{" "}
+              attribute of the flag image. Slower to write, way more reliable.
+            </li>
+            <li>
+              <strong className="text-stone-100">
+                Joining continent and capital at view time from SQL Server.
+              </strong>{" "}
+              Worked locally. Then the public demo had to be database-free, and
+              the join wasn&apos;t available anymore. Moved the join into the
+              ETL so the JSON ships with continent baked in. Nothing to do at
+              view time except filter.
+            </li>
+            <li>
+              <strong className="text-stone-100">
+                Server-side rendering 1,343 rows into the initial HTML.
+              </strong>{" "}
+              Hydration time was noticeable on first load. Moved the data to a
+              static JSON import and did all filtering client-side. Initial
+              paint stayed fast, filter responsiveness became free.
+            </li>
+          </ul>
+        </div>
+
         {/* How it works */}
         <div className="border-t border-stone-800/60 pt-10 text-sm leading-relaxed text-stone-300">
           <h3 className="text-base font-medium text-stone-100">How this works</h3>

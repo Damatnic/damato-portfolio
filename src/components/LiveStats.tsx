@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface PublicStats {
@@ -103,9 +104,13 @@ export function LiveStats() {
         </>
       )}
 
-      <span className="ml-auto text-stone-600 text-[10px]">
-        data this site collects on itself
-      </span>
+      <Link
+        href="/analytics"
+        className="ml-auto rounded text-[10px] text-stone-500 underline-offset-4 hover:text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
+        aria-label="See full public analytics"
+      >
+        full breakdown →
+      </Link>
     </aside>
   );
 }
