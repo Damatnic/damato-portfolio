@@ -1,0 +1,422 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e79]
+  - generic [ref=e413]:
+    - alert
+    - alert
+  - generic [ref=e556]:
+    - banner [ref=e557]:
+      - generic [ref=e558]:
+        - generic [ref=e559]:
+          - button "open module nav" [ref=e560]: ☰
+          - link "$ cd ../lessons" [ref=e561] [cursor=pointer]:
+            - /url: /learn
+        - generic [ref=e562]: xp 0
+    - generic:
+      - button
+      - dialog:
+        - generic:
+          - generic: "# lessons"
+          - button: close
+        - generic:
+          - navigation:
+            - generic:
+              - paragraph: "# getting-started"
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /learn/getting-started/select-basics
+                    - generic: "01"
+                    - generic: SELECT Basics
+                - listitem:
+                  - link:
+                    - /url: /learn/getting-started/where-filtering
+                    - generic: ">"
+                    - generic: "02"
+                    - generic: WHERE · Filtering Rows
+                - listitem:
+                  - link:
+                    - /url: /learn/getting-started/order-by
+                    - generic: "03"
+                    - generic: ORDER BY · Sorting Results
+                - listitem:
+                  - link:
+                    - /url: /learn/getting-started/limit-offset
+                    - generic: "04"
+                    - generic: LIMIT and OFFSET
+                - listitem:
+                  - link:
+                    - /url: /learn/getting-started/distinct
+                    - generic: "05"
+                    - generic: DISTINCT · Unique Values
+    - navigation "Breadcrumb" [ref=e565]:
+      - link "~" [ref=e566] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e567]: /
+      - link "lessons" [ref=e568] [cursor=pointer]:
+        - /url: /learn
+      - generic [ref=e569]: /
+      - generic [ref=e570]: getting-started
+      - generic [ref=e571]: /
+      - generic [ref=e572]: where-filtering
+    - main [ref=e574]:
+      - generic [ref=e575]:
+        - paragraph [ref=e576]:
+          - generic [ref=e577]: "[concept]"
+          - generic [ref=e578]: lesson 02
+        - heading "WHERE · Filtering Rows" [level=1] [ref=e579]
+      - navigation "lesson sections" [ref=e580]:
+        - list [ref=e581]:
+          - listitem [ref=e582]:
+            - link "theory" [ref=e583] [cursor=pointer]:
+              - /url: "#theory"
+              - generic [ref=e584]: ">"
+              - generic [ref=e585]: theory
+          - listitem [ref=e586]:
+            - link "examples [4]" [ref=e587] [cursor=pointer]:
+              - /url: "#examples"
+              - generic [ref=e588]: examples
+              - generic [ref=e589]: "[4]"
+          - listitem [ref=e590]:
+            - link "challenges [0/3]" [ref=e591] [cursor=pointer]:
+              - /url: "#challenges"
+              - generic [ref=e592]: challenges
+              - generic [ref=e593]: "[0/3]"
+          - listitem [ref=e594]:
+            - link "project" [ref=e595] [cursor=pointer]:
+              - /url: "#project"
+              - generic [ref=e596]: project
+      - generic [ref=e597]:
+        - generic [ref=e598]:
+          - paragraph [ref=e599]: "# theory"
+          - generic [ref=e601]:
+            - paragraph [ref=e602]: WHERE is a filter. Without it, you get every row. With it, you only get rows where the condition is true. Think of it like the filter button in Excel.
+            - paragraph
+            - generic [ref=e603]:
+              - paragraph
+              - paragraph
+              - generic [ref=e604]:
+                - paragraph
+                - paragraph [ref=e605]: SQL
+                - paragraph [ref=e606]: Syntax
+                - paragraph
+              - paragraph
+              - paragraph
+              - generic [ref=e607]:
+                - code [ref=e608]:
+                  - text: SELECT columns
+                  - paragraph
+                  - paragraph [ref=e609]:
+                    - text: FROM
+                    - generic [ref=e610]: table
+                - paragraph [ref=e611]:
+                  - code [ref=e612]: WHERE condition;
+              - paragraph
+              - paragraph
+            - paragraph
+            - heading "operators" [level=2] [ref=e613]
+            - table [ref=e615]:
+              - rowgroup [ref=e616]:
+                - row "Operator Meaning" [ref=e617]:
+                  - columnheader "Operator" [ref=e618]
+                  - columnheader "Meaning" [ref=e619]
+              - rowgroup [ref=e620]:
+                - row "= equals" [ref=e621]:
+                  - cell "=" [ref=e622]
+                  - cell "equals" [ref=e623]
+                - row "!= or <> not equals" [ref=e624]:
+                  - cell "!= or <>" [ref=e625]
+                  - cell "not equals" [ref=e626]
+                - row "< > <= >= comparisons" [ref=e627]:
+                  - cell "< > <= >=" [ref=e628]
+                  - cell "comparisons" [ref=e629]
+                - row "BETWEEN a AND b value in range (inclusive)" [ref=e630]:
+                  - cell "BETWEEN a AND b" [ref=e631]
+                  - cell "value in range (inclusive)" [ref=e632]
+                - row "IN (a, b, c) value matches any in list" [ref=e633]:
+                  - cell "IN (a, b, c)" [ref=e634]
+                  - cell "value matches any in list" [ref=e635]
+                - row "LIKE 'pattern%' text pattern match" [ref=e636]:
+                  - cell "LIKE 'pattern%'" [ref=e637]
+                  - cell "text pattern match" [ref=e638]
+                - row "NOT negate any condition" [ref=e639]:
+                  - cell "NOT" [ref=e640]
+                  - cell "negate any condition" [ref=e641]
+            - strong [ref=e642]: "LIKE patterns:"
+            - code [ref=e643]: "%"
+            - text: matches anything,
+            - code [ref=e644]: _
+            - text: matches one character.
+            - list [ref=e645]:
+              - listitem [ref=e646]:
+                - code [ref=e647]: "'S%'"
+                - text: = starts with S
+              - listitem [ref=e648]:
+                - code [ref=e649]: "'%son'"
+                - text: = ends with son
+              - listitem [ref=e650]:
+                - code [ref=e651]: "'%ar%'"
+                - text: = contains ar
+              - paragraph
+            - paragraph
+            - paragraph
+            - generic [ref=e652]:
+              - text: "!common mistake ·"
+              - generic [ref=e653]:
+                - code [ref=e654]: WHERE name = NULL
+                - text: and
+                - code [ref=e655]: WHERE name != NULL
+                - text: both return zero rows. NULL isn't equal to anything, not even itself. Use
+                - code [ref=e656]: IS NULL
+                - text: and
+                - code [ref=e657]: IS NOT NULL
+                - text: for null checks.
+            - paragraph
+        - generic [ref=e658]:
+          - paragraph [ref=e659]:
+            - text: "# examples"
+            - generic [ref=e660]: "[4]"
+          - generic [ref=e661]:
+            - generic [ref=e662]:
+              - generic [ref=e663]:
+                - generic [ref=e664]: Example 1
+                - button "Copy" [ref=e665]:
+                  - img [ref=e666]
+                  - generic [ref=e669]: Copy
+              - heading "Filtering down to one segment" [level=3] [ref=e670]
+              - paragraph [ref=e671]: Filter to one specific department
+              - generic [ref=e672]:
+                - code [ref=e676]:
+                  - generic [ref=e677]:
+                    - textbox "Editor content" [ref=e678]
+                    - textbox [ref=e679]
+                    - generic [ref=e681]:
+                      - generic [ref=e684]: "1"
+                      - generic [ref=e686]: "2"
+                      - generic [ref=e688]: "3"
+                    - generic [ref=e694]:
+                      - generic [ref=e696]: SELECT name, salary
+                      - generic [ref=e698]: FROM employees
+                      - generic [ref=e700]: WHERE department = 'Engineering';
+                - generic [ref=e702]:
+                  - button "run" [ref=e703]
+                  - button "reset" [ref=e704]
+                  - generic [ref=e705]: ⌘↵ to run
+            - generic [ref=e706]:
+              - generic [ref=e707]:
+                - generic [ref=e708]: Example 2
+                - button "Copy" [ref=e709]:
+                  - img [ref=e710]
+                  - generic [ref=e713]: Copy
+              - heading "Threshold filter on a numeric column" [level=3] [ref=e714]
+              - paragraph [ref=e715]: Comparison operators work on numbers
+              - generic [ref=e716]:
+                - code [ref=e720]:
+                  - generic [ref=e721]:
+                    - textbox "Editor content" [ref=e722]
+                    - textbox [ref=e723]
+                    - generic [ref=e725]:
+                      - generic [ref=e728]: "1"
+                      - generic [ref=e730]: "2"
+                      - generic [ref=e732]: "3"
+                    - generic [ref=e738]:
+                      - generic [ref=e740]: SELECT name, department, salary
+                      - generic [ref=e742]: FROM employees
+                      - generic [ref=e744]: WHERE salary > 90000;
+                - generic [ref=e746]:
+                  - button "run" [ref=e747]
+                  - button "reset" [ref=e748]
+                  - generic [ref=e749]: ⌘↵ to run
+            - generic [ref=e750]:
+              - generic [ref=e751]:
+                - generic [ref=e752]: Example 3
+                - button "Copy" [ref=e753]:
+                  - img [ref=e754]
+                  - generic [ref=e757]: Copy
+              - heading "When the filter is a numeric range" [level=3] [ref=e758]
+              - paragraph [ref=e759]: BETWEEN is inclusive on both ends
+              - generic [ref=e760]:
+                - code [ref=e764]:
+                  - generic [ref=e765]:
+                    - textbox "Editor content" [ref=e766]
+                    - textbox [ref=e767]
+                    - generic [ref=e769]:
+                      - generic [ref=e772]: "1"
+                      - generic [ref=e774]: "2"
+                      - generic [ref=e776]: "3"
+                    - generic [ref=e782]:
+                      - generic [ref=e784]: SELECT name, salary
+                      - generic [ref=e786]: FROM employees
+                      - generic [ref=e788]: WHERE salary BETWEEN 70000 AND 90000;
+                - generic [ref=e790]:
+                  - button "run" [ref=e791]
+                  - button "reset" [ref=e792]
+                  - generic [ref=e793]: ⌘↵ to run
+            - generic [ref=e794]:
+              - generic [ref=e795]:
+                - generic [ref=e796]: Example 4
+                - button "Copy" [ref=e797]:
+                  - img [ref=e798]
+                  - generic [ref=e801]: Copy
+              - heading "Cleaner than chaining OR conditions" [level=3] [ref=e802]
+              - paragraph [ref=e803]: IN is cleaner than writing multiple OR conditions
+              - generic [ref=e804]:
+                - code [ref=e808]:
+                  - generic [ref=e809]:
+                    - textbox "Editor content" [ref=e810]
+                    - textbox [ref=e811]
+                    - generic [ref=e813]:
+                      - generic [ref=e816]: "1"
+                      - generic [ref=e818]: "2"
+                      - generic [ref=e820]: "3"
+                    - generic [ref=e828]:
+                      - generic [ref=e830]: SELECT name, department
+                      - generic [ref=e832]: FROM employees
+                      - generic [ref=e834]: WHERE department IN ('Engineering',
+                      - generic [ref=e836]: "'Finance');"
+                - generic [ref=e838]:
+                  - button "run" [ref=e839]
+                  - button "reset" [ref=e840]
+                  - generic [ref=e841]: ⌘↵ to run
+        - generic [ref=e842]:
+          - paragraph [ref=e843]:
+            - text: "# challenges"
+            - generic [ref=e844]: "[3]"
+          - generic [ref=e845]:
+            - generic [ref=e846]:
+              - generic [ref=e847]:
+                - generic [ref=e848]:
+                  - generic [ref=e849]: "# challenge"
+                  - generic [ref=e850]: 01/03
+                - generic [ref=e851]: todo
+              - generic [ref=e852]: Find all employees in the Sales department.
+              - generic [ref=e853]: "columns: name, department"
+              - generic [ref=e854]:
+                - generic [ref=e855]:
+                  - generic [ref=e856]:
+                    - code [ref=e860]:
+                      - generic [ref=e861]:
+                        - textbox "Editor content" [ref=e862]
+                        - textbox [ref=e863]
+                        - generic [ref=e868]: "1"
+                    - generic [ref=e875]:
+                      - button "run" [ref=e876]
+                      - button "reset" [ref=e877]
+                      - generic [ref=e878]: ⌘↵ to run
+                  - generic [ref=e879]:
+                    - button "expand editor" [ref=e880]: "[ expand ]"
+                    - slider "editor height" [ref=e881]: ─ drag to resize ─
+                    - generic [ref=e882]: 150px
+                - generic [ref=e883]:
+                  - button "show hint" [ref=e884]
+                  - button "> stuck? ask the tutor" [ref=e885]
+            - generic [ref=e886]:
+              - generic [ref=e887]:
+                - generic [ref=e888]:
+                  - generic [ref=e889]: "# challenge"
+                  - generic [ref=e890]: 02/03
+                - generic [ref=e891]: todo
+              - generic [ref=e892]: Find all employees earning more than $95,000.
+              - generic [ref=e893]: "columns: name, salary"
+              - generic [ref=e894]:
+                - generic [ref=e895]:
+                  - generic [ref=e896]:
+                    - code [ref=e900]:
+                      - generic [ref=e901]:
+                        - textbox "Editor content" [ref=e902]
+                        - textbox [ref=e903]
+                        - generic [ref=e908]: "1"
+                    - generic [ref=e915]:
+                      - button "run" [ref=e916]
+                      - button "reset" [ref=e917]
+                      - generic [ref=e918]: ⌘↵ to run
+                  - generic [ref=e919]:
+                    - button "expand editor" [ref=e920]: "[ expand ]"
+                    - slider "editor height" [ref=e921]: ─ drag to resize ─
+                    - generic [ref=e922]: 150px
+                - generic [ref=e923]:
+                  - button "show hint" [ref=e924]
+                  - button "> stuck? ask the tutor" [ref=e925]
+            - generic [ref=e926]:
+              - generic [ref=e927]:
+                - generic [ref=e928]:
+                  - generic [ref=e929]: "# challenge"
+                  - generic [ref=e930]: 03/03
+                - generic [ref=e931]: todo
+              - generic [ref=e932]: Find all employees whose name starts with the letter 'J'.
+              - generic [ref=e933]: "columns: name"
+              - generic [ref=e934]:
+                - generic [ref=e935]:
+                  - generic [ref=e936]:
+                    - code [ref=e940]:
+                      - generic [ref=e941]:
+                        - textbox "Editor content" [ref=e942]
+                        - textbox [ref=e943]
+                        - generic [ref=e948]: "1"
+                    - generic [ref=e955]:
+                      - button "run" [ref=e956]
+                      - button "reset" [ref=e957]
+                      - generic [ref=e958]: ⌘↵ to run
+                  - generic [ref=e959]:
+                    - button "expand editor" [ref=e960]: "[ expand ]"
+                    - slider "editor height" [ref=e961]: ─ drag to resize ─
+                    - generic [ref=e962]: 150px
+                - generic [ref=e963]:
+                  - button "show hint" [ref=e964]
+                  - button "> stuck? ask the tutor" [ref=e965]
+        - generic [ref=e966]:
+          - generic [ref=e967]:
+            - paragraph [ref=e968]:
+              - text: ✦ project thread ·
+              - link "Building a Company Dashboard" [ref=e969] [cursor=pointer]:
+                - /url: /projects/thread/company-dashboard
+            - paragraph [ref=e970]: step 02 of 15 · Engineering Team Roster
+          - generic [ref=e971]:
+            - generic [ref=e972]:
+              - generic [ref=e973]: "# project-challenge · Building a Company Dashboard"
+              - generic [ref=e974]: step 02/15
+            - generic [ref=e975]:
+              - paragraph [ref=e976]: "# brief"
+              - paragraph [ref=e977]: "Sarah says: \"The VP of Engineering wants a quick view of just their team members. Can you filter the directory to show only Engineering employees with their names and salaries?\""
+            - generic [ref=e978]:
+              - paragraph [ref=e979]: "# task"
+              - paragraph [ref=e980]: Engineering Team Roster
+              - paragraph [ref=e981]: "columns: name, salary"
+            - generic [ref=e982]:
+              - generic [ref=e983]:
+                - code [ref=e987]:
+                  - generic [ref=e988]:
+                    - textbox "Editor content" [ref=e989]
+                    - textbox [ref=e990]
+                    - generic [ref=e992]:
+                      - generic [ref=e995]: "1"
+                      - generic [ref=e999]: "2"
+                      - generic [ref=e1001]: "3"
+                      - generic [ref=e1003]: "4"
+                    - generic [ref=e1012]:
+                      - generic [ref=e1014]: "-- Show Engineering team members with"
+                      - generic [ref=e1016]: salaries
+                      - generic [ref=e1018]: SELECT name, salary
+                      - generic [ref=e1020]: FROM employees
+                      - generic [ref=e1022]: WHERE
+                - generic [ref=e1024]:
+                  - button "run" [ref=e1025]
+                  - button "reset" [ref=e1026]
+                  - generic [ref=e1027]: ⌘↵ to run
+              - button "show hint" [ref=e1029]
+            - link "cd /projects/thread/company-dashboard →" [ref=e1031] [cursor=pointer]:
+              - /url: /projects/thread/company-dashboard
+      - navigation "Lesson navigation" [ref=e1032]:
+        - 'link "← prev: SELECT Basics" [ref=e1033] [cursor=pointer]':
+          - /url: /learn/getting-started/select-basics
+          - generic [ref=e1034]: "← prev:"
+          - generic [ref=e1035]: SELECT Basics
+        - 'link "next: ORDER BY · Sorting Results →" [ref=e1036] [cursor=pointer]':
+          - /url: /learn/getting-started/order-by
+          - generic [ref=e1037]: "next:"
+          - generic [ref=e1038]: ORDER BY · Sorting Results
+          - generic [ref=e1039]: →
+    - region "lesson tools" [ref=e1040]:
+      - button "expand tools" [ref=e1041]:
+        - generic [ref=e1042]: $
+        - generic [ref=e1043]: tools
+        - generic [ref=e1044]: ▸

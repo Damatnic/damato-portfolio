@@ -20,7 +20,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: "pse",
-    year: "Jan 2025 – May 2025",
+    year: "Jan 2025 to May 2025",
     title: "IT Help Desk Technician",
     company: "Puget Sound Energy (Contract/Remote)",
     type: "work",
@@ -29,7 +29,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: "wolter",
-    year: "Dec 2023 – Jul 2024",
+    year: "Dec 2023 to Jul 2024",
     title: "Technical Support Administrator",
     company: "Wolter Inc., Pewaukee WI",
     type: "work",
@@ -38,7 +38,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: "ctaccess",
-    year: "Jul 2023 – Jan 2024",
+    year: "Jul 2023 to Jan 2024",
     title: "Service Desk Technician",
     company: "CTAccess, Waukesha WI",
     type: "work",
@@ -47,7 +47,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: "wauwatosa",
-    year: "Jan 2023 – Jun 2023",
+    year: "Jan 2023 to Jun 2023",
     title: "IT Help Desk Specialist II",
     company: "City of Wauwatosa, Wauwatosa WI",
     type: "work",
@@ -56,7 +56,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: "batteries-plus",
-    year: "Apr 2022 – Dec 2022",
+    year: "Apr 2022 to Dec 2022",
     title: "Desktop Support Specialist (Internship)",
     company: "Batteries Plus",
     type: "work",
@@ -87,8 +87,10 @@ export function ResumeTimeline() {
           {(["all", "work", "education"] as const).map((f) => (
             <button
               key={f}
+              type="button"
               onClick={() => setFilter(f)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md capitalize transition-colors ${
+              aria-pressed={filter === f}
+              className={`px-3 py-1.5 text-xs font-medium rounded-md capitalize transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 ${
                 filter === f
                   ? "bg-stone-800 text-stone-100 shadow-sm ring-1 ring-stone-700/50"
                   : "text-stone-400 hover:text-stone-200"

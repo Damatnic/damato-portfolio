@@ -153,9 +153,13 @@ export default function OlympicMedalsPage() {
   }, [filtered]);
 
   function toggleMedal(m: string) {
-    setMedals((prev) =>
-      prev.includes(m) ? prev.filter((x) => x !== m) : [...prev, m],
-    );
+    setMedals((prev) => {
+      if (prev.includes(m)) {
+        if (prev.length === 1) return prev;
+        return prev.filter((x) => x !== m);
+      }
+      return [...prev, m];
+    });
   }
 
   function resetFilters() {
@@ -497,8 +501,9 @@ function EmptyState() {
 function ChartMountPlaceholder() {
   return (
     <div
+      role="status"
+      aria-live="polite"
       className="flex h-full w-full items-center justify-center rounded border border-dashed border-stone-800 bg-stone-900/20 text-xs text-stone-400"
-      aria-hidden
     >
       Loading charts…
     </div>

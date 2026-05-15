@@ -1,0 +1,129 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - main [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e7]:
+          - paragraph [ref=e8]:
+            - generic [ref=e9]: damato@python
+            - generic [ref=e10]: ":"
+            - generic [ref=e11]: ~/lessons$
+          - textbox "terminal command input. type help" [active] [ref=e14]
+        - paragraph [ref=e15]: // type help · ↑↓ history · tab completes
+      - generic [ref=e16]:
+        - paragraph [ref=e17]: "# modules"
+        - list [ref=e18]:
+          - listitem [ref=e19]:
+            - link "Open module python-basics" [ref=e20] [cursor=pointer]:
+              - /url: /learn/python-basics/variables-fstrings
+              - generic [ref=e21]: "01"
+              - generic [ref=e22]:
+                - generic [ref=e23]: modules/python-basics/
+                - generic [ref=e24]: Variables, data structures, loops, and functions. The stuff you'll use in every script you ever write.
+              - generic [ref=e25]: 5 lessons
+              - generic [ref=e26]: ─
+              - generic [ref=e27]: →
+          - listitem [ref=e28]:
+            - link "Open module pandas-fundamentals" [ref=e29] [cursor=pointer]:
+              - /url: /learn/pandas-fundamentals/dataframes-series
+              - generic [ref=e30]: "02"
+              - generic [ref=e31]:
+                - generic [ref=e32]: modules/pandas-fundamentals/
+                - generic [ref=e33]: DataFrames, Series, filtering, and sorting. How you actually work with tabular data in Python.
+              - generic [ref=e34]: 5 lessons
+              - generic [ref=e35]: ─
+              - generic [ref=e36]: →
+          - listitem [ref=e37]:
+            - link "Open module data-cleaning" [ref=e38] [cursor=pointer]:
+              - /url: /learn/data-cleaning/missing-data
+              - generic [ref=e39]: "03"
+              - generic [ref=e40]:
+                - generic [ref=e41]: modules/data-cleaning/
+                - generic [ref=e42]: Handle missing data, convert types, clean strings, and prepare messy real-world data for analysis.
+              - generic [ref=e43]: 6 lessons
+              - generic [ref=e44]: ─
+              - generic [ref=e45]: →
+          - listitem [ref=e46]:
+            - link "Open module grouping-combining" [ref=e47] [cursor=pointer]:
+              - /url: /learn/grouping-combining/groupby-basics
+              - generic [ref=e48]: "04"
+              - generic [ref=e49]:
+                - generic [ref=e50]: modules/grouping-combining/
+                - generic [ref=e51]: Aggregate data with groupby, merge datasets, and reshape tables with pivot operations.
+              - generic [ref=e52]: 5 lessons
+              - generic [ref=e53]: ─
+              - generic [ref=e54]: →
+          - listitem [ref=e55]:
+            - link "Open module string-file-ops" [ref=e56] [cursor=pointer]:
+              - /url: /learn/string-file-ops/string-methods-deep
+              - generic [ref=e57]: "05"
+              - generic [ref=e58]:
+                - generic [ref=e59]: modules/string-file-ops/
+                - generic [ref=e60]: String methods, regular expressions, file I/O, and JSON handling.
+              - generic [ref=e61]: 5 lessons
+              - generic [ref=e62]: ─
+              - generic [ref=e63]: →
+          - listitem [ref=e64]:
+            - link "Open module web-apis" [ref=e65] [cursor=pointer]:
+              - /url: /learn/web-apis/requests-basics
+              - generic [ref=e66]: "06"
+              - generic [ref=e67]:
+                - generic [ref=e68]: modules/web-apis/
+                - generic [ref=e69]: Fetch data from APIs, parse JSON responses, and scrape web content with BeautifulSoup.
+              - generic [ref=e70]: 5 lessons
+              - generic [ref=e71]: ─
+              - generic [ref=e72]: →
+          - listitem [ref=e73]:
+            - link "Open module functions-apply" [ref=e74] [cursor=pointer]:
+              - /url: /learn/functions-apply/lambda-functions
+              - generic [ref=e75]: "07"
+              - generic [ref=e76]:
+                - generic [ref=e77]: modules/functions-apply/
+                - generic [ref=e78]: Write lambda functions, use apply and map, and master vectorized operations for performance.
+              - generic [ref=e79]: 5 lessons
+              - generic [ref=e80]: ─
+              - generic [ref=e81]: →
+          - listitem [ref=e82]:
+            - link "Open module numpy-foundations" [ref=e83] [cursor=pointer]:
+              - /url: /learn/numpy-foundations/arrays-and-dtypes
+              - generic [ref=e84]: "08"
+              - generic [ref=e85]:
+                - generic [ref=e86]: modules/numpy-foundations/
+                - generic [ref=e87]: Arrays, dtypes, reshape, broadcasting, and vectorization. The math layer under pandas, plus how to drop down to it when you need speed.
+              - generic [ref=e88]: 5 lessons
+              - generic [ref=e89]: ─
+              - generic [ref=e90]: →
+          - listitem [ref=e91]:
+            - link "Open module game-dev-pygame" [ref=e92] [cursor=pointer]:
+              - /url: /learn/game-dev-pygame/pygame-basics
+              - generic [ref=e93]: "09"
+              - generic [ref=e94]:
+                - generic [ref=e95]: modules/game-dev-pygame/
+                - generic [ref=e96]: Build real games with Python. Learn the game loop, movement physics, sprites, collision detection, and complete a Brick Breakaway clone from scratch.
+              - generic [ref=e97]: 11 lessons
+              - generic [ref=e98]: ─
+              - generic [ref=e99]: →
+          - listitem [ref=e100]:
+            - link "Open module data-manipulation-school" [ref=e101] [cursor=pointer]:
+              - /url: /learn/data-manipulation-school/string-methods
+              - generic [ref=e102]: "10"
+              - generic [ref=e103]:
+                - generic [ref=e104]: modules/data-manipulation-school/
+                - generic [ref=e105]: String cleaning, number formatting, date parsing, combining DataFrames, and pivot tables. Exactly what the WCTC Python Data Manipulation course covers.
+              - generic [ref=e106]: 5 lessons
+              - generic [ref=e107]: ─
+              - generic [ref=e108]: →
+      - generic [ref=e109]:
+        - generic [ref=e110]:
+          - paragraph [ref=e111]: "# projects"
+          - link "projects/→" [ref=e112] [cursor=pointer]:
+            - /url: /projects
+        - generic [ref=e113]:
+          - paragraph [ref=e114]: "# stats"
+          - link "stats/→" [ref=e115] [cursor=pointer]:
+            - /url: /stats
+    - contentinfo [ref=e116]:
+      - generic [ref=e117]:
+        - generic [ref=e118]: exit 0 · personal use · next.js + pyodide
+        - link "projects/" [ref=e119] [cursor=pointer]:
+          - /url: /projects
+  - alert [ref=e120]

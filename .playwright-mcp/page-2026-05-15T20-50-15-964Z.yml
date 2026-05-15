@@ -1,0 +1,370 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "$ cd ../lessons" [ref=e6] [cursor=pointer]:
+          - /url: /learn
+        - generic [ref=e7]: xp 0
+    - navigation "Breadcrumb" [ref=e10]:
+      - link "~" [ref=e11] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e12]: /
+      - link "lessons" [ref=e13] [cursor=pointer]:
+        - /url: /learn
+      - generic [ref=e14]: /
+      - generic [ref=e15]: getting-started
+      - generic [ref=e16]: /
+      - generic [ref=e17]: select-basics
+    - generic [ref=e18]:
+      - complementary [ref=e19]:
+        - navigation "Module lessons" [ref=e20]:
+          - generic [ref=e21]:
+            - paragraph [ref=e22]: "# getting-started"
+            - list [ref=e23]:
+              - listitem [ref=e24]:
+                - link "01 SELECT Basics" [ref=e25] [cursor=pointer]:
+                  - /url: /learn/getting-started/select-basics
+                  - generic [ref=e26]: ">"
+                  - generic [ref=e27]: "01"
+                  - generic [ref=e28]: SELECT Basics
+              - listitem [ref=e29]:
+                - link "02 WHERE · Filtering Rows" [ref=e30] [cursor=pointer]:
+                  - /url: /learn/getting-started/where-filtering
+                  - generic [ref=e31]: "02"
+                  - generic [ref=e32]: WHERE · Filtering Rows
+              - listitem [ref=e33]:
+                - link "03 ORDER BY · Sorting Results" [ref=e34] [cursor=pointer]:
+                  - /url: /learn/getting-started/order-by
+                  - generic [ref=e35]: "03"
+                  - generic [ref=e36]: ORDER BY · Sorting Results
+              - listitem [ref=e37]:
+                - link "04 LIMIT and OFFSET" [ref=e38] [cursor=pointer]:
+                  - /url: /learn/getting-started/limit-offset
+                  - generic [ref=e39]: "04"
+                  - generic [ref=e40]: LIMIT and OFFSET
+              - listitem [ref=e41]:
+                - link "05 DISTINCT · Unique Values" [ref=e42] [cursor=pointer]:
+                  - /url: /learn/getting-started/distinct
+                  - generic [ref=e43]: "05"
+                  - generic [ref=e44]: DISTINCT · Unique Values
+      - main [ref=e45]:
+        - generic [ref=e46]:
+          - paragraph [ref=e47]:
+            - generic [ref=e48]: "[concept]"
+            - generic [ref=e49]: lesson 01
+          - heading "SELECT Basics" [level=1] [ref=e50]
+        - navigation "lesson sections" [ref=e51]:
+          - list [ref=e52]:
+            - listitem [ref=e53]:
+              - link "theory" [ref=e54] [cursor=pointer]:
+                - /url: "#theory"
+                - generic [ref=e56]: theory
+            - listitem [ref=e57]:
+              - link "examples [3]" [ref=e58] [cursor=pointer]:
+                - /url: "#examples"
+                - generic [ref=e59]: examples
+                - generic [ref=e60]: "[3]"
+            - listitem [ref=e61]:
+              - link "challenges [0/3]" [ref=e62] [cursor=pointer]:
+                - /url: "#challenges"
+                - generic [ref=e421]: ">"
+                - generic [ref=e63]: challenges
+                - generic [ref=e64]: "[0/3]"
+            - listitem [ref=e65]:
+              - link "project" [ref=e66] [cursor=pointer]:
+                - /url: "#project"
+                - generic [ref=e67]: project
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - paragraph [ref=e82]: "# theory"
+            - generic [ref=e84]:
+              - paragraph
+              - generic [ref=e85]: "!why this matters ·Every query you ever write starts with SELECT and FROM. Get these two right and the rest of SQL builds on top of them. Get them wrong and nothing else can save you."
+              - paragraph
+              - paragraph [ref=e86]: SQL is how you ask questions about data sitting in a table. A table is like a spreadsheet; rows are individual records, columns are the fields each record has.
+              - paragraph
+              - generic [ref=e87]:
+                - paragraph
+                - paragraph
+                - generic [ref=e88]:
+                  - paragraph
+                  - paragraph [ref=e89]: SQL
+                  - paragraph [ref=e90]: Syntax
+                  - paragraph
+                - paragraph
+                - paragraph
+                - generic [ref=e91]:
+                  - code [ref=e92]:
+                    - text: SELECT column1, column2
+                    - paragraph
+                  - paragraph [ref=e93]:
+                    - code [ref=e94]: FROM table_name;
+                - paragraph
+                - paragraph
+              - paragraph
+              - paragraph [ref=e95]: "To grab every column at once:"
+              - paragraph
+              - generic [ref=e96]:
+                - paragraph
+                - paragraph
+                - generic [ref=e97]:
+                  - paragraph
+                  - paragraph [ref=e98]: SQL
+                  - paragraph [ref=e99]: Syntax
+                  - paragraph
+                - paragraph
+                - paragraph
+                - generic [ref=e100]:
+                  - code [ref=e101]:
+                    - text: SELECT
+                    - emphasis:
+                      - paragraph
+                  - emphasis [ref=e102]:
+                    - paragraph [ref=e103]:
+                      - code [ref=e104]: FROM table_name;
+                - paragraph
+                - emphasis:
+                  - paragraph
+              - paragraph
+              - emphasis
+              - list [ref=e105]:
+                - emphasis [ref=e106]:
+                  - listitem [ref=e107]:
+                    - strong [ref=e108]: SELECT
+                    - text: tells SQL what columns you want back
+                  - listitem [ref=e109]:
+                    - strong [ref=e110]: FROM
+                    - text: tells SQL which table to look in
+                  - listitem [ref=e111]: The semicolon ends the statement
+                - listitem [ref=e112]:
+                  - emphasis [ref=e113]:
+                    - code [ref=e114]
+                  - text: is shorthand for "every column"; great for exploring, but avoid in production queries
+                - paragraph
+              - paragraph
+              - paragraph
+              - generic [ref=e115]:
+                - text: "!common mistake ·"
+                - generic [ref=e116]:
+                  - code [ref=e117]: SELECT *
+                  - text: is fine when exploring but never in production code. New columns added to the table will silently flow into your query and break the layer that reads it. Always name the columns you actually need.
+              - paragraph
+          - generic [ref=e118]:
+            - paragraph [ref=e119]:
+              - text: "# examples"
+              - generic [ref=e120]: "[3]"
+            - generic [ref=e121]:
+              - generic [ref=e122]:
+                - generic [ref=e123]:
+                  - generic [ref=e124]: Example 1
+                  - button "Copy" [ref=e125]:
+                    - img [ref=e126]
+                    - generic [ref=e129]: Copy
+                - 'heading "Quick exploration: peek at the full table" [level=3] [ref=e130]'
+                - paragraph [ref=e131]: Grab every column from the employees table
+                - generic [ref=e132]:
+                  - code [ref=e136]:
+                    - generic [ref=e137]:
+                      - textbox "Editor content" [ref=e138]
+                      - textbox [ref=e139]
+                      - generic [ref=e141]:
+                        - generic [ref=e144]: "1"
+                        - generic [ref=e146]: "2"
+                      - generic [ref=e151]:
+                        - generic [ref=e153]: SELECT *
+                        - generic [ref=e155]: FROM employees;
+                  - generic [ref=e157]:
+                    - button "run" [ref=e158]
+                    - button "reset" [ref=e159]
+                    - generic [ref=e160]: ⌘↵ to run
+              - generic [ref=e161]:
+                - generic [ref=e162]:
+                  - generic [ref=e163]: Example 2
+                  - button "Copy" [ref=e164]:
+                    - img [ref=e165]
+                    - generic [ref=e168]: Copy
+                - 'heading "Production-style: name only the columns you need" [level=3] [ref=e169]'
+                - paragraph [ref=e170]: Pick specific columns to keep the result clean
+                - generic [ref=e171]:
+                  - code [ref=e175]:
+                    - generic [ref=e176]:
+                      - textbox "Editor content" [ref=e177]
+                      - textbox [ref=e178]
+                      - generic [ref=e180]:
+                        - generic [ref=e183]: "1"
+                        - generic [ref=e185]: "2"
+                      - generic [ref=e190]:
+                        - generic [ref=e192]: SELECT name, salary
+                        - generic [ref=e194]: FROM employees;
+                  - generic [ref=e196]:
+                    - button "run" [ref=e197]
+                    - button "reset" [ref=e198]
+                    - generic [ref=e199]: ⌘↵ to run
+              - generic [ref=e200]:
+                - generic [ref=e201]:
+                  - generic [ref=e202]: Example 3
+                  - button "Copy" [ref=e203]:
+                    - img [ref=e204]
+                    - generic [ref=e207]: Copy
+                - heading "Same pattern, more columns at once" [level=3] [ref=e208]
+                - paragraph [ref=e209]: You can list as many columns as you need
+                - generic [ref=e210]:
+                  - code [ref=e214]:
+                    - generic [ref=e215]:
+                      - textbox "Editor content" [ref=e216]
+                      - textbox [ref=e217]
+                      - generic [ref=e219]:
+                        - generic [ref=e222]: "1"
+                        - generic [ref=e224]: "2"
+                      - generic [ref=e229]:
+                        - generic [ref=e231]: SELECT name, department, hire_date
+                        - generic [ref=e233]: FROM employees;
+                  - generic [ref=e235]:
+                    - button "run" [ref=e236]
+                    - button "reset" [ref=e237]
+                    - generic [ref=e238]: ⌘↵ to run
+          - generic [ref=e239]:
+            - paragraph [ref=e240]:
+              - text: "# challenges"
+              - generic [ref=e241]: "[3]"
+            - generic [ref=e242]:
+              - generic [ref=e243]:
+                - generic [ref=e244]:
+                  - generic [ref=e245]:
+                    - generic [ref=e246]: "# challenge"
+                    - generic [ref=e247]: 01/03
+                  - generic [ref=e248]: todo
+                - generic [ref=e249]: Show every column from the departments table.
+                - generic [ref=e250]: "columns: id, name, budget, location"
+                - generic [ref=e251]:
+                  - generic [ref=e252]:
+                    - generic [ref=e253]:
+                      - code [ref=e257]:
+                        - generic [ref=e258]:
+                          - textbox "Editor content" [ref=e259]
+                          - textbox [ref=e260]
+                          - generic [ref=e265]: "1"
+                      - generic [ref=e272]:
+                        - button "run" [ref=e273]
+                        - button "reset" [ref=e274]
+                        - generic [ref=e275]: ⌘↵ to run
+                    - generic [ref=e276]:
+                      - button "expand editor" [ref=e277]: "[ expand ]"
+                      - slider "editor height" [ref=e278]: ─ drag to resize ─
+                      - generic [ref=e279]: 150px
+                  - generic [ref=e280]:
+                    - button "show hint" [ref=e281]
+                    - button "> stuck? ask the tutor" [ref=e282]
+              - generic [ref=e283]:
+                - generic [ref=e284]:
+                  - generic [ref=e285]:
+                    - generic [ref=e286]: "# challenge"
+                    - generic [ref=e287]: 02/03
+                  - generic [ref=e288]: todo
+                - generic [ref=e289]: Show only the name and location columns from departments.
+                - generic [ref=e290]: "columns: name, location"
+                - generic [ref=e291]:
+                  - generic [ref=e292]:
+                    - generic [ref=e293]:
+                      - code [ref=e297]:
+                        - generic [ref=e298]:
+                          - textbox "Editor content" [ref=e299]
+                          - textbox [ref=e300]
+                          - generic [ref=e305]: "1"
+                      - generic [ref=e312]:
+                        - button "run" [ref=e313]
+                        - button "reset" [ref=e314]
+                        - generic [ref=e315]: ⌘↵ to run
+                    - generic [ref=e316]:
+                      - button "expand editor" [ref=e317]: "[ expand ]"
+                      - slider "editor height" [ref=e318]: ─ drag to resize ─
+                      - generic [ref=e319]: 150px
+                  - generic [ref=e320]:
+                    - button "show hint" [ref=e321]
+                    - button "> stuck? ask the tutor" [ref=e322]
+              - generic [ref=e323]:
+                - generic [ref=e324]:
+                  - generic [ref=e325]:
+                    - generic [ref=e326]: "# challenge"
+                    - generic [ref=e327]: 03/03
+                  - generic [ref=e328]: todo
+                - generic [ref=e329]: Show the name, department, and salary of all employees.
+                - generic [ref=e330]: "columns: name, department, salary"
+                - generic [ref=e331]:
+                  - generic [ref=e332]:
+                    - generic [ref=e333]:
+                      - code [ref=e337]:
+                        - generic [ref=e338]:
+                          - textbox "Editor content" [ref=e339]
+                          - textbox [ref=e340]
+                          - generic [ref=e345]: "1"
+                      - generic [ref=e352]:
+                        - button "run" [ref=e353]
+                        - button "reset" [ref=e354]
+                        - generic [ref=e355]: ⌘↵ to run
+                    - generic [ref=e356]:
+                      - button "expand editor" [ref=e357]: "[ expand ]"
+                      - slider "editor height" [ref=e358]: ─ drag to resize ─
+                      - generic [ref=e359]: 150px
+                  - generic [ref=e360]:
+                    - button "show hint" [ref=e361]
+                    - button "> stuck? ask the tutor" [ref=e362]
+          - generic [ref=e363]:
+            - generic [ref=e364]:
+              - paragraph [ref=e365]:
+                - text: ✦ project thread ·
+                - link "Building a Company Dashboard" [ref=e366] [cursor=pointer]:
+                  - /url: /projects/thread/company-dashboard
+              - paragraph [ref=e367]: step 01 of 15 · Employee Directory - Basic View
+            - generic [ref=e368]:
+              - generic [ref=e369]:
+                - generic [ref=e370]: "# project-challenge · Building a Company Dashboard"
+                - generic [ref=e371]: step 01/15
+              - generic [ref=e372]:
+                - paragraph [ref=e373]: "# brief"
+                - paragraph [ref=e374]: "Sarah's first request: \"I need a basic employee directory for the dashboard homepage. Start by showing all employee information so we can see what data we have to work with.\""
+              - generic [ref=e375]:
+                - paragraph [ref=e376]: "# task"
+                - paragraph [ref=e377]: Employee Directory - Basic View
+                - paragraph [ref=e378]: "columns: id, name, department, salary, hire_date"
+              - generic [ref=e379]:
+                - generic [ref=e380]:
+                  - code [ref=e384]:
+                    - generic [ref=e385]:
+                      - textbox "Editor content" [ref=e386]
+                      - textbox [ref=e387]
+                      - generic [ref=e389]:
+                        - generic [ref=e392]: "1"
+                        - generic [ref=e394]: "2"
+                      - generic [ref=e399]:
+                        - generic [ref=e401]: "-- Show all employee data for the directory"
+                        - generic [ref=e403]: SELECT
+                  - generic [ref=e405]:
+                    - button "run" [ref=e406]
+                    - button "reset" [ref=e407]
+                    - generic [ref=e408]: ⌘↵ to run
+                - button "show hint" [ref=e410]
+              - link "cd /projects/thread/company-dashboard →" [ref=e412] [cursor=pointer]:
+                - /url: /projects/thread/company-dashboard
+        - navigation "Lesson navigation" [ref=e69]:
+          - 'link "next: WHERE · Filtering Rows →" [ref=e70] [cursor=pointer]':
+            - /url: /learn/getting-started/where-filtering
+            - generic [ref=e71]: "next:"
+            - generic [ref=e72]: WHERE · Filtering Rows
+            - generic [ref=e73]: →
+    - region "lesson tools" [ref=e74]:
+      - button "expand tools" [ref=e75]:
+        - generic [ref=e76]: $
+        - generic [ref=e77]: tools
+        - generic [ref=e78]: ▸
+    - dialog "interface tour" [ref=e413]:
+      - paragraph [ref=e414]: your sql runs against a real sqlite database here. ⌘+enter runs the query.
+      - generic [ref=e415]:
+        - generic [ref=e416]: step 2 of 3
+        - generic [ref=e417]:
+          - button "skip" [ref=e418]
+          - button "next" [active] [ref=e419]
+  - alert [ref=e79]
+  - generic [ref=e420]:
+    - alert
+    - alert

@@ -9,7 +9,7 @@ export const nowEntries: NowEntry[] = [
     date: "2026-05-14",
     summary: "A-grade push across all three sites.",
     items: [
-      "Built public /analytics. Same KV store as the private dashboard, PII fields stripped, framed as the move it is: most portfolios hide this.",
+      "Built the analytics pipeline end to end: KV event store, PII-stripping, daily digest email. Kept it private (gated dashboard, not a public vanity counter).",
       "damato-sql: hint-free capstone challenges at the end of modules 4, 6, and 9. Anti-pattern teaching with EXPLAIN QUERY PLAN diffs on the six highest-traffic lessons.",
       "damato-python: real pyfetch in module 6 lessons 27 through 30 (no more inline strings). New NumPy module. Open-ended capstone replaces the heavily scaffolded one.",
       "Cross-module callbacks linking GROUP BY to DataFrame.groupby, JOINs to pd.merge, window functions to rolling.",
@@ -17,9 +17,9 @@ export const nowEntries: NowEntry[] = [
   },
   {
     date: "2026-05-09",
-    summary: "Live stats hero, side project rewrites, rank ladders.",
+    summary: "Side project rewrites, rank ladders, analytics wiring.",
     items: [
-      "LiveStats strip in the hero so the analytics aren't just hidden behind /admin.",
+      "Wired the site analytics through to a private dashboard instead of a public counter.",
       "Reframed the side project copy from \"tools I made while learning\" to \"couldn't find X, built it.\" damato-sql and damato-python read like real shipped projects now.",
       "Rank ladder on both mastery sites is now competency-named (data analyst, query architect, pipeline operator) with one-line blurbs instead of \"architect → master.\"",
       "Project thread banner on damato-sql so the multi-lesson narrative is visible from inside any thread step.",

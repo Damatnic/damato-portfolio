@@ -35,6 +35,7 @@ export function CopyableQuery({ title, why, sql }: CopyableQueryProps) {
           type="button"
           onClick={handleCopy}
           aria-label={copied ? "Copied" : "Copy query"}
+          aria-live="polite"
           className="inline-flex shrink-0 items-center gap-1.5 rounded border border-stone-800 bg-stone-900 px-2 py-1 text-[11px] text-stone-300 hover:border-stone-600 hover:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
         >
           {copied ? (

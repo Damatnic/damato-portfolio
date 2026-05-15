@@ -8,7 +8,6 @@ import { Mail, MapPin, Play, ExternalLink } from "lucide-react";
 import { projects, sideProjects } from "@/lib/projects";
 import { ResumeDownload } from "@/components/ResumeDownload";
 import { ResumeTimeline } from "@/components/ResumeTimeline";
-import { LiveStats } from "@/components/LiveStats";
 
 function Github({ className }: { className?: string }) {
   return (
@@ -64,6 +63,22 @@ export default function Home() {
   const filteredProjects = activeFilter === "All"
     ? projects
     : projects.filter((p) => projectUsesFilterTech(p.tech, activeFilter));
+
+  const listMotion = shouldReduceMotion
+    ? {
+        initial: undefined,
+        animate: undefined,
+        exit: undefined,
+        layout: false as const,
+        transition: { duration: 0 },
+      }
+    : {
+        initial: { opacity: 0, scale: 0.95 },
+        animate: { opacity: 1, scale: 1 },
+        exit: { opacity: 0, scale: 0.95 },
+        layout: true as const,
+        transition: { duration: 0.3 },
+      };
 
   const toolsIReachFor = [
     "Python", "pandas", "SQL", "T-SQL", "Power BI", "DAX", "Excel",
@@ -124,8 +139,6 @@ export default function Home() {
                 <div className="mt-7">
                   <ResumeDownload />
                 </div>
-
-                <LiveStats />
 
                 <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-stone-300">
                   <span className="inline-flex items-center gap-1.5 bg-stone-900/50 px-3 py-1.5 rounded-full border border-stone-800 shadow-sm">
@@ -204,20 +217,33 @@ export default function Home() {
               >
                 github.com/Damatnic →
               </Link>
-            </motion.div>
+                </motion.div>
+
+            {filteredProjects.length === 0 && activeFilter !== "All" && (
+              <p className="mt-6 text-sm text-stone-400">
+                No flagship projects tagged with {activeFilter}. Check{" "}
+                <a
+                  href="#also-built"
+                  className="rounded text-[var(--accent)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
+                >
+                  also built
+                </a>{" "}
+                for side projects.
+              </p>
+            )}
 
             <ol className="mt-12 divide-y divide-stone-800/60">
               <AnimatePresence mode="popLayout">
-                {filteredProjects.map((p, i) => {
+                {filteredProjects.map((p) => {
                   const isHighlighted =
                     !!highlightedTech && projectUsesFilterTech(p.tech, highlightedTech);
                   return (
                     <motion.li
-                      layout
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.3 }}
+                      layout={listMotion.layout}
+                      initial={listMotion.initial}
+                      animate={listMotion.animate}
+                      exit={listMotion.exit}
+                      transition={listMotion.transition}
                       key={p.slug}
                       className={`group relative grid gap-6 py-10 first:pt-6 sm:grid-cols-[5rem_1fr] sm:gap-10 transition-all duration-300 rounded-2xl ${
                         isHighlighted ? "bg-stone-900/80 px-6 -mx-6 ring-1 ring-[var(--accent-soft)]" : "hover:bg-stone-900/20 px-6 -mx-6"
@@ -475,12 +501,6 @@ export default function Home() {
                 className="rounded text-stone-300 hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
               >
                 /now
-              </Link>
-              <Link
-                href="/analytics"
-                className="rounded text-stone-300 hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-              >
-                /analytics
               </Link>
             </div>
             <div className="flex gap-5 text-sm text-stone-300">

@@ -1,0 +1,580 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e4]:
+      - link "python-mastery" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e8]:
+        - generic [ref=e9]: lessons
+        - generic [ref=e10]: 0/57
+      - navigation "Lesson navigation" [ref=e11]:
+        - generic [ref=e12]:
+          - generic [ref=e13]:
+            - generic [ref=e14]: "01"
+            - generic [ref=e15]: Python Basics
+            - generic [ref=e16]: 0/5
+          - list [ref=e17]:
+            - listitem [ref=e18]:
+              - link "Variables & F-Strings" [ref=e19] [cursor=pointer]:
+                - /url: /learn/python-basics/variables-fstrings
+                - generic [ref=e20]: ">"
+                - generic [ref=e21]: Variables & F-Strings
+            - listitem [ref=e22]:
+              - link "Lists & Tuples" [ref=e23] [cursor=pointer]:
+                - /url: /learn/python-basics/lists-tuples
+                - generic [ref=e24]: Lists & Tuples
+            - listitem [ref=e25]:
+              - link "Dictionaries" [ref=e26] [cursor=pointer]:
+                - /url: /learn/python-basics/dictionaries
+                - generic [ref=e27]: Dictionaries
+            - listitem [ref=e28]:
+              - link "Loops & Conditionals" [ref=e29] [cursor=pointer]:
+                - /url: /learn/python-basics/loops-conditionals
+                - generic [ref=e30]: Loops & Conditionals
+            - listitem [ref=e31]:
+              - link "Functions & Comprehensions" [ref=e32] [cursor=pointer]:
+                - /url: /learn/python-basics/functions-comprehensions
+                - generic [ref=e33]: Functions & Comprehensions
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - generic [ref=e36]: "02"
+            - generic [ref=e37]: Pandas Fundamentals
+            - generic [ref=e38]: 0/5
+          - list [ref=e39]:
+            - listitem [ref=e40]:
+              - link "DataFrames & Series" [ref=e41] [cursor=pointer]:
+                - /url: /learn/pandas-fundamentals/dataframes-series
+                - generic [ref=e42]: DataFrames & Series
+            - listitem [ref=e43]:
+              - link "Selecting Data" [ref=e44] [cursor=pointer]:
+                - /url: /learn/pandas-fundamentals/selecting-data
+                - generic [ref=e45]: Selecting Data
+            - listitem [ref=e46]:
+              - link "Filtering Rows" [ref=e47] [cursor=pointer]:
+                - /url: /learn/pandas-fundamentals/filtering-rows
+                - generic [ref=e48]: Filtering Rows
+            - listitem [ref=e49]:
+              - link "Sorting & Adding Columns" [ref=e50] [cursor=pointer]:
+                - /url: /learn/pandas-fundamentals/sorting-adding-columns
+                - generic [ref=e51]: Sorting & Adding Columns
+            - listitem [ref=e52]:
+              - link "Reading & Writing Files" [ref=e53] [cursor=pointer]:
+                - /url: /learn/pandas-fundamentals/reading-writing-files
+                - generic [ref=e54]: Reading & Writing Files
+        - generic [ref=e55]:
+          - generic [ref=e56]:
+            - generic [ref=e57]: "03"
+            - generic [ref=e58]: Data Cleaning
+            - generic [ref=e59]: 0/6
+          - list [ref=e60]:
+            - listitem [ref=e61]:
+              - link "Missing Data" [ref=e62] [cursor=pointer]:
+                - /url: /learn/data-cleaning/missing-data
+                - generic [ref=e63]: Missing Data
+            - listitem [ref=e64]:
+              - link "Type Conversion" [ref=e65] [cursor=pointer]:
+                - /url: /learn/data-cleaning/type-conversion
+                - generic [ref=e66]: Type Conversion
+            - listitem [ref=e67]:
+              - link "String Cleaning" [ref=e68] [cursor=pointer]:
+                - /url: /learn/data-cleaning/string-cleaning
+                - generic [ref=e69]: String Cleaning
+            - listitem [ref=e70]:
+              - link "Renaming & Dropping" [ref=e71] [cursor=pointer]:
+                - /url: /learn/data-cleaning/renaming-dropping
+                - generic [ref=e72]: Renaming & Dropping
+            - listitem [ref=e73]:
+              - link "Duplicates & Reset Index" [ref=e74] [cursor=pointer]:
+                - /url: /learn/data-cleaning/duplicates-reset
+                - generic [ref=e75]: Duplicates & Reset Index
+            - listitem [ref=e76]:
+              - link "Datetime Handling" [ref=e77] [cursor=pointer]:
+                - /url: /learn/data-cleaning/datetime-handling
+                - generic [ref=e78]: Datetime Handling
+        - generic [ref=e79]:
+          - generic [ref=e80]:
+            - generic [ref=e81]: "04"
+            - generic [ref=e82]: Grouping & Combining
+            - generic [ref=e83]: 0/5
+          - list [ref=e84]:
+            - listitem [ref=e85]:
+              - link "GroupBy Basics" [ref=e86] [cursor=pointer]:
+                - /url: /learn/grouping-combining/groupby-basics
+                - generic [ref=e87]: GroupBy Basics
+            - listitem [ref=e88]:
+              - link "Multi-Column GroupBy" [ref=e89] [cursor=pointer]:
+                - /url: /learn/grouping-combining/multi-column-groupby
+                - generic [ref=e90]: Multi-Column GroupBy
+            - listitem [ref=e91]:
+              - link "Merge & Join" [ref=e92] [cursor=pointer]:
+                - /url: /learn/grouping-combining/merge-join
+                - generic [ref=e93]: Merge & Join
+            - listitem [ref=e94]:
+              - link "Concat & Pivot" [ref=e95] [cursor=pointer]:
+                - /url: /learn/grouping-combining/concat-pivot
+                - generic [ref=e96]: Concat & Pivot
+            - listitem [ref=e97]:
+              - link "Fixed-Width Files" [ref=e98] [cursor=pointer]:
+                - /url: /learn/grouping-combining/fixed-width-files
+                - generic [ref=e99]: Fixed-Width Files
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - generic [ref=e102]: "05"
+            - generic [ref=e103]: String & File Ops
+            - generic [ref=e104]: 0/5
+          - list [ref=e105]:
+            - listitem [ref=e106]:
+              - link "String Methods Deep Dive" [ref=e107] [cursor=pointer]:
+                - /url: /learn/string-file-ops/string-methods-deep
+                - generic [ref=e108]: String Methods Deep Dive
+            - listitem [ref=e109]:
+              - link "Regex Basics" [ref=e110] [cursor=pointer]:
+                - /url: /learn/string-file-ops/regex-basics
+                - generic [ref=e111]: Regex Basics
+            - listitem [ref=e112]:
+              - link "File I/O" [ref=e113] [cursor=pointer]:
+                - /url: /learn/string-file-ops/file-io
+                - generic [ref=e114]: File I/O
+            - listitem [ref=e115]:
+              - link "JSON Handling" [ref=e116] [cursor=pointer]:
+                - /url: /learn/string-file-ops/json-handling
+                - generic [ref=e117]: JSON Handling
+            - listitem [ref=e118]:
+              - link "Error Handling" [ref=e119] [cursor=pointer]:
+                - /url: /learn/string-file-ops/error-handling
+                - generic [ref=e120]: Error Handling
+        - generic [ref=e121]:
+          - generic [ref=e122]:
+            - generic [ref=e123]: "06"
+            - generic [ref=e124]: Web & APIs
+            - generic [ref=e125]: 0/5
+          - list [ref=e126]:
+            - listitem [ref=e127]:
+              - link "Requests Basics" [ref=e128] [cursor=pointer]:
+                - /url: /learn/web-apis/requests-basics
+                - generic [ref=e129]: Requests Basics
+            - listitem [ref=e130]:
+              - link "JSON from APIs" [ref=e131] [cursor=pointer]:
+                - /url: /learn/web-apis/json-apis
+                - generic [ref=e132]: JSON from APIs
+            - listitem [ref=e133]:
+              - link "BeautifulSoup Basics" [ref=e134] [cursor=pointer]:
+                - /url: /learn/web-apis/beautifulsoup-basics
+                - generic [ref=e135]: BeautifulSoup Basics
+            - listitem [ref=e136]:
+              - link "Scraping Tables" [ref=e137] [cursor=pointer]:
+                - /url: /learn/web-apis/scraping-tables
+                - generic [ref=e138]: Scraping Tables
+            - listitem [ref=e139]:
+              - link "Building a Data Pipeline" [ref=e140] [cursor=pointer]:
+                - /url: /learn/web-apis/data-pipeline
+                - generic [ref=e141]: Building a Data Pipeline
+        - generic [ref=e142]:
+          - generic [ref=e143]:
+            - generic [ref=e144]: "07"
+            - generic [ref=e145]: Functions & Apply
+            - generic [ref=e146]: 0/5
+          - list [ref=e147]:
+            - listitem [ref=e148]:
+              - link "Lambda Functions" [ref=e149] [cursor=pointer]:
+                - /url: /learn/functions-apply/lambda-functions
+                - generic [ref=e150]: Lambda Functions
+            - listitem [ref=e151]:
+              - link "Apply & Map" [ref=e152] [cursor=pointer]:
+                - /url: /learn/functions-apply/apply-map
+                - generic [ref=e153]: Apply & Map
+            - listitem [ref=e154]:
+              - link "Custom Aggregations" [ref=e155] [cursor=pointer]:
+                - /url: /learn/functions-apply/custom-aggregations
+                - generic [ref=e156]: Custom Aggregations
+            - listitem [ref=e157]:
+              - link "Vectorized Operations" [ref=e158] [cursor=pointer]:
+                - /url: /learn/functions-apply/vectorized-operations
+                - generic [ref=e159]: Vectorized Operations
+            - listitem [ref=e160]:
+              - link "Capstone Project" [ref=e161] [cursor=pointer]:
+                - /url: /learn/functions-apply/capstone
+                - generic [ref=e162]: Capstone Project
+        - generic [ref=e163]:
+          - generic [ref=e164]:
+            - generic [ref=e165]: "08"
+            - generic [ref=e166]: NumPy Foundations
+            - generic [ref=e167]: 0/5
+          - list [ref=e168]:
+            - listitem [ref=e169]:
+              - link "Arrays and dtypes" [ref=e170] [cursor=pointer]:
+                - /url: /learn/numpy-foundations/arrays-and-dtypes
+                - generic [ref=e171]: Arrays and dtypes
+            - listitem [ref=e172]:
+              - link "Reshape and axis" [ref=e173] [cursor=pointer]:
+                - /url: /learn/numpy-foundations/reshape-and-axis
+                - generic [ref=e174]: Reshape and axis
+            - listitem [ref=e175]:
+              - link "Broadcasting" [ref=e176] [cursor=pointer]:
+                - /url: /learn/numpy-foundations/broadcasting
+                - generic [ref=e177]: Broadcasting
+            - listitem [ref=e178]:
+              - link "Vectorization vs loops" [ref=e179] [cursor=pointer]:
+                - /url: /learn/numpy-foundations/vectorization-vs-loops
+                - generic [ref=e180]: Vectorization vs loops
+            - listitem [ref=e181]:
+              - link "NumPy ↔ pandas crossover" [ref=e182] [cursor=pointer]:
+                - /url: /learn/numpy-foundations/numpy-pandas-crossover
+                - generic [ref=e183]: NumPy ↔ pandas crossover
+        - generic [ref=e184]:
+          - generic [ref=e185]:
+            - generic [ref=e186]: "09"
+            - generic [ref=e187]: Game Dev with Pygame
+            - generic [ref=e188]: 0/11
+          - list [ref=e189]:
+            - listitem [ref=e190]:
+              - link "Pygame Setup & Game Loop" [ref=e191] [cursor=pointer]:
+                - /url: /learn/game-dev-pygame/pygame-basics
+                - generic [ref=e192]: Pygame Setup & Game Loop
+            - listitem [ref=e193]:
+              - link "Movement, Velocity & Physics" [ref=e194] [cursor=pointer]:
+                - /url: /learn/game-dev-pygame/pygame-movement
+                - generic [ref=e195]: Movement, Velocity & Physics
+            - listitem [ref=e196]:
+              - link "Sprites & Sprite Groups" [ref=e197] [cursor=pointer]:
+                - /url: /learn/game-dev-pygame/pygame-sprites
+                - generic [ref=e198]: Sprites & Sprite Groups
+            - listitem [ref=e199]:
+              - link "Collision Detection" [ref=e200] [cursor=pointer]:
+                - /url: /learn/game-dev-pygame/pygame-collision
+                - generic [ref=e201]: Collision Detection
+            - listitem [ref=e202]:
+              - 'link "Project: Brick Breakaway" [ref=e203] [cursor=pointer]':
+                - /url: /learn/game-dev-pygame/pygame-project-breakaway
+                - generic [ref=e204]: "Project: Brick Breakaway"
+            - listitem [ref=e205]:
+              - 'link "Project: Tower Defense" [ref=e206] [cursor=pointer]':
+                - /url: /learn/game-dev-pygame/pygame-project-tower-defense
+                - generic [ref=e207]: "Project: Tower Defense"
+            - listitem [ref=e208]:
+              - 'link "Project: Sprite Game" [ref=e209] [cursor=pointer]':
+                - /url: /learn/game-dev-pygame/pygame-project-sprite-game
+                - generic [ref=e210]: "Project: Sprite Game"
+            - listitem [ref=e211]:
+              - link "Sound & Music" [ref=e212] [cursor=pointer]:
+                - /url: /learn/game-dev-pygame/pygame-sound
+                - generic [ref=e213]: Sound & Music
+            - listitem [ref=e214]:
+              - link "Text & HUD Rendering" [ref=e215] [cursor=pointer]:
+                - /url: /learn/game-dev-pygame/pygame-text-hud
+                - generic [ref=e216]: Text & HUD Rendering
+            - listitem [ref=e217]:
+              - link "Game State Management" [ref=e218] [cursor=pointer]:
+                - /url: /learn/game-dev-pygame/pygame-game-states
+                - generic [ref=e219]: Game State Management
+            - listitem [ref=e220]:
+              - link "Brick Breakaway · Deep Dive & Demo Prep" [ref=e221] [cursor=pointer]:
+                - /url: /learn/game-dev-pygame/pygame-project-breakaway-deep-dive
+                - generic [ref=e222]: Brick Breakaway · Deep Dive & Demo Prep
+        - generic [ref=e223]:
+          - generic [ref=e224]:
+            - generic [ref=e225]: "10"
+            - generic [ref=e226]: Data Manipulation (WCTC)
+            - generic [ref=e227]: 0/5
+          - list [ref=e228]:
+            - listitem [ref=e229]:
+              - link "String Methods in Pandas" [ref=e230] [cursor=pointer]:
+                - /url: /learn/data-manipulation-school/string-methods
+                - generic [ref=e231]: String Methods in Pandas
+            - listitem [ref=e232]:
+              - link "Working with Numbers & Types" [ref=e233] [cursor=pointer]:
+                - /url: /learn/data-manipulation-school/numbers-types
+                - generic [ref=e234]: Working with Numbers & Types
+            - listitem [ref=e235]:
+              - link "Dates and Times" [ref=e236] [cursor=pointer]:
+                - /url: /learn/data-manipulation-school/dates-times
+                - generic [ref=e237]: Dates and Times
+            - listitem [ref=e238]:
+              - link "Combining DataFrames" [ref=e239] [cursor=pointer]:
+                - /url: /learn/data-manipulation-school/combining
+                - generic [ref=e240]: Combining DataFrames
+            - listitem [ref=e241]:
+              - link "Pivot Tables & Reshaping" [ref=e242] [cursor=pointer]:
+                - /url: /learn/data-manipulation-school/pivot-tables
+                - generic [ref=e243]: Pivot Tables & Reshaping
+      - generic [ref=e244]:
+        - link "projects/" [ref=e245] [cursor=pointer]:
+          - /url: /projects
+        - link "cd ~/lessons" [ref=e246] [cursor=pointer]:
+          - /url: /learn
+    - main [ref=e247]:
+      - generic [ref=e248]:
+        - generic [ref=e250]:
+          - navigation "Breadcrumb" [ref=e251]:
+            - link "~/lessons" [ref=e252] [cursor=pointer]:
+              - /url: /learn
+            - generic [ref=e253]: /
+            - generic [ref=e254]: Python Basics
+            - generic [ref=e255]: /
+            - generic [ref=e256]: Variables & F-Strings
+          - heading "Variables & F-Strings" [level=1] [ref=e257]
+          - paragraph [ref=e258]:
+            - generic [ref=e259]: "[concept]"
+            - generic [ref=e260]: ·
+            - generic [ref=e261]: ~10 min
+          - navigation "lesson sections" [ref=e262]:
+            - list [ref=e263]:
+              - listitem [ref=e264]:
+                - link "theory" [ref=e265] [cursor=pointer]:
+                  - /url: "#theory"
+                  - generic [ref=e266]: ">"
+                  - generic [ref=e267]: theory
+              - listitem [ref=e268]:
+                - link "examples [3]" [ref=e269] [cursor=pointer]:
+                  - /url: "#examples"
+                  - generic [ref=e270]: examples
+                  - generic [ref=e271]: "[3]"
+              - listitem [ref=e272]:
+                - link "challenges [0/2]" [ref=e273] [cursor=pointer]:
+                  - /url: "#challenges"
+                  - generic [ref=e274]: challenges
+                  - generic [ref=e275]: "[0/2]"
+              - listitem [ref=e276]:
+                - link "project" [ref=e277] [cursor=pointer]:
+                  - /url: "#project"
+                  - generic [ref=e278]: project
+              - listitem [ref=e279]:
+                - link "cheatsheet" [ref=e280] [cursor=pointer]:
+                  - /url: "#cheatsheet"
+                  - generic [ref=e281]: cheatsheet
+          - generic [ref=e282]:
+            - paragraph [ref=e283]: "# theory"
+            - generic [ref=e284]:
+              - paragraph [ref=e513]: "Variables hold values. Python figures out the type:"
+              - code [ref=e515]: name = "Alice" age = 25 price = 19.99 is_active = True
+              - paragraph [ref=e516]:
+                - text: F-strings embed expressions inside strings. Prefix with
+                - code [ref=e517]: f
+                - text: ", put expressions in"
+                - code [ref=e518]: "{}"
+                - text: ":"
+              - code [ref=e520]: "print(f\"hi {name}, you are {age} years old\") print(f\"total: ${price * 3:.2f}\") # math works inside braces"
+              - paragraph [ref=e521]:
+                - code [ref=e522]: :.2f
+                - text: "is a format spec. A few you'll reach for constantly:"
+              - list [ref=e523]:
+                - listitem [ref=e524]:
+                  - code [ref=e525]: :.2f
+                  - text: two decimals (
+                  - code [ref=e526]: "3.14159"
+                  - text: becomes
+                  - code [ref=e527]: "3.14"
+                  - text: )
+                - listitem [ref=e528]:
+                  - code [ref=e529]: :,
+                  - text: thousands separator (
+                  - code [ref=e530]: "1000000"
+                  - text: becomes
+                  - code [ref=e531]: 1,000,000
+                  - text: )
+                - listitem [ref=e532]:
+                  - code [ref=e533]: :.0%
+                  - text: percent (
+                  - code [ref=e534]: "0.85"
+                  - text: becomes
+                  - code [ref=e535]: 85%
+                  - text: )
+                - listitem [ref=e536]:
+                  - code [ref=e537]: :>10
+                  - text: right-align inside 10 chars
+          - generic [ref=e310]:
+            - paragraph [ref=e311]:
+              - text: "# examples"
+              - generic [ref=e312]: "[3]"
+            - paragraph [ref=e313]: load any into the editor and modify.
+            - generic [ref=e314]:
+              - generic [ref=e315]:
+                - generic [ref=e316]:
+                  - heading "basic variables" [level=3] [ref=e317]
+                  - generic [ref=e318]:
+                    - button "Copy" [ref=e319]:
+                      - generic [ref=e320]:
+                        - img [ref=e321]
+                        - text: Copy
+                    - button "load in editor" [ref=e323]
+                - paragraph [ref=e324]: Creating different types of variables and printing them
+                - code [ref=e326]: "# Different types of variables city = \"New York\" population = 8336817 area_sq_miles = 302.6 is_capital = False print(f\"{city} has {population:,} people\") print(f\"Area: {area_sq_miles} square miles\") print(f\"Is it the capital? {is_capital}\")"
+              - generic [ref=e327]:
+                - generic [ref=e328]:
+                  - heading "calculations in f-strings" [level=3] [ref=e329]
+                  - generic [ref=e330]:
+                    - button "Copy" [ref=e331]:
+                      - generic [ref=e332]:
+                        - img [ref=e333]
+                        - text: Copy
+                    - button "load in editor" [ref=e335]
+                - paragraph [ref=e336]: You can do math right inside the curly braces
+                - code [ref=e338]: "base_price = 49.99 tax_rate = 0.08 quantity = 3 subtotal = base_price * quantity tax = subtotal * tax_rate total = subtotal + tax print(f\"Subtotal: ${subtotal:.2f}\") print(f\"Tax ({tax_rate:.0%}): ${tax:.2f}\") print(f\"Total: ${total:.2f}\")"
+              - generic [ref=e339]:
+                - generic [ref=e340]:
+                  - heading "string methods with variables" [level=3] [ref=e341]
+                  - generic [ref=e342]:
+                    - button "Copy" [ref=e343]:
+                      - generic [ref=e344]:
+                        - img [ref=e345]
+                        - text: Copy
+                    - button "load in editor" [ref=e347]
+                - paragraph [ref=e348]: Variables can be modified with string methods
+                - code [ref=e350]: "first_name = \"alice\" last_name = \"SMITH\" # Fix the capitalization formatted_name = f\"{first_name.title()} {last_name.title()}\" print(formatted_name) # String length print(f\"Name has {len(formatted_name)} characters\")"
+          - generic [ref=e351]:
+            - paragraph [ref=e352]:
+              - text: "# challenges"
+              - generic [ref=e353]: "[2]"
+            - paragraph [ref=e354]: finish the challenges to mark the lesson done.
+            - generic [ref=e355]:
+              - progressbar [ref=e356]
+              - generic [ref=e357]: 0/2
+            - generic [ref=e358]:
+              - generic [ref=e359]:
+                - generic [ref=e360]:
+                  - generic [ref=e361]:
+                    - generic [ref=e362]: ">"
+                    - generic [ref=e363]: challenge 01/02
+                  - button "start" [ref=e364]
+                - paragraph [ref=e365]: "Create a variable called 'product' with value 'Laptop' and 'price' with value 999.99. Print them in an f-string like: 'The Laptop costs $999.99'"
+                - generic [ref=e366]:
+                  - generic [ref=e367]: "!"
+                  - generic [ref=e368]: "hint: Use f-strings with :.2f for the price formatting"
+                - generic [ref=e369]:
+                  - button "show solution" [ref=e370]:
+                    - generic [ref=e371]: ▶
+                    - generic [ref=e372]: show solution
+                  - button "> stuck? ask the tutor" [ref=e373]
+              - generic [ref=e374]:
+                - generic [ref=e375]:
+                  - generic [ref=e376]:
+                    - generic [ref=e377]: ">"
+                    - generic [ref=e378]: challenge 02/02
+                  - button "start" [ref=e379]
+                - paragraph [ref=e380]: Create variables for hours=40 and rate=25.50. Calculate and print the weekly pay formatted as currency with 2 decimal places.
+                - generic [ref=e381]:
+                  - generic [ref=e382]: "!"
+                  - generic [ref=e383]: "hint: Multiply hours by rate, then use :.2f in your f-string"
+                - generic [ref=e384]:
+                  - button "show solution" [ref=e385]:
+                    - generic [ref=e386]: ▶
+                    - generic [ref=e387]: show solution
+                  - button "> stuck? ask the tutor" [ref=e388]
+          - generic [ref=e389]:
+            - paragraph [ref=e390]: "# project"
+            - generic [ref=e391]:
+              - generic [ref=e394]:
+                - paragraph [ref=e395]: "# project-challenge"
+                - paragraph [ref=e396]: "thread: SF Permits Analysis · reward: 50 xp"
+              - generic [ref=e397]:
+                - paragraph [ref=e398]: "# brief"
+                - paragraph [ref=e399]: You're building a permit lookup system. Given a permit number and its details, create a formatted summary line that displays the key information clearly.
+                - paragraph [ref=e400]: "# task"
+                - heading "Format Permit Summary" [level=4] [ref=e401]
+                - button "▶ hint" [ref=e403]
+                - generic [ref=e404]:
+                  - generic [ref=e405]:
+                    - generic [ref=e406]: "# your code"
+                    - generic [ref=e407]:
+                      - button "reset" [ref=e408]
+                      - button "run & check" [ref=e409]
+                  - generic [ref=e412]:
+                    - generic [ref=e413]:
+                      - generic [ref=e414]: "1"
+                      - generic [ref=e538]: "2"
+                      - generic [ref=e539]: "3"
+                      - generic [ref=e540]: "4"
+                      - generic [ref=e541]: "5"
+                      - generic [ref=e542]: "6"
+                      - generic [ref=e543]: "7"
+                      - generic [ref=e544]: "8"
+                      - generic [ref=e545]: "9"
+                      - generic [ref=e546]: "10"
+                      - generic [ref=e547]: "11"
+                      - generic [ref=e548]: "12"
+                      - generic [ref=e549]: "13"
+                      - generic [ref=e550]: "14"
+                      - generic [ref=e551]: "15"
+                      - generic [ref=e552]: "16"
+                      - generic [ref=e553]: "17"
+                      - generic [ref=e554]: "18"
+                      - generic [ref=e555]: "19"
+                      - generic [ref=e556]: "20"
+                      - generic [ref=e557]: "21"
+                      - generic [ref=e558]: "22"
+                      - generic [ref=e559]: "23"
+                      - generic [ref=e560]: "24"
+                      - generic [ref=e561]: "25"
+                      - generic [ref=e562]: "26"
+                      - generic [ref=e563]: "27"
+                      - generic [ref=e564]: "28"
+                      - generic [ref=e565]: "29"
+                      - generic [ref=e566]: "30"
+                    - generic [ref=e415]:
+                      - generic: "import pandas as pd import io permits_csv = \"\"\"Permit Number|Permit Type|Street Number|Street Name|Status|Filed Date|Issued Date|Neighborhood|Existing Use|Proposed Use BP2023-0001|alterations|450|Market St|issued|2023-01-15|2023-02-10|Financial District|office|office BP2023-0002|new construction|1200|Mission St|complete|2023-01-18|2023-02-28|SoMa|vacant lot|apartments BP2023-0003|additions|2847|24th St|issued|2023-01-22|2023-03-05|Mission|1 family dwelling|1 family dwelling BP2023-0004|alterations|555|California St|cancelled|2023-01-25||Nob Hill|office|office BP2023-0005|demolition|890|Folsom St|complete|2023-02-01|2023-02-15|SoMa|warehouse|vacant lot BP2023-0006|new construction|3200|16th St|issued|2023-02-05|2023-04-01|Mission|parking lot|retail BP2023-0007|alterations|100|Van Ness Ave|withdrawn|2023-02-10||Civic Center|retail|restaurant BP2023-0008|sign erection|1800|Haight St|complete|2023-02-12|2023-02-20|Haight-Ashbury|retail|retail BP2023-0009|additions|4521|Judah St|issued|2023-02-15|2023-04-10|Sunset|1 family dwelling|2 family dwelling BP2023-0010|alterations|601|Montgomery St|issued|2023-02-18|2023-03-25|Financial District|office|office BP2023-0011|new construction|2100|Folsom St|expired|2023-02-20|2023-03-30|Mission|vacant lot|apartments BP2023-0012|alterations|789|Brannan St|complete|2023-02-22|2023-04-05|SoMa|warehouse|office BP2023-0013|demolition|1550|Howard St|complete|2023-02-25|2023-03-10|SoMa|industrial|vacant lot BP2023-0014|additions|3845|Noriega St|issued|2023-03-01|2023-05-01|Sunset|1 family dwelling|1 family dwelling BP2023-0015|new construction|425|Mission St|issued|2023-03-05|2023-06-15|Financial District|parking lot|office tower\"\"\" permits = pd.read_csv(io.StringIO(permits_csv), sep='|') # Get the first permit's data first_permit = permits.iloc[0] permit_number = first_permit[\"Permit Number\"] street_name = first_permit[\"Street Name\"] status = first_permit[\"Status\"] # TODO: Print a summary line like: \"Permit BP2023-0001 on Market St has status: issued\""
+                      - textbox [ref=e416]: "import pandas as pd import io permits_csv = \"\"\"Permit Number|Permit Type|Street Number|Street Name|Status|Filed Date|Issued Date|Neighborhood|Existing Use|Proposed Use BP2023-0001|alterations|450|Market St|issued|2023-01-15|2023-02-10|Financial District|office|office BP2023-0002|new construction|1200|Mission St|complete|2023-01-18|2023-02-28|SoMa|vacant lot|apartments BP2023-0003|additions|2847|24th St|issued|2023-01-22|2023-03-05|Mission|1 family dwelling|1 family dwelling BP2023-0004|alterations|555|California St|cancelled|2023-01-25||Nob Hill|office|office BP2023-0005|demolition|890|Folsom St|complete|2023-02-01|2023-02-15|SoMa|warehouse|vacant lot BP2023-0006|new construction|3200|16th St|issued|2023-02-05|2023-04-01|Mission|parking lot|retail BP2023-0007|alterations|100|Van Ness Ave|withdrawn|2023-02-10||Civic Center|retail|restaurant BP2023-0008|sign erection|1800|Haight St|complete|2023-02-12|2023-02-20|Haight-Ashbury|retail|retail BP2023-0009|additions|4521|Judah St|issued|2023-02-15|2023-04-10|Sunset|1 family dwelling|2 family dwelling BP2023-0010|alterations|601|Montgomery St|issued|2023-02-18|2023-03-25|Financial District|office|office BP2023-0011|new construction|2100|Folsom St|expired|2023-02-20|2023-03-30|Mission|vacant lot|apartments BP2023-0012|alterations|789|Brannan St|complete|2023-02-22|2023-04-05|SoMa|warehouse|office BP2023-0013|demolition|1550|Howard St|complete|2023-02-25|2023-03-10|SoMa|industrial|vacant lot BP2023-0014|additions|3845|Noriega St|issued|2023-03-01|2023-05-01|Sunset|1 family dwelling|1 family dwelling BP2023-0015|new construction|425|Mission St|issued|2023-03-05|2023-06-15|Financial District|parking lot|office tower\"\"\" permits = pd.read_csv(io.StringIO(permits_csv), sep='|') # Get the first permit's data first_permit = permits.iloc[0] permit_number = first_permit[\"Permit Number\"] street_name = first_permit[\"Street Name\"] status = first_permit[\"Status\"] # TODO: Print a summary line like: \"Permit BP2023-0001 on Market St has status: issued\""
+                  - generic [ref=e426]:
+                    - generic [ref=e430]: Output
+                    - generic [ref=e432]:
+                      - generic [ref=e434]: ▶
+                      - paragraph [ref=e435]: No output yet
+                      - paragraph [ref=e436]: Press Cmd/Ctrl+Enter or click Run to execute
+          - generic [ref=e437]:
+            - paragraph [ref=e438]: "# cheatsheet"
+            - paragraph [ref=e439]: key syntax and methods for this module.
+            - list [ref=e440]:
+              - listitem [ref=e441]:
+                - generic [ref=e442]:
+                  - paragraph [ref=e443]: Print output
+                  - paragraph [ref=e444]: Display values in the output
+                - code [ref=e445]: print(value)
+              - listitem [ref=e446]:
+                - generic [ref=e447]:
+                  - paragraph [ref=e448]: Create variable
+                  - paragraph [ref=e449]: Assign a value to a variable
+                - code [ref=e450]: x = 10
+              - listitem [ref=e451]:
+                - generic [ref=e452]:
+                  - paragraph [ref=e453]: String formatting
+                  - paragraph [ref=e454]: Insert variables into strings
+                - code [ref=e455]: "f\"Hello {name}\""
+              - listitem [ref=e456]:
+                - generic [ref=e457]:
+                  - paragraph [ref=e458]: List creation
+                  - paragraph [ref=e459]: Create a list of items
+                - code [ref=e460]: "[1, 2, 3]"
+          - 'link "next: Lists & Tuples →" [ref=e463] [cursor=pointer]':
+            - /url: /learn/python-basics/lists-tuples
+            - generic [ref=e464]: "next:"
+            - generic [ref=e465]: Lists & Tuples
+            - generic [ref=e466]: →
+        - generic [ref=e467]:
+          - generic [ref=e468]:
+            - generic [ref=e471]: "pyodide: ready"
+            - generic [ref=e472]:
+              - button "reset" [ref=e473]
+              - button "run ⌘↵" [ref=e474]:
+                - text: run
+                - generic [ref=e475]: ⌘↵
+          - generic [ref=e478]:
+            - generic [ref=e479]:
+              - generic [ref=e480]: "1"
+              - generic [ref=e481]: "2"
+              - generic [ref=e482]: "3"
+              - generic [ref=e483]: "4"
+              - generic [ref=e484]: "5"
+              - generic [ref=e485]: "6"
+              - generic [ref=e486]: "7"
+              - generic [ref=e487]: "8"
+              - generic [ref=e488]: "9"
+              - generic [ref=e489]: "10"
+            - generic [ref=e490]:
+              - generic: "# Try creating variables and printing with f-strings name = \"Your Name\" score = 95 # Print a greeting with the name print(f\"Hello, {name}!\") # Print the score as a percentage print(f\"Your score: {score}%\")"
+              - textbox [ref=e491]: "# Try creating variables and printing with f-strings name = \"Your Name\" score = 95 # Print a greeting with the name print(f\"Hello, {name}!\") # Print the score as a percentage print(f\"Your score: {score}%\")"
+          - generic [ref=e501]:
+            - generic [ref=e505]: Output
+            - generic [ref=e507]:
+              - generic [ref=e509]: ▶
+              - paragraph [ref=e510]: No output yet
+              - paragraph [ref=e511]: Press Cmd/Ctrl+Enter or click Run to execute
+    - button "Open AI tutor" [ref=e512]: ✦ tutor
+  - alert [ref=e574]

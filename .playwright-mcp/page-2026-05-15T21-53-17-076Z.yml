@@ -1,0 +1,72 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "$ cd ~" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=e6]:
+          - link "lessons" [ref=e7] [cursor=pointer]:
+            - /url: /learn
+          - generic [ref=e8]: "> projects"
+          - link "stats" [ref=e9] [cursor=pointer]:
+            - /url: /stats
+    - main [ref=e10]:
+      - generic [ref=e11]:
+        - paragraph [ref=e12]: damato@python:~/projects$ ls
+        - paragraph [ref=e14]: 0 of 16 steps done across 3 projects
+      - generic [ref=e15]:
+        - paragraph [ref=e16]: "# projects"
+        - generic [ref=e17]:
+          - link "Open project Building Permits Analysis" [ref=e18] [cursor=pointer]:
+            - /url: /projects/building-permits
+            - generic [ref=e20]: projects/building-permits/
+            - paragraph [ref=e21]: SF Building Permits
+            - paragraph [ref=e22]: Analyze San Francisco building permit data to discover patterns in construction activity, understand permit statuses, and identify use changes across neighborhoods.
+            - generic [ref=e23]:
+              - generic [ref=e24]: "[beginner+]"
+              - generic [ref=e25]: ·
+              - generic [ref=e26]: 30 min
+              - generic [ref=e27]: ·
+              - generic [ref=e28]: 5 steps
+            - generic [ref=e29]:
+              - generic [ref=e30]: 0 of 5 done
+              - generic [ref=e31]: ─
+          - link "Open project Survey Data Explorer" [ref=e32] [cursor=pointer]:
+            - /url: /projects/survey-explorer
+            - generic [ref=e34]: projects/survey-explorer/
+            - paragraph [ref=e35]: Tech Survey Data
+            - paragraph [ref=e36]: Explore a tech industry salary survey to discover patterns in compensation, experience levels, and language preferences across countries.
+            - generic [ref=e37]:
+              - generic [ref=e38]: "[beginner+]"
+              - generic [ref=e39]: ·
+              - generic [ref=e40]: 25 min
+              - generic [ref=e41]: ·
+              - generic [ref=e42]: 5 steps
+            - generic [ref=e43]:
+              - generic [ref=e44]: 0 of 5 done
+              - generic [ref=e45]: ─
+          - link "Open project Sales Performance Dashboard" [ref=e46] [cursor=pointer]:
+            - /url: /projects/sales-dashboard
+            - generic [ref=e48]: projects/sales-dashboard/
+            - paragraph [ref=e49]: Sales Data 2023
+            - paragraph [ref=e50]: Build a sales analysis dashboard by calculating revenue metrics, identifying top performers, analyzing regional performance, and tracking monthly trends.
+            - generic [ref=e51]:
+              - generic [ref=e52]: "[intermediate]"
+              - generic [ref=e53]: ·
+              - generic [ref=e54]: 35 min
+              - generic [ref=e55]: ·
+              - generic [ref=e56]: 6 steps
+            - generic [ref=e57]:
+              - generic [ref=e58]: 0 of 6 done
+              - generic [ref=e59]: ─
+      - generic [ref=e60]:
+        - paragraph [ref=e61]: "# notes"
+        - paragraph [ref=e62]: each project runs from real datasets embedded in the page (no downloads).
+        - paragraph [ref=e63]: steps validate on run. solutions unlock after a couple of failed attempts.
+        - paragraph [ref=e64]: longer-form than lessons, useful when i want to apply what a module covers.
+    - contentinfo [ref=e65]:
+      - generic [ref=e66]:
+        - generic [ref=e67]: exit 0 · personal use · next.js + pyodide
+        - link "~ home" [ref=e68] [cursor=pointer]:
+          - /url: /
+  - alert [ref=e69]

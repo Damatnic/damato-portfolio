@@ -34,17 +34,13 @@ export default function NowPage() {
         </h1>
         <p className="mt-5 max-w-[60ch] text-stone-300 leading-relaxed">
           What I&apos;m working on across this portfolio and the two mastery
-          sites. Updated when something actually ships, not on a schedule. The{" "}
-          <Link
-            href="/analytics"
-            className="rounded text-[var(--accent)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-          >
-            /analytics
-          </Link>{" "}
-          page covers the traffic side.
+          sites. Updated when something actually ships, not on a schedule.
         </p>
         <p className="mt-4 text-sm text-stone-500">
-          <Link href="/" className="underline-offset-4 hover:underline">
+          <Link
+            href="/"
+            className="rounded underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
+          >
             ← back to portfolio
           </Link>
         </p>
@@ -84,7 +80,7 @@ export default function NowPage() {
             href="https://nownownow.com/about"
             target="_blank"
             rel="noreferrer"
-            className="text-stone-400 underline-offset-4 hover:underline"
+            className="rounded text-stone-400 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
           >
             nownownow.com
           </a>
@@ -93,7 +89,7 @@ export default function NowPage() {
             href="https://github.com/Damatnic/damato-portfolio/blob/main/src/data/now.ts"
             target="_blank"
             rel="noreferrer"
-            className="text-stone-400 underline-offset-4 hover:underline"
+            className="rounded text-stone-400 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
           >
             now.ts
           </a>
