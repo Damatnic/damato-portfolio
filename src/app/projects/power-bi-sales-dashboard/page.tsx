@@ -77,6 +77,8 @@ export default function PowerBICaseStudy() {
             <span className="text-stone-400">·</span>
             <a
               href="https://github.com/Damatnic/power-bi-sales-dashboard/raw/main/sales_dashboard.pbix"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 rounded text-stone-300 hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
             >
               <FileDown className="h-4 w-4" aria-hidden="true" />
@@ -167,9 +169,9 @@ YoY Growth =
         <CodeBlock label="dax">{`Is Sales Employee =
     IF(NOT(ISBLANK(Employee[Sales Territory Key])), 1, 0)`}</CodeBlock>
 
-        <H2 id="pages">The three pages</H2>
+        <H2 id="pages">What each page shows</H2>
 
-        <H3>Page 1. Sales Overview</H3>
+        <H3>Page 1 — Sales Overview</H3>
         <ul className="mt-3 space-y-2">
           <li>KPI cards for Total Sales, Total Orders, Average Order Value, YoY Growth</li>
           <li>Sales-over-time line chart with year and month drilldown</li>
@@ -178,7 +180,7 @@ YoY Growth =
           <li>Slicers: Year, Sales Territory, Product Category</li>
         </ul>
 
-        <H3>Page 2. Sales Details</H3>
+        <H3>Page 2 — Sales Details</H3>
         <ul className="mt-3 space-y-2">
           <li>
             Employee performance scorecard, filtered to active sales staff via{" "}
@@ -194,7 +196,7 @@ YoY Growth =
           <li>Right-click drill-through into individual employee detail</li>
         </ul>
 
-        <H3>Page 3. Salary Analysis</H3>
+        <H3>Page 3 — Salary Analysis</H3>
         <ul className="mt-3 space-y-2">
           <li>Employee compensation vs review scores</li>
           <li>Sales Reviews integrated via the 1:1 relationship to Employee</li>
@@ -202,16 +204,53 @@ YoY Growth =
           <li>Salary distribution by Title and Sales Territory</li>
         </ul>
 
-        <H2 id="screenshots">The three pages</H2>
+        <H2 id="screenshots">Screenshots</H2>
         <p className="mt-3">
-          Captured from Power BI Desktop. The PBIX is in the repo if you want
-          to open it yourself and dig.
+          These images are layout placeholders so the case study reads cleanly on
+          the web. The real charts live inside{" "}
+          <Code>sales_dashboard.pbix</Code>.
         </p>
+        <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-stone-500">
+          <li>
+            <strong className="text-stone-100">Download or clone:</strong>{" "}
+            <a
+              href="https://github.com/Damatnic/power-bi-sales-dashboard/raw/main/sales_dashboard.pbix"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded text-[var(--accent)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
+            >
+              Raw PBIX
+            </a>{" "}
+            ·{" "}
+            <a
+              href="https://github.com/Damatnic/power-bi-sales-dashboard"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded text-[var(--accent)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
+            >
+              Repo (clone with Git)
+            </a>
+          </li>
+          <li>
+            In Power BI Desktop, use a{" "}
+            <strong className="text-stone-100">1920×1080</strong> canvas, hide
+            Filters / Bookmarks panes for the capture, reset slicers to a simple
+            story (for example latest full year), then export each page as PNG or
+            screenshot.
+          </li>
+          <li>
+            Drop exports into{" "}
+            <Code>public/projects/power-bi/</Code> as{" "}
+            <Code>page-1-sales-overview.png</Code>,{" "}
+            <Code>page-2-sales-details.png</Code>,{" "}
+            <Code>page-3-salary-analysis.png</Code>, redeploy.
+          </li>
+        </ul>
 
         <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
           <Image
             src="/projects/power-bi/page-1-sales-overview.png"
-            alt="Power BI Sales Overview page: KPI cards across the top showing Total Sales, Total Orders, Average Order Value, and YoY Growth. Below them a sales-over-time line chart, a map of sales by region, and a top products by revenue chart."
+            alt="Placeholder wireframe for Sales Overview: header title, row of four empty KPI slots, large panel noting KPI cards line chart map and top products — open PBIX for real visuals."
             width={1600}
             height={900}
             sizes="(min-width: 768px) 768px, 100vw"
@@ -219,7 +258,7 @@ YoY Growth =
           />
           <figcaption className="border-t border-stone-800 bg-stone-900/60 px-4 py-3 text-xs text-stone-300">
             <strong className="text-stone-100">Page 1, Sales Overview.</strong>{" "}
-            Four KPI cards on a star-schema fact table. The YoY measure uses
+            Placeholder image — live page has KPI cards on a star-schema fact table. The YoY measure uses{" "}
             <Code>SAMEPERIODLASTYEAR(Date[Full Date Alternate Key])</Code> and
             relies on the Date dimension being marked as the date table. Top
             slicers cascade to every visual on the page.
@@ -229,7 +268,7 @@ YoY Growth =
         <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
           <Image
             src="/projects/power-bi/page-2-sales-details.png"
-            alt="Power BI Sales Details page: employee performance scorecard filtered to active sales staff. Bar chart comparing base rate against earned commission per employee. Promotion effectiveness chart showing Sales Amount and Order Quantity by promotion type."
+            alt="Placeholder wireframe for Sales Details: header, four empty KPI slots, panel labeled employee scorecard commission promotions — open PBIX for real visuals."
             width={1600}
             height={900}
             sizes="(min-width: 768px) 768px, 100vw"
@@ -237,7 +276,7 @@ YoY Growth =
           />
           <figcaption className="border-t border-stone-800 bg-stone-900/60 px-4 py-3 text-xs text-stone-300">
             <strong className="text-stone-100">Page 2, Sales Details.</strong>{" "}
-            Scorecard filtered to{" "}
+            Placeholder image — live page scorecard filtered to{" "}
             <Code>Is Sales Employee = 1</Code> so admin staff don&apos;t
             distort the comparison. Right-click on a row to drill through into
             an individual employee detail page.
@@ -247,7 +286,7 @@ YoY Growth =
         <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
           <Image
             src="/projects/power-bi/page-3-salary-analysis.png"
-            alt="Power BI Salary Analysis page: scatter plot of employee compensation against review score, salary distribution histogram by Title, and a table flagging outliers where high review scores meet low base rates."
+            alt="Placeholder wireframe for Salary Analysis: header, four empty KPI slots, panel labeled compensation vs review score and salary by title — open PBIX for real visuals."
             width={1600}
             height={900}
             sizes="(min-width: 768px) 768px, 100vw"
@@ -255,7 +294,7 @@ YoY Growth =
           />
           <figcaption className="border-t border-stone-800 bg-stone-900/60 px-4 py-3 text-xs text-stone-300">
             <strong className="text-stone-100">Page 3, Salary Analysis.</strong>{" "}
-            Sales Reviews is joined to Employee 1:1. The outliers visual is
+            Placeholder image — live page: Sales Reviews joined to Employee 1:1. The outliers visual is
             the actual interesting one: highest review scores against lowest
             base rates.
           </figcaption>
@@ -301,8 +340,8 @@ YoY Growth =
             time measures silently return blank.
           </li>
           <li>
-            Drill-through pages are a much better UX for "show me the details
-            on this thing" than trying to cram everything onto one page.
+            Drill-through pages are a much better UX for &quot;show me the details
+            on this thing&quot; than trying to cram everything onto one page.
           </li>
           <li>
             Slicer layout matters more than you&apos;d think. Keeping them in
