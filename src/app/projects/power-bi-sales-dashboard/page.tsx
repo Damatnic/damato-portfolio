@@ -76,7 +76,7 @@ export default function PowerBICaseStudy() {
             </a>
             <span className="text-stone-400">·</span>
             <a
-              href="https://github.com/Damatnic/power-bi-sales-dashboard/archive/refs/heads/main.zip"
+              href="https://github.com/Damatnic/power-bi-sales-dashboard/archive/main.zip"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 rounded text-stone-300 hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
@@ -214,7 +214,7 @@ YoY Growth =
           <li>
             <strong className="text-stone-100">Clone or ZIP:</strong>{" "}
             <a
-              href="https://github.com/Damatnic/power-bi-sales-dashboard/archive/refs/heads/main.zip"
+              href="https://github.com/Damatnic/power-bi-sales-dashboard/archive/main.zip"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded text-[var(--accent)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
