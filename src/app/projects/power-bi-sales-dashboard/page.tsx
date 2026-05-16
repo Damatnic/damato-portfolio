@@ -76,13 +76,13 @@ export default function PowerBICaseStudy() {
             </a>
             <span className="text-stone-400">·</span>
             <a
-              href="https://github.com/Damatnic/power-bi-sales-dashboard/raw/main/sales_dashboard.pbix"
+              href="https://github.com/Damatnic/power-bi-sales-dashboard/archive/refs/heads/main.zip"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 rounded text-stone-300 hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
             >
               <FileDown className="h-4 w-4" aria-hidden="true" />
-              Download .pbix
+              Download ZIP (PBIP)
             </a>
           </p>
         </div>
@@ -207,19 +207,19 @@ YoY Growth =
         <H2 id="screenshots">Screenshots</H2>
         <p className="mt-3">
           These images are layout placeholders so the case study reads cleanly on
-          the web. The real charts live inside{" "}
-          <Code>sales_dashboard.pbix</Code>.
+          the web. The live report is on GitHub as a Power BI Project — open{" "}
+          <Code>sales_dashboard.pbip</Code> in Desktop after cloning or unzipping.
         </p>
         <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-stone-500">
           <li>
-            <strong className="text-stone-100">Download or clone:</strong>{" "}
+            <strong className="text-stone-100">Clone or ZIP:</strong>{" "}
             <a
-              href="https://github.com/Damatnic/power-bi-sales-dashboard/raw/main/sales_dashboard.pbix"
+              href="https://github.com/Damatnic/power-bi-sales-dashboard/archive/refs/heads/main.zip"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded text-[var(--accent)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
             >
-              Raw PBIX
+              Repo ZIP
             </a>{" "}
             ·{" "}
             <a
