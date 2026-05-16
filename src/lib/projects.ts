@@ -42,10 +42,10 @@ export const sideProjects: SideProject[] = [
     slug: "python-practice",
     title: "python-practice",
     description:
-      "Four Jupyter notebooks I built while learning pandas. Covers the fundamentals, data cleaning, and combining/grouping. Every concept follows the same pattern: mental model, syntax, example, then a challenge you write yourself before checking the solution.",
-    tech: ["Python", "pandas", "Jupyter"],
+      "Stepped notebook practice site: four pandas tracks with one concept per screen, JupyterLite in the browser, AI tutor, and a quick reference. Same mental-model → example → your-turn flow as the notebooks, without scrolling through thirty cells at once.",
+    tech: ["Python", "pandas", "JupyterLite", "Pyodide"],
     github: "https://github.com/Damatnic/python-practice",
-    liveUrl: "https://github.com/Damatnic/python-practice/blob/main/02_pandas_fundamentals.ipynb",
+    liveUrl: "https://python-practice-omega.vercel.app",
   },
 ];
 
