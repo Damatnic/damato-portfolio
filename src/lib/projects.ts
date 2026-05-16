@@ -24,7 +24,7 @@ export const sideProjects: SideProject[] = [
     slug: "python-mastery",
     title: "python-mastery",
     description:
-      "Couldn't find a Python lessons site that ran real code against real data and tracked what I'd forgotten. Built one. 51 lessons, Pyodide in a Web Worker (real infinite-loop kill), pandas + numpy preloaded, spaced-repetition review queue that surfaces the lessons I last opened the longest ago. Runs entirely in the browser, no signup.",
+      "Couldn't find a Python lessons site that ran real code against real data and tracked what I'd forgotten. Built one. 61 lessons across 11 modules, Pyodide in a Web Worker (real infinite-loop kill), pandas + numpy preloaded, a real spaced-repetition queue that resurfaces lessons as they come due. Runs entirely in the browser, no signup.",
     tech: ["Next.js", "TypeScript", "Pyodide (Worker)", "Tailwind"],
     github: "https://github.com/Damatnic/python-mastery",
     liveUrl: "https://damato-python.vercel.app",
@@ -33,7 +33,7 @@ export const sideProjects: SideProject[] = [
     slug: "sql-mastery",
     title: "sql-mastery",
     description:
-      "Same thing for SQL, built the semester I was taking Advanced SQL at WCTC. 52 lessons across 10 modules, real SQLite via sql.js, an AI tutor prompted to ask before answering, a /stats view with rank ladder and review queue. The playground hits the same engine the lessons use. Type `help` in the shell on the homepage.",
+      "Same thing for SQL, built the semester I was taking Advanced SQL at WCTC. 55 lessons across 11 modules, real SQLite via sql.js, an AI tutor prompted to ask before answering, a /stats view with rank ladder and review queue. The playground hits the same engine the lessons use. Type `help` in the shell on the homepage.",
     tech: ["Next.js", "TypeScript", "SQL.js", "OpenAI", "Tailwind"],
     github: "https://github.com/Damatnic/sql-mastery",
     liveUrl: "https://damato-sql.vercel.app",
@@ -42,7 +42,7 @@ export const sideProjects: SideProject[] = [
     slug: "python-practice",
     title: "python-practice",
     description:
-      "Stepped notebook practice site: four pandas tracks with one concept per screen, JupyterLite in the browser, AI tutor, and a quick reference. Same mental-model → example → your-turn flow as the notebooks, without scrolling through thirty cells at once.",
+      "Stepped notebook practice site: four tracks (Python crash course, then pandas fundamentals, cleaning, and combining) with one concept per screen, JupyterLite in the browser, AI tutor, and a quick reference. Predict-then-reveal examples and a spaced-repetition schedule, without scrolling through thirty cells at once.",
     tech: ["Python", "pandas", "JupyterLite", "Pyodide"],
     github: "https://github.com/Damatnic/python-practice",
     liveUrl: "https://python-practice-omega.vercel.app",
