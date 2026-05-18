@@ -38,15 +38,6 @@ export const sideProjects: SideProject[] = [
     github: "https://github.com/Damatnic/sql-mastery",
     liveUrl: "https://damato-sql.vercel.app",
   },
-  {
-    slug: "python-practice",
-    title: "python-practice",
-    description:
-      "Stepped notebook practice site: four tracks (Python crash course, then pandas fundamentals, cleaning, and combining) with one concept per screen, JupyterLite in the browser, AI tutor, and a quick reference. Predict-then-reveal examples and a spaced-repetition schedule, without scrolling through thirty cells at once.",
-    tech: ["Python", "pandas", "JupyterLite", "Pyodide"],
-    github: "https://github.com/Damatnic/python-practice",
-    liveUrl: "https://python-practice-omega.vercel.app",
-  },
 ];
 
 export const projects: Project[] = [
