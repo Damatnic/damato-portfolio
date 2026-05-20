@@ -11,7 +11,7 @@ export const nowEntries: NowEntry[] = [
     items: [
       "Window functions finally clicked after I stopped trying to think of them like GROUP BY. LAG and LEAD are straightforward but I kept getting tripped up on when PARTITION BY changes the row count vs when it doesn't. Drew it out on paper, that helped.",
       "Still not sure exactly when to reach for numpy instead of pandas for number stuff. Everyone says 'performance' but I haven't hit a case where pandas was actually too slow. Probably just haven't worked with enough data yet.",
-      "Looking for part-time analyst work or an internship in the Milwaukee area while I finish the degree.",
+      "Just finished spring semester with a 4.0, starting summer classes now. Looking for part-time analyst work or an internship in the Milwaukee area while I finish the degree.",
     ],
   },
   {
