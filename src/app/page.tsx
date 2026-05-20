@@ -428,14 +428,7 @@ export default function Home() {
                   What I&apos;m doing right now: working through advanced SQL
                   window functions, rebuilding damato-sql lessons every weekend,
                   and figuring out where pandas stops being enough and numpy
-                  starts. The{" "}
-                  <Link
-                    href="/now"
-                    className="rounded text-[var(--accent)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-                  >
-                    /now
-                  </Link>{" "}
-                  page has the full log.
+                  starts.
                 </p>
               </div>
 
@@ -496,12 +489,6 @@ export default function Home() {
           <div className="mx-auto flex max-w-5xl flex-col gap-3 px-6 py-10 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-stone-400 font-mono">
               <span>Nicholas D&apos;Amato · Pewaukee, WI</span>
-              <Link
-                href="/now"
-                className="rounded text-stone-300 hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-              >
-                /now
-              </Link>
             </div>
             <div className="flex gap-5 text-sm text-stone-300">
               <a
