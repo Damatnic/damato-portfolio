@@ -2,6 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { CopyableQuery } from "@/components/CopyableQuery";
+import { JsonLd } from "@/components/JsonLd";
+import { projects } from "@/lib/projects";
+import { projectJsonLd } from "@/lib/jsonLd";
+
+const project = projects.find((p) => p.slug === "car-rental-sql-server")!;
 
 export const metadata = {
   title: "Car Rental Database | Nicholas D'Amato",
@@ -30,6 +35,7 @@ function Code({ children }: { children: React.ReactNode }) {
 export default function CarRentalCaseStudy() {
   return (
     <main id="main" className="flex-1">
+      <JsonLd data={projectJsonLd(project)} />
       <section className="border-b border-stone-800/60">
         <div className="mx-auto max-w-3xl px-6 pt-10 pb-10">
           <Link

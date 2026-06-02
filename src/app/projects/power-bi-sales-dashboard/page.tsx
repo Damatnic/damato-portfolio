@@ -1,6 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, FileDown } from "lucide-react";
+import { JsonLd } from "@/components/JsonLd";
+import { projects } from "@/lib/projects";
+import { projectJsonLd } from "@/lib/jsonLd";
+
+const project = projects.find((p) => p.slug === "power-bi-sales-dashboard")!;
 
 export const metadata = {
   title: "Power BI Sales Dashboard | Nicholas D'Amato",
@@ -44,6 +49,7 @@ function CodeBlock({ children, label }: { children: string; label?: string }) {
 export default function PowerBICaseStudy() {
   return (
     <main id="main" className="flex-1">
+      <JsonLd data={projectJsonLd(project)} />
       <section className="border-b border-stone-800/60">
         <div className="mx-auto max-w-3xl px-6 pt-10 pb-10">
           <Link

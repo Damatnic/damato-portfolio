@@ -3,7 +3,7 @@
 import { useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useReducedMotion } from "framer-motion";
-import { ArrowLeft, Search } from "lucide-react";
+import { ArrowLeft, Download, Search } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -182,6 +182,37 @@ export default function OlympicMedalsPage() {
     setSearch("");
   }
 
+  function downloadCsv() {
+    const cols: (keyof Row)[] = [
+      "olympics",
+      "season",
+      "category",
+      "event",
+      "athlete",
+      "code",
+      "country",
+      "medal",
+      "continent",
+    ];
+    const escape = (v: string) =>
+      /[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
+    const lines = [
+      cols.join(","),
+      ...filtered.map((r) => cols.map((c) => escape(String(r[c] ?? ""))).join(",")),
+    ];
+    const blob = new Blob([lines.join("\n")], {
+      type: "text/csv;charset=utf-8;",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `olympic-medals-${filtered.length}-rows.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <main id="main" className="flex-1">
       <section className="border-b border-stone-800/60">
@@ -248,14 +279,26 @@ export default function OlympicMedalsPage() {
 
         {/* Filters */}
         <div>
-          <div className="flex items-baseline justify-between">
+          <div className="flex items-baseline justify-between gap-3">
             <h2 className="text-lg font-medium text-stone-100">Filter the data</h2>
-            <button
-              onClick={resetFilters}
-              className="rounded px-2 py-1 text-xs text-stone-300 hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-            >
-              reset
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={downloadCsv}
+                disabled={filtered.length === 0}
+                className="inline-flex items-center gap-1.5 rounded border border-stone-800 px-2.5 py-1 text-xs text-stone-300 transition hover:border-[var(--accent)]/50 hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-stone-800 disabled:hover:text-stone-300"
+                title="Download the rows currently in view as CSV"
+              >
+                <Download className="h-3.5 w-3.5" aria-hidden="true" />
+                Download CSV
+                <span className="text-stone-500">({filtered.length.toLocaleString()})</span>
+              </button>
+              <button
+                onClick={resetFilters}
+                className="rounded px-2 py-1 text-xs text-stone-300 hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
+              >
+                reset
+              </button>
+            </div>
           </div>
 
           <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
