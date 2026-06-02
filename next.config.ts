@@ -25,6 +25,19 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+  // The site moved to nicholasdamato.vercel.app. The old damato-data alias is
+  // still attached, so 301 any request hitting it over to the new canonical
+  // host (keeps old links alive + consolidates SEO).
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "damato-data.vercel.app" }],
+        destination: "https://nicholasdamato.vercel.app/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
