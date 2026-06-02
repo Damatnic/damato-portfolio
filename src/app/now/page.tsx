@@ -26,7 +26,7 @@ export default function NowPage() {
     >
       <header className="mb-10">
         <p className="font-mono text-xs uppercase tracking-widest text-[var(--accent)]">
-          // dated log · newest first
+          {"// dated log · newest first"}
         </p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
           /now

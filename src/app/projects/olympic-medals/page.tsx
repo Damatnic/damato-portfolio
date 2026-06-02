@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useReducedMotion } from "framer-motion";
 import { ArrowLeft, Search } from "lucide-react";
@@ -47,6 +47,22 @@ const CONTINENT_COLORS: Record<string, string> = {
   Africa: "#a07752",
 };
 
+const emptySubscribe = () => () => {};
+
+/**
+ * True only after client hydration. recharts' ResponsiveContainer measures the
+ * DOM, so the charts must render client-side. useSyncExternalStore gives a
+ * server snapshot of `false` and a client snapshot of `true` without a
+ * set-state-in-effect (which the React hooks lint rule forbids).
+ */
+function useHydrated(): boolean {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
+}
+
 const OLYMPICS_OPTIONS = ["All", "Tokyo 2020", "Beijing 2022"] as const;
 const CONTINENT_OPTIONS = [
   "All",
@@ -59,12 +75,9 @@ const CONTINENT_OPTIONS = [
 const MEDAL_OPTIONS = ["Gold", "Silver", "Bronze"] as const;
 
 export default function OlympicMedalsPage() {
-  const [chartsReady, setChartsReady] = useState(false);
+  const chartsReady = useHydrated();
   const reduceMotion = useReducedMotion();
   const animateCharts = !reduceMotion;
-  useEffect(() => {
-    setChartsReady(true);
-  }, []);
 
   const [olympics, setOlympics] = useState<string>("All");
   const [continent, setContinent] = useState<string>("All");

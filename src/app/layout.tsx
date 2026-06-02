@@ -2,9 +2,8 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { ClickTracker } from "@/components/ClickTracker";
+import { SITE_URL, SITE_NAME } from "@/lib/site";
 import "./globals.css";
-
-const SITE_URL = "https://damato-data.vercel.app";
 
 export const metadata: Metadata = {
   title: "Nicholas D'Amato | Junior Data Analyst",
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
       "Junior Data Analyst. Python, SQL, Power BI. Open to part-time and internship roles.",
     type: "website",
     url: SITE_URL,
-    siteName: "damato-data",
+    siteName: SITE_NAME,
   },
   twitter: {
     card: "summary_large_image",

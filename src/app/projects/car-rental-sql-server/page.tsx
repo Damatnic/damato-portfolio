@@ -108,7 +108,7 @@ export default function CarRentalCaseStudy() {
         <H3>Operational, partitioned by year</H3>
         <p className="mt-2">
           <Code>Reservation</Code> and <Code>Rentals</Code>. These are the tables
-          that grow over time, so they're the ones that get partitioned.
+          that grow over time, so they&apos;re the ones that get partitioned.
         </p>
         <H3>Bridge tables with surrogate keys</H3>
         <p className="mt-2">
@@ -132,7 +132,7 @@ export default function CarRentalCaseStudy() {
 
         <H3>2. Portable file paths via dynamic SQL</H3>
         <p className="mt-2">
-          You can't reference <Code>SERVERPROPERTY()</Code> directly inside an
+          You can&apos;t reference <Code>SERVERPROPERTY()</Code> directly inside an
           <Code>ALTER DATABASE ADD FILE</Code> statement. So the filegroup file
           path is built with <Code>sp_executesql</Code>: pull
           <Code>InstanceDefaultDataPath</Code>, concatenate the filename,
@@ -148,13 +148,13 @@ export default function CarRentalCaseStudy() {
           <Code>PRIMARY KEY NONCLUSTERED</Code> on the surrogate ID, plus a
           separate <Code>CLUSTERED INDEX</Code> on{" "}
           <Code>(date_column, id)</Code> aligned with the partition scheme.
-          That's the only way to get both: a meaningful PK and a partition-aligned
+          That&apos;s the only way to get both: a meaningful PK and a partition-aligned
           clustered index.
         </p>
 
         <H3>4. History tables and triggers, not temporal tables</H3>
         <p className="mt-2">
-          SQL Server's system-versioned temporal tables get awkward on
+          SQL Server&apos;s system-versioned temporal tables get awkward on
           partitioned base tables. So I went the classic route: a{" "}
           <Code>_History</Code> mirror table per audited entity and an{" "}
           <Code>AFTER INSERT, UPDATE, DELETE</Code> trigger that detects which
@@ -171,15 +171,15 @@ export default function CarRentalCaseStudy() {
         <ul className="mt-3 space-y-2">
           <li>
             <Code>IX_Rentals_NotReturned</Code> is filtered{" "}
-            <Code>WHERE ReturnDate IS NULL</Code>. The "what's still out" query
-            becomes very fast and the index stays small because most rentals
+            <Code>WHERE ReturnDate IS NULL</Code>. The &quot;what&apos;s still
+            out&quot; query becomes very fast and the index stays small because most rentals
             are already returned.
           </li>
           <li>
             <Code>IX_Customers_LastFirst</Code> covers{" "}
             <Code>(LastName, FirstName)</Code> with{" "}
             <Code>INCLUDE (PhoneNumber, EmailAddress)</Code>. The common
-            customer-lookup query doesn't have to touch the table at all.
+            customer-lookup query doesn&apos;t have to touch the table at all.
           </li>
           <li>
             <Code>IX_Reservation_PickupDate</Code> for date-range filtering on
@@ -303,7 +303,7 @@ WHERE r.ReturnDate IS NULL;`}
             <Code>sp_executesql</Code> with a parameterized string is the
             cleanest way to feed a portable file path into{" "}
             <Code>ALTER DATABASE ADD FILE</Code>. Direct{" "}
-            <Code>SERVERPROPERTY()</Code> doesn't work there.
+            <Code>SERVERPROPERTY()</Code> doesn&apos;t work there.
           </li>
           <li>
             For combined INSERT/UPDATE/DELETE triggers, the operation type
@@ -312,8 +312,8 @@ WHERE r.ReturnDate IS NULL;`}
             DELETE: <Code>deleted</Code> only. UPDATE: both.
           </li>
           <li>
-            Filtered indexes are the right tool for "where this column is null"
-            and "where status = active" queries. The index stays small and the
+            Filtered indexes are the right tool for &quot;where this column is
+            null&quot; and &quot;where status = active&quot; queries. The index stays small and the
             matching rows are essentially free.
           </li>
         </ul>

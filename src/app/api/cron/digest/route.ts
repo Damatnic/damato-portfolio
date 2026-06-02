@@ -2,16 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { dayKey } from "@/lib/analyticsTime";
 import { getAnalyticsSummary, countryFlag } from "@/lib/analyticsStore";
 import type { AnalyticsSummary } from "@/lib/analyticsStore";
+import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 function analyticsDashboardUrl(): string {
-  const base =
-    process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ??
-    "https://damato-data.vercel.app";
   const secret = process.env.ANALYTICS_SECRET ?? "";
-  return `${base}/admin/analytics?secret=${encodeURIComponent(secret)}`;
+  return `${SITE_URL}/admin/analytics?secret=${encodeURIComponent(secret)}`;
 }
 
 function trendArrow(pct: number | null): string {
