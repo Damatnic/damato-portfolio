@@ -34,7 +34,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 | Variable | Production / Preview | Development (Vercel “Development”) | Local `.env.local` |
 |----------|----------------------|-----------------------------------|--------------------|
-| `NEXT_PUBLIC_SITE_URL` | `https://damato-data.vercel.app` (no trailing slash) | `http://localhost:3000` | Same as Development column |
+| `NEXT_PUBLIC_SITE_URL` | `https://nicholasdamato.vercel.app` (no trailing slash) | `http://localhost:3000` | Same as Development column |
 | `ANALYTICS_SECRET` | Set in dashboard or CLI | Same if you test `/admin/analytics` locally | Copy from Vercel or set your own |
 | KV (`KV_REST_API_*`) | From Upstash / Vercel Storage | Optional; `vercel dev` can inject from linked project | `vercel env pull` or leave empty |
 
@@ -44,10 +44,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ```bash
 # Production
-vercel env add NEXT_PUBLIC_SITE_URL production --value "https://damato-data.vercel.app" --no-sensitive --yes
+vercel env add NEXT_PUBLIC_SITE_URL production --value "https://nicholasdamato.vercel.app" --no-sensitive --yes
 
 # Preview — third arg "" applies to all preview branches (non-interactive)
-vercel env add NEXT_PUBLIC_SITE_URL preview "" --value "https://damato-data.vercel.app" --no-sensitive --yes
+vercel env add NEXT_PUBLIC_SITE_URL preview "" --value "https://nicholasdamato.vercel.app" --no-sensitive --yes
 
 # Vercel “Development” (used by vercel env pull / vercel dev)
 vercel env add NEXT_PUBLIC_SITE_URL development --value "http://localhost:3000" --no-sensitive --yes
@@ -63,7 +63,7 @@ vercel env pull
 
 Template without secrets: [`env.example`](env.example).
 
-**Deployment:** `vercel --prod` from project root. Live at https://damato-data.vercel.app. Vercel project: astral-productions/damato-portfolio.
+**Deployment:** `vercel --prod` from project root. Live at https://nicholasdamato.vercel.app. Vercel project: astral-productions/damato-portfolio.
 
 **Build checks before shipping:**
 ```bash

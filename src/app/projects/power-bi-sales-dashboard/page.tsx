@@ -270,7 +270,7 @@ YoY Growth =
         <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
           <Image
             src="/projects/power-bi/page-1-sales-overview.png"
-            alt="Placeholder wireframe for Sales Overview: header title, row of four empty KPI slots, large panel noting KPI cards line chart map and top products. Open PBIX for real visuals."
+            alt="Placeholder wireframe for Sales Overview: header title, row of four empty KPI slots, large panel noting KPI cards line chart map and top products. Open the .pbip in Power BI Desktop for the real visuals."
             width={1600}
             height={900}
             sizes="(min-width: 768px) 768px, 100vw"
@@ -288,7 +288,7 @@ YoY Growth =
         <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
           <Image
             src="/projects/power-bi/page-2-sales-details.png"
-            alt="Placeholder wireframe for Sales Details: header, four empty KPI slots, panel labeled employee scorecard commission promotions. Open PBIX for real visuals."
+            alt="Placeholder wireframe for Sales Details: header, four empty KPI slots, panel labeled employee scorecard commission promotions. Open the .pbip in Power BI Desktop for the real visuals."
             width={1600}
             height={900}
             sizes="(min-width: 768px) 768px, 100vw"
@@ -306,7 +306,7 @@ YoY Growth =
         <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
           <Image
             src="/projects/power-bi/page-3-salary-analysis.png"
-            alt="Placeholder wireframe for Salary Analysis: header, four empty KPI slots, panel labeled compensation vs review score and salary by title. Open PBIX for real visuals."
+            alt="Placeholder wireframe for Salary Analysis: header, four empty KPI slots, panel labeled compensation vs review score and salary by title. Open the .pbip in Power BI Desktop for the real visuals."
             width={1600}
             height={900}
             sizes="(min-width: 768px) 768px, 100vw"
@@ -374,7 +374,7 @@ YoY Growth =
         <p className="text-sm text-stone-400">
           Built as the final project for WCTC&apos;s Data Visualization course.
           The data is AdventureWorks-style sales records embedded directly in
-          the PBIX, so opening it locally needs no external connections.
+          the project file, so opening it locally needs no external connections.
         </p>
       </article>
     </main>
