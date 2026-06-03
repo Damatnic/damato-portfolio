@@ -10,5 +10,5 @@ export const SITE_URL: string =
   process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ||
   "https://nicholasdamato.vercel.app";
 
-/** Brand label used for og:siteName and page-title suffixes. */
-export const SITE_NAME = "damato-data";
+/** Site/brand name used for og:siteName and JSON-LD. */
+export const SITE_NAME = "Nicholas D'Amato";

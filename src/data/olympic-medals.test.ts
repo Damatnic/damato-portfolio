@@ -1,7 +1,17 @@
 import { describe, it, expect } from "vitest";
-import medals from "./olympic-medals.json";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { projects, sideProjects } from "@/lib/projects";
 import { toCsv } from "@/lib/csv";
+
+// Dataset now lives in public/ (fetched by the page, not bundled). Read it
+// straight from disk so this test stays the single source of truth for it.
+const medals = JSON.parse(
+  readFileSync(
+    fileURLToPath(new URL("../../public/olympic-medals.json", import.meta.url)),
+    "utf-8",
+  ),
+) as unknown[];
 
 type MedalRow = {
   olympics: string;

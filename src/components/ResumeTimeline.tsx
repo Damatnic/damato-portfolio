@@ -29,7 +29,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: "wolter",
-    year: "Dec 2023 to Jul 2024",
+    year: "Jan 2024 to Jul 2024",
     title: "Technical Support Administrator",
     company: "Wolter Inc., Pewaukee WI",
     type: "work",
@@ -39,11 +39,18 @@ const timelineData: TimelineItem[] = [
   {
     id: "ctaccess",
     year: "Jul 2023 to Jan 2024",
-    title: "Service Desk Technician",
+    title: "Service Desk Technician, Contract",
     company: "CTAccess, Waukesha WI",
     type: "work",
     description:
       "MSP service desk: 20-30 tickets a day across multiple client networks. Hardware, software, VPN issues, user accounts, all the standard tier-1 stuff. First place I used Active Directory every single day.",
+  },
+  {
+    id: "matc",
+    year: "May 2023",
+    title: "Associate Degree, IT Network Specialist",
+    company: "MATC, Milwaukee, WI",
+    type: "education"
   },
   {
     id: "wauwatosa",
@@ -62,13 +69,6 @@ const timelineData: TimelineItem[] = [
     type: "work",
     description:
       "Tier-1 support for office and remote users: ticketing, routing, escalation. Configured equipment and accounts for new hires, helped run a laptop upgrade project, and kept asset inventory in Snipe-IT.",
-  },
-  {
-    id: "matc",
-    year: "May 2023",
-    title: "Associate Degree, IT Network Specialist",
-    company: "MATC, Milwaukee, WI",
-    type: "education"
   }
 ];
 
@@ -112,7 +112,7 @@ export function ResumeTimeline() {
             />
             <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-1">
               <h4 className="text-base font-medium text-stone-200">{item.title}</h4>
-              <time className="text-xs font-mono text-stone-500 mt-1 sm:mt-0 shrink-0">
+              <time className="text-xs font-mono text-stone-400 mt-1 sm:mt-0 shrink-0">
                 {item.year}
               </time>
             </div>

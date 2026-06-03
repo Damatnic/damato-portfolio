@@ -8,6 +8,19 @@ export const metadata: Metadata = {
   description:
     "Interactive dashboard for the Olympic Medal Data Pipeline: 1,343 medal records from Tokyo 2020 and Beijing 2022, scraped, parsed, enriched, and filterable in the browser.",
   alternates: { canonical: "/projects/olympic-medals" },
+  openGraph: {
+    title: "Olympic Medal Pipeline | Nicholas D'Amato",
+    description:
+      "Interactive dashboard: 1,343 Olympic medal records, scraped and enriched by a Python ETL, filterable in the browser.",
+    type: "article",
+    url: "/projects/olympic-medals",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Olympic Medal Pipeline | Nicholas D'Amato",
+    description:
+      "Interactive dashboard: 1,343 Olympic medal records, scraped and enriched by a Python ETL, filterable in the browser.",
+  },
 };
 
 const project = projects.find((p) => p.slug === "olympic-medal-etl")!;

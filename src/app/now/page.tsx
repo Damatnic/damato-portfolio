@@ -1,9 +1,23 @@
 import Link from "next/link";
 import { nowEntries } from "@/data/now";
 
+const NOW_DESC = "What I'm working on right now. Dated log, most recent first.";
+
 export const metadata = {
-  title: "Now · damato-data",
-  description: "What I'm working on right now. Dated log, most recent first.",
+  title: "Now | Nicholas D'Amato",
+  description: NOW_DESC,
+  alternates: { canonical: "/now" },
+  openGraph: {
+    title: "Now | Nicholas D'Amato",
+    description: NOW_DESC,
+    type: "website",
+    url: "/now",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Now | Nicholas D'Amato",
+    description: NOW_DESC,
+  },
 };
 
 function formatDate(iso: string): string {

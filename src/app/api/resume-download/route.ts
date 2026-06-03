@@ -1,17 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
+// Public POST that can trigger an email, so cap it. Mirrors /api/track's guard.
+const ratelimit =
+  process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
+    ? new Ratelimit({
+        redis: new Redis({
+          url: process.env.KV_REST_API_URL,
+          token: process.env.KV_REST_API_TOKEN,
+        }),
+        limiter: Ratelimit.slidingWindow(5, "60 s"),
+      })
+    : null;
 
 export async function POST(req: NextRequest) {
-  const body = await req.json().catch(() => ({}));
-  const referrer = req.headers.get("referer") || "(direct)";
-  const ua = req.headers.get("user-agent") || "(unknown)";
+  if (ratelimit) {
+    const ip =
+      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anon";
+    const { success } = await ratelimit.limit(`resume:${ip}`);
+    if (!success) return NextResponse.json({ ok: true }); // silently drop floods
+  }
+
+  // Clip attacker-controlled headers before they reach logs / email subject.
+  const referrer = (req.headers.get("referer") || "(direct)").slice(0, 200);
+  const ua = (req.headers.get("user-agent") || "(unknown)").slice(0, 200);
 
   console.log("[resume-download]", {
     ts: new Date().toISOString(),
     referrer,
     ua: ua.slice(0, 120),
-    ...body,
   });
 
   const resendKey = process.env.RESEND_API_KEY;

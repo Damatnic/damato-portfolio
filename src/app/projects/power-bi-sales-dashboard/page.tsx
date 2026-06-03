@@ -12,6 +12,19 @@ export const metadata = {
   description:
     "Three-page Power BI dashboard built on a star schema. DAX measures for KPIs, drill-through pages, employee scorecard, and salary-vs-review analysis.",
   alternates: { canonical: "/projects/power-bi-sales-dashboard" },
+  openGraph: {
+    title: "Power BI Sales Dashboard | Nicholas D'Amato",
+    description:
+      "Three-page Power BI dashboard on a star schema: DAX measures, drill-through, employee scorecard, and salary-vs-review analysis.",
+    type: "article",
+    url: "/projects/power-bi-sales-dashboard",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Power BI Sales Dashboard | Nicholas D'Amato",
+    description:
+      "Three-page Power BI dashboard on a star schema: DAX measures, drill-through, employee scorecard, and salary-vs-review analysis.",
+  },
 };
 
 function H2({ children, id }: { children: React.ReactNode; id?: string }) {

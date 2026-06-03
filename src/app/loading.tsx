@@ -6,7 +6,7 @@ export default function Loading() {
       role="status"
       aria-live="polite"
     >
-      <p className="font-mono text-sm uppercase tracking-widest text-stone-500">
+      <p className="font-mono text-sm uppercase tracking-widest text-stone-400">
         <span className="text-[var(--accent)]">{"// "}</span>
         loading…
       </p>

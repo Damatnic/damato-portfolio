@@ -82,7 +82,7 @@ export default function Home() {
 
   const toolsIReachFor = [
     "Python", "pandas", "SQL", "T-SQL", "Power BI", "DAX", "Excel",
-    "SQL Server", "BeautifulSoup", "PowerShell"
+    "SQL Server", "BeautifulSoup"
   ];
 
   return (
@@ -192,20 +192,26 @@ export default function Home() {
                 </h2>
                 {/* Interactive Filtering */}
                 <div role="group" aria-label="Filter projects by technology" className="mt-6 flex flex-wrap gap-2">
-                  {filters.map((f) => (
-                    <button
-                      key={f}
-                      onClick={() => setActiveFilter(f)}
-                      className={`px-3.5 py-2 text-xs font-medium rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 ${
-                        activeFilter === f
-                          ? "bg-[var(--accent)] text-stone-950"
-                          : "bg-stone-900/40 text-stone-300 hover:text-stone-100 border border-stone-800 hover:border-stone-600"
-                      }`}
-                      aria-pressed={activeFilter === f}
-                    >
-                      {f}
-                    </button>
-                  ))}
+                  {filters.map((f) => {
+                    // An alias parent (e.g. "SQL", set by a tool pill) should light up
+                    // its member pills (T-SQL, SQL Server) so the bar reflects the filter.
+                    const aliasMembers = TECH_FILTER_ALIASES[activeFilter] ?? [activeFilter];
+                    const isPillActive = activeFilter === f || aliasMembers.includes(f);
+                    return (
+                      <button
+                        key={f}
+                        onClick={() => setActiveFilter(f)}
+                        className={`px-3.5 py-2 text-xs font-medium rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 ${
+                          isPillActive
+                            ? "bg-[var(--accent)] text-stone-950"
+                            : "bg-stone-900/40 text-stone-300 hover:text-stone-100 border border-stone-800 hover:border-stone-600"
+                        }`}
+                        aria-pressed={isPillActive}
+                      >
+                        {f}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
               
@@ -349,11 +355,11 @@ export default function Home() {
 
             <div className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2">
               {sideProjects.map((p, i) => (
-                <motion.article 
-                  initial={{ opacity: 0, y: 20 }}
+                <motion.article
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: shouldReduceMotion ? 0 : i * 0.1 }}
                   key={p.slug}
                   className="group relative p-6 rounded-2xl bg-stone-900/30 border border-stone-800/60 hover:bg-stone-900/60 hover:border-stone-700 transition-all min-w-0 break-words"
                 >
@@ -426,9 +432,8 @@ export default function Home() {
                 </p>
                 <p className="max-w-[65ch]">
                   What I&apos;m doing right now: working through advanced SQL
-                  window functions, rebuilding damato-sql lessons every weekend,
-                  and figuring out where pandas stops being enough and numpy
-                  starts. The{" "}
+                  window functions and figuring out where pandas stops being
+                  enough and numpy starts. The{" "}
                   <Link
                     href="/now"
                     className="rounded text-[var(--accent)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
@@ -470,7 +475,7 @@ export default function Home() {
                 <div>
                   <dt className="text-xs uppercase tracking-widest font-semibold text-stone-300 mb-2">Education</dt>
                   <dd className="mt-1.5 text-stone-200">WCTC · AAS, AI Data Specialist <span className="text-stone-400">(2027)</span></dd>
-                  <dd className="text-stone-200">MATC · Associate, IT Network <span className="text-stone-400">(2023)</span></dd>
+                  <dd className="text-stone-200">MATC · Associate, IT Network Specialist <span className="text-stone-400">(2023)</span></dd>
                 </div>
                 <div>
                   <dt className="text-xs uppercase tracking-widest font-semibold text-stone-300 mb-2">Certifications</dt>

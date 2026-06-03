@@ -41,8 +41,9 @@ function Trend({ pct }: { pct: number | null }) {
 }
 
 export const metadata = {
-  title: "Analytics · damato-data",
+  title: "Analytics | Nicholas D'Amato",
   description: "Site traffic and link-click analytics",
+  robots: { index: false, follow: false },
 };
 
 function Stat({ label, value, delta }: { label: string; value: string; delta?: number | null }) {

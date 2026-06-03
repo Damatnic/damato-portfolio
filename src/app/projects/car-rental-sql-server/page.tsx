@@ -13,6 +13,19 @@ export const metadata = {
   description:
     "SQL Server schema designed from an ER diagram for a small car rental business. Year-based partitioning, history triggers, and dynamic SQL for portable file paths.",
   alternates: { canonical: "/projects/car-rental-sql-server" },
+  openGraph: {
+    title: "Car Rental Database | Nicholas D'Amato",
+    description:
+      "SQL Server schema from an ER diagram: year-based partitioning, audit triggers, and dynamic SQL for portable file paths.",
+    type: "article",
+    url: "/projects/car-rental-sql-server",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Car Rental Database | Nicholas D'Amato",
+    description:
+      "SQL Server schema from an ER diagram: year-based partitioning, audit triggers, and dynamic SQL for portable file paths.",
+  },
 };
 
 function H2({ children, id }: { children: React.ReactNode; id?: string }) {

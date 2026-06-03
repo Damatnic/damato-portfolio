@@ -58,6 +58,7 @@ export const projects: Project[] = [
       "pandas",
       "pymssql",
       "openpyxl",
+      "Excel",
       "SQL Server",
     ],
     github: "https://github.com/Damatnic/olympic-medal-etl",

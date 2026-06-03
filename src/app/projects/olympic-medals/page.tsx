@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useReducedMotion } from "framer-motion";
 import { ArrowLeft, Download, Search } from "lucide-react";
@@ -17,7 +17,6 @@ import {
   Cell,
   Legend,
 } from "recharts";
-import rawData from "@/data/olympic-medals.json";
 import { toCsv } from "@/lib/csv";
 
 type Row = {
@@ -31,8 +30,6 @@ type Row = {
   medal: "Gold" | "Silver" | "Bronze";
   continent: string;
 };
-
-const ALL_DATA = rawData as Row[];
 
 const MEDAL_COLORS: Record<string, string> = {
   Gold: "#d4af37", // Premium Gold
@@ -85,8 +82,33 @@ export default function OlympicMedalsPage() {
   const [medals, setMedals] = useState<string[]>(["Gold", "Silver", "Bronze"]);
   const [search, setSearch] = useState("");
 
+  // Dataset (1,343 rows) is fetched as a static asset rather than bundled into
+  // the route's JS, so it parses as data and keeps the initial JS chunk small.
+  const [data, setData] = useState<Row[] | null>(null);
+  const [loadError, setLoadError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/olympic-medals.json")
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((rows: Row[]) => {
+        if (!cancelled) setData(rows);
+      })
+      .catch(() => {
+        if (!cancelled) setLoadError(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const loading = data === null && !loadError;
+
   const filtered = useMemo(() => {
-    return ALL_DATA.filter((r) => {
+    return (data ?? []).filter((r) => {
       if (olympics !== "All" && r.olympics !== olympics) return false;
       if (continent !== "All" && r.continent !== continent) return false;
       if (!medals.includes(r.medal)) return false;
@@ -94,7 +116,7 @@ export default function OlympicMedalsPage() {
         return false;
       return true;
     });
-  }, [olympics, continent, medals, search]);
+  }, [data, olympics, continent, medals, search]);
 
   const stats = useMemo(() => {
     const countries = new Set(filtered.map((r) => r.country));
@@ -242,31 +264,48 @@ export default function OlympicMedalsPage() {
       </section>
 
       <div className="mx-auto max-w-5xl px-6 py-12 space-y-12">
+        {loadError && (
+          <div
+            role="alert"
+            className="rounded-lg border border-red-900/50 bg-red-950/30 px-4 py-3 text-sm text-red-200"
+          >
+            Couldn&apos;t load the medal dataset. Refresh to try again, or browse the{" "}
+            <a
+              href="https://github.com/Damatnic/olympic-medal-etl"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-4"
+            >
+              ETL source on GitHub
+            </a>
+            .
+          </div>
+        )}
         {/* Stats row: one dominant + three secondary */}
         <div className="grid items-end gap-8 border-b border-stone-800/60 pb-10 sm:grid-cols-[auto_1fr]">
           <div>
             <p className="font-mono text-xs text-stone-300">medals in view</p>
             <p className="mt-1 text-6xl font-semibold tracking-tight text-[var(--accent)] sm:text-7xl">
-              {stats.medals.toLocaleString()}
+              {loading ? "…" : stats.medals.toLocaleString()}
             </p>
           </div>
           <dl className="grid grid-cols-3 gap-6 text-sm">
             <div>
               <dt className="text-stone-300">countries</dt>
               <dd className="mt-1 text-2xl font-medium text-stone-100">
-                {stats.countries}
+                {loading ? "…" : stats.countries}
               </dd>
             </div>
             <div>
               <dt className="text-stone-300">sports</dt>
               <dd className="mt-1 text-2xl font-medium text-stone-100">
-                {stats.sports}
+                {loading ? "…" : stats.sports}
               </dd>
             </div>
             <div>
               <dt className="text-stone-300">athletes</dt>
               <dd className="mt-1 text-2xl font-medium text-stone-100">
-                {stats.athletes}
+                {loading ? "…" : stats.athletes}
               </dd>
             </div>
           </dl>
@@ -353,10 +392,10 @@ export default function OlympicMedalsPage() {
               role="img"
               aria-label="Bar chart of the top 10 countries by medal count, stacked by gold, silver, and bronze. The same figures are in the All countries table below."
             >
-              {topCountries.length === 0 ? (
-                <EmptyState />
-              ) : !chartsReady ? (
+              {!chartsReady || loading ? (
                 <ChartMountPlaceholder />
+              ) : topCountries.length === 0 ? (
+                <EmptyState />
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={topCountries} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
@@ -389,10 +428,10 @@ export default function OlympicMedalsPage() {
               role="img"
               aria-label="Pie chart showing the share of filtered medals by continent. The same figures are in the All countries table below."
             >
-              {continentBreakdown.length === 0 ? (
-                <EmptyState />
-              ) : !chartsReady ? (
+              {!chartsReady || loading ? (
                 <ChartMountPlaceholder />
+              ) : continentBreakdown.length === 0 ? (
+                <EmptyState />
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -432,7 +471,13 @@ export default function OlympicMedalsPage() {
                 </tr>
               </thead>
               <tbody>
-                {allCountryRows.length === 0 ? (
+                {loading ? (
+                  <tr>
+                    <td colSpan={6} className="px-2 py-8 text-center text-stone-400">
+                      Loading the dataset…
+                    </td>
+                  </tr>
+                ) : allCountryRows.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="px-2 py-8 text-center text-stone-400">
                       No medals match the current filter.

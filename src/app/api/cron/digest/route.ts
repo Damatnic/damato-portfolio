@@ -163,7 +163,7 @@ function htmlDigest(summary: AnalyticsSummary, dashboardUrl: string, today: stri
 <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:40px 16px">
 <table width="560" cellpadding="0" cellspacing="0" style="background:${surface};border-radius:12px;border:1px solid ${card}">
 <tr><td style="padding:32px 32px 12px">
-<h1 style="margin:0;font-size:22px;font-weight:600;color:#f4f4f5">damato-data daily</h1>
+<h1 style="margin:0;font-size:22px;font-weight:600;color:#f4f4f5">Portfolio analytics · daily</h1>
 <p style="margin:8px 0 0;font-size:13px;color:${muted}">${today}</p>
 </td></tr>
 
@@ -297,7 +297,7 @@ export async function GET(req: NextRequest) {
   await resend.emails.send({
     from: notifyFrom,
     to: notifyTo,
-    subject: `damato-data daily · ${dayKey(Date.now())}${trendBit}`,
+    subject: `Portfolio analytics · ${dayKey(Date.now())}${trendBit}`,
     html: htmlDigest(summary, analyticsDashboardUrl(), today),
   });
 
