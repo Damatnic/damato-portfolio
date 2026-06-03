@@ -177,7 +177,7 @@ YoY Growth =
 
         <H2 id="pages">What each page shows</H2>
 
-        <H3>Page 1 — Sales Overview</H3>
+        <H3>Page 1: Sales Overview</H3>
         <ul className="mt-3 space-y-2">
           <li>KPI cards for Total Sales, Total Orders, Average Order Value, YoY Growth</li>
           <li>Sales-over-time line chart with year and month drilldown</li>
@@ -186,7 +186,7 @@ YoY Growth =
           <li>Slicers: Year, Sales Territory, Product Category</li>
         </ul>
 
-        <H3>Page 2 — Sales Details</H3>
+        <H3>Page 2: Sales Details</H3>
         <ul className="mt-3 space-y-2">
           <li>
             Employee performance scorecard, filtered to active sales staff via{" "}
@@ -202,7 +202,7 @@ YoY Growth =
           <li>Right-click drill-through into individual employee detail</li>
         </ul>
 
-        <H3>Page 3 — Salary Analysis</H3>
+        <H3>Page 3: Salary Analysis</H3>
         <ul className="mt-3 space-y-2">
           <li>Employee compensation vs review scores</li>
           <li>Sales Reviews integrated via the 1:1 relationship to Employee</li>
@@ -213,7 +213,7 @@ YoY Growth =
         <H2 id="screenshots">Screenshots</H2>
         <p className="mt-3">
           These images are layout placeholders so the case study reads cleanly on
-          the web. The live report is on GitHub as a Power BI Project — open{" "}
+          the web. The live report is on GitHub as a Power BI Project. Open{" "}
           <Code>sales_dashboard.pbip</Code> in Desktop after cloning or unzipping.
         </p>
         <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-stone-500">
@@ -256,7 +256,7 @@ YoY Growth =
         <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
           <Image
             src="/projects/power-bi/page-1-sales-overview.png"
-            alt="Placeholder wireframe for Sales Overview: header title, row of four empty KPI slots, large panel noting KPI cards line chart map and top products — open PBIX for real visuals."
+            alt="Placeholder wireframe for Sales Overview: header title, row of four empty KPI slots, large panel noting KPI cards line chart map and top products. Open PBIX for real visuals."
             width={1600}
             height={900}
             sizes="(min-width: 768px) 768px, 100vw"
@@ -264,7 +264,7 @@ YoY Growth =
           />
           <figcaption className="border-t border-stone-800 bg-stone-900/60 px-4 py-3 text-xs text-stone-300">
             <strong className="text-stone-100">Page 1, Sales Overview.</strong>{" "}
-            Placeholder image — live page has KPI cards on a star-schema fact table. The YoY measure uses{" "}
+            Placeholder image. Live page has KPI cards on a star-schema fact table. The YoY measure uses{" "}
             <Code>SAMEPERIODLASTYEAR(Date[Full Date Alternate Key])</Code> and
             relies on the Date dimension being marked as the date table. Top
             slicers cascade to every visual on the page.
@@ -274,7 +274,7 @@ YoY Growth =
         <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
           <Image
             src="/projects/power-bi/page-2-sales-details.png"
-            alt="Placeholder wireframe for Sales Details: header, four empty KPI slots, panel labeled employee scorecard commission promotions — open PBIX for real visuals."
+            alt="Placeholder wireframe for Sales Details: header, four empty KPI slots, panel labeled employee scorecard commission promotions. Open PBIX for real visuals."
             width={1600}
             height={900}
             sizes="(min-width: 768px) 768px, 100vw"
@@ -282,7 +282,7 @@ YoY Growth =
           />
           <figcaption className="border-t border-stone-800 bg-stone-900/60 px-4 py-3 text-xs text-stone-300">
             <strong className="text-stone-100">Page 2, Sales Details.</strong>{" "}
-            Placeholder image — live page scorecard filtered to{" "}
+            Placeholder image. Live page scorecard filtered to{" "}
             <Code>Is Sales Employee = 1</Code> so admin staff don&apos;t
             distort the comparison. Right-click on a row to drill through into
             an individual employee detail page.
@@ -292,7 +292,7 @@ YoY Growth =
         <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
           <Image
             src="/projects/power-bi/page-3-salary-analysis.png"
-            alt="Placeholder wireframe for Salary Analysis: header, four empty KPI slots, panel labeled compensation vs review score and salary by title — open PBIX for real visuals."
+            alt="Placeholder wireframe for Salary Analysis: header, four empty KPI slots, panel labeled compensation vs review score and salary by title. Open PBIX for real visuals."
             width={1600}
             height={900}
             sizes="(min-width: 768px) 768px, 100vw"
@@ -300,7 +300,7 @@ YoY Growth =
           />
           <figcaption className="border-t border-stone-800 bg-stone-900/60 px-4 py-3 text-xs text-stone-300">
             <strong className="text-stone-100">Page 3, Salary Analysis.</strong>{" "}
-            Placeholder image — live page: Sales Reviews joined to Employee 1:1. The outliers visual is
+            Placeholder image. Live page: Sales Reviews joined to Employee 1:1. The outliers visual is
             the actual interesting one: highest review scores against lowest
             base rates.
           </figcaption>

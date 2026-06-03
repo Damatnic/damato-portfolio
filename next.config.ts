@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
-// Baseline security headers applied to every response. Conservative set —
-// no strict CSP, since this site loads Vercel Analytics + inline JSON-LD and a
-// misconfigured CSP would break them for little gain on a static portfolio.
+// Baseline security headers on every response. No strict CSP: this site loads
+// Vercel Analytics + inline JSON-LD, and a misconfigured CSP would break them
+// for little gain on a static portfolio.
 const securityHeaders = [
   {
     key: "Strict-Transport-Security",

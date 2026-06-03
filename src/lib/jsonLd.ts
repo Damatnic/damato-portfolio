@@ -2,9 +2,9 @@ import { SITE_URL, SITE_NAME } from "@/lib/site";
 import type { Project } from "@/lib/projects";
 
 /**
- * schema.org SoftwareSourceCode for a flagship project — helps search engines
- * and recruiter tools associate the work, its repo, and the tech stack with
- * Nicholas as author. Rendered as JSON-LD on each project page.
+ * schema.org SoftwareSourceCode for a flagship project. Tells search engines and
+ * recruiter tools who authored the work and where its repo lives. Rendered as
+ * JSON-LD on each project page.
  */
 export function projectJsonLd(project: Project) {
   return {

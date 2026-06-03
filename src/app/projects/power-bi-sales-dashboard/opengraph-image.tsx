@@ -1,6 +1,6 @@
 import { ogContentType, ogSize, renderOgImage } from "@/lib/og";
 
-export const alt = "Power BI Sales Dashboard — star-schema case study by Nicholas D'Amato";
+export const alt = "Power BI Sales Dashboard: star-schema case study by Nicholas D'Amato";
 export const size = ogSize;
 export const contentType = ogContentType;
 
