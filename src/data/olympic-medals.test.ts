@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import medals from "./olympic-medals.json";
 import { projects, sideProjects } from "@/lib/projects";
+import { toCsv } from "@/lib/csv";
 
 type MedalRow = {
   olympics: string;
@@ -40,6 +41,20 @@ describe("olympic-medals dataset", () => {
   it("has no empty country / continent / athlete fields", () => {
     const broken = rows.filter((r) => !r.country || !r.continent || !r.athlete);
     expect(broken).toHaveLength(0);
+  });
+});
+
+describe("dashboard CSV export", () => {
+  const CSV_COLS = [
+    "olympics", "season", "category", "event",
+    "athlete", "code", "country", "medal", "continent",
+  ];
+
+  it("exports a header plus exactly one line per record", () => {
+    const csv = toCsv(rows, CSV_COLS);
+    const lines = csv.split("\n");
+    expect(lines[0]).toBe(CSV_COLS.join(","));
+    expect(lines.length).toBe(rows.length + 1); // no field contains a stray newline
   });
 });
 

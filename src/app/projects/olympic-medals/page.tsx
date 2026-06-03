@@ -18,6 +18,7 @@ import {
   Legend,
 } from "recharts";
 import rawData from "@/data/olympic-medals.json";
+import { toCsv } from "@/lib/csv";
 
 type Row = {
   olympics: string;
@@ -194,13 +195,7 @@ export default function OlympicMedalsPage() {
       "medal",
       "continent",
     ];
-    const escape = (v: string) =>
-      /[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
-    const lines = [
-      cols.join(","),
-      ...filtered.map((r) => cols.map((c) => escape(String(r[c] ?? ""))).join(",")),
-    ];
-    const blob = new Blob([lines.join("\n")], {
+    const blob = new Blob([toCsv(filtered, cols)], {
       type: "text/csv;charset=utf-8;",
     });
     const url = URL.createObjectURL(blob);
