@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Olympic Medal Pipeline | Nicholas D'Amato",
   description:
     "Interactive dashboard for the Olympic Medal Data Pipeline: 1,343 medal records from Tokyo 2020 and Beijing 2022, scraped, parsed, enriched, and filterable in the browser.",
+  alternates: { canonical: "/projects/olympic-medals" },
 };
 
 const project = projects.find((p) => p.slug === "olympic-medal-etl")!;

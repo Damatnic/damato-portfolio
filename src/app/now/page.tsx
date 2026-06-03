@@ -35,7 +35,7 @@ export default function NowPage() {
           What I&apos;m working on and thinking about. Updated when something
           actually changes, not on a schedule.
         </p>
-        <p className="mt-4 text-sm text-stone-500">
+        <p className="mt-4 text-sm text-stone-400">
           <Link
             href="/"
             className="rounded underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
@@ -50,7 +50,7 @@ export default function NowPage() {
           <li key={entry.date} className="border-l border-stone-800 pl-5">
             <time
               dateTime={entry.date}
-              className="font-mono text-xs uppercase tracking-widest text-stone-500"
+              className="font-mono text-xs uppercase tracking-widest text-stone-400"
             >
               {formatDate(entry.date)}
             </time>
@@ -70,7 +70,7 @@ export default function NowPage() {
         ))}
       </ol>
 
-      <footer className="mt-14 border-t border-stone-800/60 pt-6 text-xs text-stone-500">
+      <footer className="mt-14 border-t border-stone-800/60 pt-6 text-xs text-stone-400">
         <p>
           Format inspired by{" "}
           <a

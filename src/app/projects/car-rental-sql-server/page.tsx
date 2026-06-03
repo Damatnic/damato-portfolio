@@ -12,6 +12,7 @@ export const metadata = {
   title: "Car Rental Database | Nicholas D'Amato",
   description:
     "SQL Server schema designed from an ER diagram for a small car rental business. Year-based partitioning, history triggers, and dynamic SQL for portable file paths.",
+  alternates: { canonical: "/projects/car-rental-sql-server" },
 };
 
 function H2({ children, id }: { children: React.ReactNode; id?: string }) {

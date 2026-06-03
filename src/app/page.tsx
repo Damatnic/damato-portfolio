@@ -260,7 +260,7 @@ export default function Home() {
                         <span className="text-[var(--accent)]">
                           {String(projects.findIndex(orig => orig.slug === p.slug) + 1).padStart(2, "0")}
                         </span>
-                        <span className="ml-2 text-stone-600">/</span>
+                        <span className="ml-2 text-stone-500">/</span>
                         <span className="ml-2">
                           {String(projects.length).padStart(2, "0")}
                         </span>
@@ -343,11 +343,11 @@ export default function Home() {
                 Also built
               </h2>
               <p className="hidden text-xs text-stone-400 sm:block">
-                learning tools I made while learning the tools
+                study tools I built from scratch, and still use
               </p>
             </div>
 
-            <div className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2">
               {sideProjects.map((p, i) => (
                 <motion.article 
                   initial={{ opacity: 0, y: 20 }}

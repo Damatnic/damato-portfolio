@@ -11,6 +11,7 @@ export const metadata = {
   title: "Power BI Sales Dashboard | Nicholas D'Amato",
   description:
     "Three-page Power BI dashboard built on a star schema. DAX measures for KPIs, drill-through pages, employee scorecard, and salary-vs-review analysis.",
+  alternates: { canonical: "/projects/power-bi-sales-dashboard" },
 };
 
 function H2({ children, id }: { children: React.ReactNode; id?: string }) {

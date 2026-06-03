@@ -353,7 +353,11 @@ export default function OlympicMedalsPage() {
           <div className="lg:col-span-3">
             <h3 className="text-base font-medium text-stone-100">Top 10 countries</h3>
             <p className="mt-1 text-xs text-stone-400">Stacked by medal type.</p>
-            <div className="mt-5 h-80 w-full min-w-0 min-h-0">
+            <div
+              className="mt-5 h-80 w-full min-w-0 min-h-0"
+              role="img"
+              aria-label="Bar chart of the top 10 countries by medal count, stacked by gold, silver, and bronze. The same figures are in the All countries table below."
+            >
               {topCountries.length === 0 ? (
                 <EmptyState />
               ) : !chartsReady ? (
@@ -385,7 +389,11 @@ export default function OlympicMedalsPage() {
           <div className="lg:col-span-2">
             <h3 className="text-base font-medium text-stone-100">By continent</h3>
             <p className="mt-1 text-xs text-stone-400">Share of filtered medals.</p>
-            <div className="mt-5 h-80 w-full min-w-0 min-h-0">
+            <div
+              className="mt-5 h-80 w-full min-w-0 min-h-0"
+              role="img"
+              aria-label="Pie chart showing the share of filtered medals by continent. The same figures are in the All countries table below."
+            >
               {continentBreakdown.length === 0 ? (
                 <EmptyState />
               ) : !chartsReady ? (
