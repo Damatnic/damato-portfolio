@@ -1,30 +1,58 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0c0a09;
-  --foreground: #f5f5f4;
-  --accent: #2dd4bf;
-  --accent-soft: rgba(45, 212, 191, 0.18);
+  --background: #0b0a09;
+  --foreground: #faf8f5;
+  /* Warm marigold, not the teal/cyan every generated portfolio ships with. */
+  --accent: #e8a838;
+  --accent-2: #f0c06a;
+  --accent-soft: rgba(232, 168, 56, 0.16);
+  /* Editorial grayscale: ink → body → muted → faint, plus two hairline weights. */
+  --ink: #faf8f5;
+  --body: #cfcac3;
+  --muted: #8f8a84;
+  /* Lightened from #5f5a54 to clear WCAG AA (4.5:1) on the near-black bg for the
+     small mono labels, numbers, and dates that use it. */
+  --faint: #7d766d;
+  --line: #241f1b;
+  --line-2: #332c26;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-serif: var(--font-display);
 }
 
 html, body {
   background: var(--background);
   color: var(--foreground);
   font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-feature-settings: "ss01", "cv11";
+    var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Serif display face carries the name + section headings: the clearest signal
+   a person chose the type rather than a template. */
+h1, h2 {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  letter-spacing: -0.015em;
 }
 
 code, pre, .font-mono {
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-    "Liberation Mono", monospace;
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    Consolas, "Liberation Mono", monospace;
 }
 
 html {
@@ -52,4 +80,14 @@ html {
     outline-offset: 2px;
     border-radius: 6px;
   }
+}
+
+/* Small mono uppercase section label. Replaces the fake "// comment" labels
+   that read as machine-generated. */
+@utility eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
 }

@@ -3,8 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { motion, AnimatePresence, Variants, useReducedMotion } from "framer-motion";
-import { Mail, MapPin, Play, ExternalLink } from "lucide-react";
+import { Mail } from "lucide-react";
 import { projects, sideProjects } from "@/lib/projects";
 import { ResumeDownload } from "@/components/ResumeDownload";
 import { ResumeTimeline } from "@/components/ResumeTimeline";
@@ -25,7 +24,7 @@ function Linkedin({ className }: { className?: string }) {
   );
 }
 
-/** Sidebar "Tools I reach for" uses plain "SQL"; flagship projects tag T-SQL / SQL Server. */
+// The sidebar/filter uses plain "SQL"; flagship projects tag T-SQL / SQL Server.
 const TECH_FILTER_ALIASES: Record<string, string[]> = {
   SQL: ["T-SQL", "SQL Server"],
 };
@@ -36,505 +35,288 @@ function projectUsesFilterTech(projectTech: string[], filter: string): boolean {
   return needles.some((n) => projectTech.includes(n));
 }
 
-function techTagMatchesToolSelection(
-  tag: string,
-  highlight: string | null,
-  filter: string,
-): boolean {
-  const expand = (label: string) => TECH_FILTER_ALIASES[label] ?? [label];
-  if (filter !== "All" && expand(filter).includes(tag)) return true;
-  if (highlight && expand(highlight).includes(tag)) return true;
-  return false;
-}
+const NAV = [
+  { n: "01", label: "Selected work", href: "#work" },
+  { n: "02", label: "Experience", href: "#experience" },
+  { n: "03", label: "About", href: "#about" },
+  { n: "04", label: "Now", href: "/now" },
+];
+
+// At-a-glance band: the things a recruiter scans for in the first five seconds.
+const GLANCE = [
+  { k: "Focus", v: "Python · pandas · SQL · T-SQL · Power BI · DAX" },
+  { k: "Education", v: "WCTC — AAS, AI Data Specialist (2027)" },
+  { k: "Certifications", v: "CompTIA A+ · Network+ · Cisco CCNA" },
+  { k: "Status", v: "Open to part-time analyst work + internships" },
+];
+
+const FILTER_TECH = ["Python", "SQL", "Power BI", "pandas", "ETL", "DAX"];
 
 export default function Home() {
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [highlightedTech, setHighlightedTech] = useState<string | null>(null);
-  const shouldReduceMotion = useReducedMotion();
-
-  const fadeUp: Variants = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-  };
-
-  const allTech = Array.from(new Set(projects.flatMap((p) => p.tech))).sort();
-  const filters = ["All", ...allTech];
-
-  const filteredProjects = activeFilter === "All"
-    ? projects
-    : projects.filter((p) => projectUsesFilterTech(p.tech, activeFilter));
-
-  const listMotion = shouldReduceMotion
-    ? {
-        initial: undefined,
-        animate: undefined,
-        exit: undefined,
-        layout: false as const,
-        transition: { duration: 0 },
-      }
-    : {
-        initial: { opacity: 0, scale: 0.95 },
-        animate: { opacity: 1, scale: 1 },
-        exit: { opacity: 0, scale: 0.95 },
-        layout: true as const,
-        transition: { duration: 0.3 },
-      };
-
-  const toolsIReachFor = [
-    "Python", "pandas", "SQL", "T-SQL", "Power BI", "DAX", "Excel",
-    "SQL Server", "BeautifulSoup"
-  ];
+  const [filter, setFilter] = useState("All");
+  const filters = ["All", ...FILTER_TECH];
+  const filtered =
+    filter === "All"
+      ? projects
+      : projects.filter((p) => projectUsesFilterTech(p.tech, filter));
 
   return (
-    <>
-      <main id="main" className="flex-1 relative z-10 selection:bg-[var(--accent)] selection:text-stone-950">
+    <div className="mx-auto w-full max-w-[1240px] lg:grid lg:grid-cols-[300px_1fr]">
+      {/* ── Persistent identity rail: name, status, nav, résumé, contacts ── */}
+      <aside className="flex flex-col gap-10 border-b border-line px-7 py-12 sm:px-12 lg:sticky lg:top-0 lg:h-screen lg:justify-between lg:border-r lg:border-b-0 lg:px-10 lg:py-14">
+        <div>
+          <Image
+            src="/headshot_1000.jpg"
+            alt="Nicholas D'Amato"
+            width={60}
+            height={60}
+            priority
+            className="mb-5 h-[60px] w-[60px] rounded-full object-cover ring-1 ring-line-2"
+          />
+          <h1 className="font-serif text-[26px] font-semibold leading-[1.1] tracking-tight text-ink">
+            Nicholas D&apos;Amato
+          </h1>
+          <p className="mt-2.5 text-sm text-[var(--accent)]">Junior Data Analyst</p>
+          <p className="mt-3.5 inline-flex items-center gap-2 text-xs text-muted">
+            <span className="h-[7px] w-[7px] rounded-full bg-emerald-400 shadow-[0_0_0_3px_rgba(52,211,153,0.15)]" />
+            Open to analyst roles &amp; internships
+          </p>
 
-        {/* Glassmorphism Header */}
-        <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-stone-950/60 border-b border-stone-800/40">
-          <div className="mx-auto max-w-5xl px-6 h-14 flex items-center justify-between text-sm">
-            <span className="font-bold text-stone-100 tracking-widest text-xs">N.D</span>
-            <nav aria-label="Primary" className="flex gap-6 text-stone-300 font-medium">
-              <a href="#projects" className="rounded hover:text-stone-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950">Projects</a>
-              <a href="#about" className="rounded hover:text-stone-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950">About</a>
-            </nav>
-          </div>
-        </header>
-
-        {/* Hero */}
-        <section className="border-b border-stone-800/60 overflow-hidden relative">
-          
-          <motion.div 
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="mx-auto max-w-5xl px-6 pt-16 pb-14 sm:pt-24 sm:pb-20 relative z-10"
-          >
-            <div className="grid items-start gap-10 sm:grid-cols-[auto_1fr]">
-              <div className="relative h-32 w-32 overflow-hidden rounded-2xl ring-1 ring-stone-700/60 sm:h-36 sm:w-36 shadow-2xl">
-                <Image
-                  src="/headshot_1000.jpg"
-                  alt="Nicholas D'Amato"
-                  fill
-                  priority
-                  sizes="(min-width: 640px) 9rem, 8rem"
-                  className="object-cover"
-                />
-              </div>
-
-              <div>
-                <h1 className="text-4xl font-semibold tracking-tight text-stone-50 sm:text-5xl">
-                  Nicholas D&apos;Amato
-                </h1>
-                <p className="mt-3 text-lg text-[var(--accent)] font-medium tracking-wide">
-                  Junior data analyst, pivoting in from IT support.
-                </p>
-                <p className="mt-6 max-w-[60ch] leading-relaxed text-stone-300">
-                  Three years on service desks: ServiceNow, Active Directory, the
-                  tools that actually produce the data companies want to analyze.
-                  Now I&apos;m the one trying to read it. Finishing an AAS in AI
-                  Data Specialist at WCTC, looking for part-time analyst work or
-                  an internship.
-                </p>
-
-                <div className="mt-7">
-                  <ResumeDownload />
-                </div>
-
-                <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-stone-300">
-                  <span className="inline-flex items-center gap-1.5 bg-stone-900/50 px-3 py-1.5 rounded-full border border-stone-800 shadow-sm">
-                    <MapPin className="h-4 w-4 text-stone-300" aria-hidden="true" />
-                    Pewaukee, WI
-                  </span>
-                  <a
-                    href="mailto:nickdamatoit@gmail.com"
-                    className="inline-flex items-center gap-1.5 rounded hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-                  >
-                    <Mail className="h-4 w-4" aria-hidden="true" />
-                    nickdamatoit@gmail.com
-                  </a>
-                  <a
-                    href="https://linkedin.com/in/nicholas-damato2"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-                  >
-                    <Linkedin className="h-4 w-4" aria-hidden="true" />
-                    LinkedIn
-                  </a>
-                  <a
-                    href="https://github.com/Damatnic"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-                  >
-                    <Github className="h-4 w-4" aria-hidden="true" />
-                    GitHub
-                  </a>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </section>
-
-        {/* Projects */}
-        <section id="projects" className="border-b border-stone-800/60 scroll-mt-14 relative">
-          <div className="mx-auto max-w-5xl px-6 py-16">
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={fadeUp}
-              className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-6"
-            >
-              <div>
-                <h2 className="text-2xl font-semibold tracking-tight text-stone-100 sm:text-3xl">
-                  Things I&apos;ve built
-                </h2>
-                {/* Interactive Filtering */}
-                <div role="group" aria-label="Filter projects by technology" className="mt-6 flex flex-wrap gap-2">
-                  {filters.map((f) => {
-                    // An alias parent (e.g. "SQL", set by a tool pill) should light up
-                    // its member pills (T-SQL, SQL Server) so the bar reflects the filter.
-                    const aliasMembers = TECH_FILTER_ALIASES[activeFilter] ?? [activeFilter];
-                    const isPillActive = activeFilter === f || aliasMembers.includes(f);
-                    return (
-                      <button
-                        key={f}
-                        onClick={() => setActiveFilter(f)}
-                        className={`px-3.5 py-2 text-xs font-medium rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 ${
-                          isPillActive
-                            ? "bg-[var(--accent)] text-stone-950"
-                            : "bg-stone-900/40 text-stone-300 hover:text-stone-100 border border-stone-800 hover:border-stone-600"
-                        }`}
-                        aria-pressed={isPillActive}
-                      >
-                        {f}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-              
-              <Link
-                href="https://github.com/Damatnic"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden text-sm text-stone-300 hover:text-[var(--accent)] sm:inline transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
+          <nav aria-label="Sections" className="mt-10 flex flex-col">
+            {NAV.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="focus-ring flex items-baseline gap-3.5 py-[7px] text-sm text-muted transition-colors hover:text-ink"
               >
-                github.com/Damatnic →
-              </Link>
-                </motion.div>
+                <span className="w-4 font-mono text-[11px] text-faint">{item.n}</span>
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </div>
 
-            {filteredProjects.length === 0 && activeFilter !== "All" && (
-              <p className="mt-6 text-sm text-stone-400">
-                No flagship projects tagged with {activeFilter}. Check{" "}
-                <a
-                  href="#also-built"
-                  className="rounded text-[var(--accent)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-                >
-                  also built
-                </a>{" "}
-                for side projects.
-              </p>
-            )}
-
-            <ol className="mt-12 divide-y divide-stone-800/60">
-              <AnimatePresence mode="popLayout">
-                {filteredProjects.map((p) => {
-                  const isHighlighted =
-                    !!highlightedTech && projectUsesFilterTech(p.tech, highlightedTech);
-                  return (
-                    <motion.li
-                      layout={listMotion.layout}
-                      initial={listMotion.initial}
-                      animate={listMotion.animate}
-                      exit={listMotion.exit}
-                      transition={listMotion.transition}
-                      key={p.slug}
-                      className={`group relative grid gap-6 py-10 first:pt-6 sm:grid-cols-[5rem_1fr] sm:gap-10 transition-all duration-300 rounded-2xl ${
-                        isHighlighted ? "bg-stone-900/80 px-6 -mx-6 ring-1 ring-[var(--accent-soft)]" : "hover:bg-stone-900/20 px-6 -mx-6"
-                      }`}
-                    >
-                      <span
-                        aria-hidden
-                        className={`pointer-events-none absolute left-3 top-10 h-12 w-px transition-colors duration-300 ${
-                          isHighlighted ? "bg-[var(--accent)]" : "bg-stone-800 group-hover:bg-[var(--accent)]"
-                        }`}
-                      />
-
-                      <div className="font-mono text-sm text-stone-400 mt-1">
-                        <span className="text-[var(--accent)]">
-                          {String(projects.findIndex(orig => orig.slug === p.slug) + 1).padStart(2, "0")}
-                        </span>
-                        <span className="ml-2 text-stone-500">/</span>
-                        <span className="ml-2">
-                          {String(projects.length).padStart(2, "0")}
-                        </span>
-                      </div>
-
-                      <article className="max-w-[68ch]">
-                        <h3 className="text-xl font-semibold text-stone-50 sm:text-2xl">
-                          {p.title}
-                        </h3>
-                        <p className="mt-1.5 text-sm text-stone-300">{p.tagline}</p>
-
-                        <p className="mt-4 leading-relaxed text-stone-200">
-                          {p.description}
-                        </p>
-
-                        <ul className="mt-5 space-y-2 text-sm text-stone-300">
-                          {p.bullets.map((b, idx) => (
-                            <li key={idx} className="flex gap-3">
-                              <span className="mt-2.5 inline-block h-px w-3 shrink-0 bg-stone-600" />
-                              <span>{b}</span>
-                            </li>
-                          ))}
-                        </ul>
-
-                        <div className="mt-6 flex flex-wrap gap-2">
-                          {p.tech.map((t) => (
-                            <span
-                              key={t}
-                              className={`px-2.5 py-1 text-[10px] uppercase tracking-wider font-semibold rounded-md border ${
-                                techTagMatchesToolSelection(t, highlightedTech, activeFilter)
-                                  ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent)]"
-                                  : "bg-stone-900/50 border-stone-800 text-stone-300"
-                              }`}
-                            >
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-
-                        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-                          {p.demoUrl && (
-                            <Link
-                              href={p.demoUrl}
-                              className="inline-flex items-center gap-1.5 font-medium text-[var(--accent)] underline-offset-4 hover:underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-                            >
-                              <Play className="h-3.5 w-3.5" aria-hidden="true" />
-                              {p.demoLabel ?? "Try it"}
-                            </Link>
-                          )}
-                          <a
-                            href={p.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-stone-300 hover:text-stone-100 transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-                          >
-                            <Github className="h-4 w-4" aria-hidden="true" />
-                            source
-                          </a>
-                        </div>
-                      </article>
-                    </motion.li>
-                  );
-                })}
-              </AnimatePresence>
-            </ol>
+        <div className="flex flex-col gap-5">
+          <ResumeDownload
+            label="Résumé (PDF)"
+            className="focus-ring inline-flex w-fit items-center gap-2 rounded border border-[var(--accent)] px-4 py-2.5 text-sm font-medium text-[var(--accent)] transition hover:bg-[var(--accent)] hover:text-[var(--background)]"
+          />
+          <div className="flex flex-col gap-2.5 text-sm">
+            <a
+              href="mailto:nickdamatoit@gmail.com"
+              className="focus-ring inline-flex items-center gap-2.5 text-muted transition-colors hover:text-[var(--accent)]"
+            >
+              <Mail className="h-3.5 w-3.5 text-faint" aria-hidden="true" />
+              nickdamatoit@gmail.com
+            </a>
+            <a
+              href="https://github.com/Damatnic"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="focus-ring inline-flex items-center gap-2.5 text-muted transition-colors hover:text-[var(--accent)]"
+            >
+              <Github className="h-3.5 w-3.5 text-faint" />
+              github.com/Damatnic
+            </a>
+            <a
+              href="https://linkedin.com/in/nicholas-damato2"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="focus-ring inline-flex items-center gap-2.5 text-muted transition-colors hover:text-[var(--accent)]"
+            >
+              <Linkedin className="h-3.5 w-3.5 text-faint" />
+              linkedin.com/in/nicholas-damato2
+            </a>
           </div>
+          <p className="text-xs text-faint">Pewaukee, WI · Remote ok</p>
+        </div>
+      </aside>
+
+      {/* ── Content column ── */}
+      <main id="main" className="min-w-0">
+        <section className="px-7 pt-14 pb-12 sm:px-12 lg:pt-24">
+          <p className="eyebrow">Junior Data Analyst · Pewaukee, WI</p>
+          <h2 className="mt-4 max-w-[15ch] font-serif text-[2.5rem] font-medium leading-[1.08] tracking-tight text-ink sm:text-[3.1rem]">
+            Junior data analyst, pivoting in from IT support.
+          </h2>
+          <p className="mt-6 max-w-[56ch] text-[1.05rem] leading-relaxed text-body">
+            Three years on service desks: ServiceNow, Active Directory, the tools
+            that actually produce the data companies want to analyze. Now I&apos;m
+            the one trying to read it. Finishing an AAS in AI Data Specialist at
+            WCTC.
+          </p>
         </section>
 
-        {/* Also built */}
-        <section id="also-built" className="border-b border-stone-800/60 scroll-mt-14 overflow-hidden">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeUp}
-            className="mx-auto max-w-5xl px-6 py-14"
-          >
-            <div className="flex items-baseline justify-between gap-6">
-              <h2 className="text-xl font-semibold tracking-tight text-stone-100 sm:text-2xl">
-                Also built
-              </h2>
-              <p className="hidden text-xs text-stone-400 sm:block">
-                study tools I built from scratch, and still use
-              </p>
+        {/* at a glance */}
+        <dl className="grid grid-cols-2 gap-px border-y border-line bg-line lg:grid-cols-4">
+          {GLANCE.map((cell) => (
+            <div key={cell.k} className="bg-[var(--background)] px-6 py-5">
+              <dt className="eyebrow">{cell.k}</dt>
+              <dd className="mt-2 text-[0.84rem] leading-snug text-ink">{cell.v}</dd>
             </div>
+          ))}
+        </dl>
 
-            <div className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2">
-              {sideProjects.map((p, i) => (
-                <motion.article
-                  initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: shouldReduceMotion ? 0 : i * 0.1 }}
+        {/* selected work */}
+        <section id="work" className="scroll-mt-6 px-7 sm:px-12">
+          <div className="flex items-baseline justify-between gap-4 pt-16 pb-4">
+            <h2 className="font-serif text-base text-ink">Selected work</h2>
+            <span className="font-mono text-[11px] text-faint">
+              {filtered.length} of {projects.length}
+            </span>
+          </div>
+
+          <div role="group" aria-label="Filter projects by technology" className="flex flex-wrap gap-x-5 gap-y-2 pb-2">
+            {filters.map((f) => (
+              <button
+                key={f}
+                type="button"
+                onClick={() => setFilter(f)}
+                aria-pressed={filter === f}
+                className={`focus-ring font-mono text-xs tracking-wide transition-colors ${
+                  filter === f
+                    ? "text-[var(--accent)] underline decoration-[var(--accent)] underline-offset-4"
+                    : "text-faint hover:text-muted"
+                }`}
+              >
+                {f.toLowerCase()}
+              </button>
+            ))}
+          </div>
+
+          {filtered.length === 0 ? (
+            <p className="border-t border-line py-10 text-sm text-muted">
+              No flagship project tagged {filter}. The side projects below use a wider stack.
+            </p>
+          ) : (
+            <ol>
+              {filtered.map((p, i) => (
+                <li
                   key={p.slug}
-                  className="group relative p-6 rounded-2xl bg-stone-900/30 border border-stone-800/60 hover:bg-stone-900/60 hover:border-stone-700 transition-all min-w-0 break-words"
+                  className="grid grid-cols-[2.25rem_1fr] gap-x-4 border-t border-line py-9 first:border-t-0 sm:gap-x-6"
                 >
-                  <h3 className="font-mono text-base text-[var(--accent)]">{p.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-stone-300">
-                    {p.description}
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {p.tech.map(t => (
-                      <span key={t} className="text-[10px] font-mono text-stone-300 bg-stone-950 px-2 py-0.5 rounded border border-stone-800">
-                        {t}
+                  <div className="pt-2 font-mono text-xs text-[var(--accent)]">
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <article className="min-w-0">
+                    <h3 className="font-serif text-2xl leading-tight tracking-tight text-ink sm:text-[1.7rem]">
+                      {p.title}
+                    </h3>
+                    <p className="mt-1.5 text-[0.95rem] text-muted">{p.tagline}</p>
+                    <p className="mt-3.5 max-w-[64ch] text-[0.95rem] leading-relaxed text-body">
+                      {p.description}
+                    </p>
+                    <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
+                      <span className="font-mono text-[11px] tracking-wide text-faint">
+                        {p.tech.map((t) => t.toLowerCase()).join(" · ")}
                       </span>
-                    ))}
-                  </div>
-                  <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm pt-4 border-t border-stone-800/60">
-                    <a
-                      href={p.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-[var(--accent)] underline-offset-4 hover:underline rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                      live site
-                    </a>
-                    <a
-                      href={p.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-stone-300 hover:text-stone-100 transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-                    >
-                      <Github className="h-4 w-4" aria-hidden="true" />
-                      source
-                    </a>
-                  </div>
-                </motion.article>
+                      <span className="flex shrink-0 gap-5 text-sm">
+                        {p.demoUrl && (
+                          <Link
+                            href={p.demoUrl}
+                            className="focus-ring border-b border-[var(--accent)] pb-0.5 font-medium text-[var(--accent)] transition hover:opacity-80"
+                          >
+                            {p.demoLabel ?? "Open"} →
+                          </Link>
+                        )}
+                        <a
+                          href={p.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="focus-ring border-b border-line-2 pb-0.5 text-muted transition hover:text-ink"
+                        >
+                          Source
+                        </a>
+                      </span>
+                    </div>
+                  </article>
+                </li>
               ))}
-            </div>
-          </motion.div>
+            </ol>
+          )}
         </section>
 
-        {/* About */}
-        <section id="about" className="border-b border-stone-800/60 scroll-mt-14">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeUp}
-            className="mx-auto max-w-5xl px-6 py-14"
-          >
-            <div className="grid gap-10 lg:grid-cols-[2fr_1fr] mb-14">
-              <div className="space-y-5 leading-relaxed text-stone-200">
-                <h2 className="text-2xl font-semibold tracking-tight text-stone-100 sm:text-3xl mb-8">
-                  About
-                </h2>
-                <p className="max-w-[65ch]">
-                  Last few years I did IT support. Service desk, ticketing, AD,
-                  ServiceNow, some PowerShell. Batteries Plus, City of
-                  Wauwatosa, CTAccess, Wolter, Puget Sound Energy. Being inside
-                  the systems that generate the data turns out to be a pretty
-                  good head start for moving into analytics, especially when
-                  half the job is figuring out what the data is actually saying
-                  versus what people <em>think</em> it&apos;s saying.
-                </p>
-                <p className="max-w-[65ch]">
-                  The three projects above are real work from my WCTC program,
-                  cleaned up for public sharing. A Python ETL that scrapes web
-                  data into SQL Server. A SQL Server schema built from an ER
-                  diagram with partitioning and audit triggers. A Power BI
-                  dashboard on a star schema.
-                </p>
-                <p className="max-w-[65ch]">
-                  What I&apos;m doing right now: working through advanced SQL
-                  window functions and figuring out where pandas stops being
-                  enough and numpy starts. The{" "}
-                  <Link
-                    href="/now"
-                    className="rounded text-[var(--accent)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-                  >
-                    /now
-                  </Link>{" "}
-                  page has the full log.
-                </p>
-              </div>
-
-              <dl className="space-y-8 text-sm bg-stone-900/20 p-6 rounded-2xl border border-stone-800/40 h-fit">
-                <div>
-                  <dt className="text-xs uppercase tracking-widest font-semibold text-stone-300 mb-2">Tools I reach for</dt>
-                  <dd className="flex flex-wrap gap-2">
-                    {toolsIReachFor.map(tool => (
-                      <button
-                        key={tool}
-                        onMouseEnter={() => setHighlightedTech(tool)}
-                        onMouseLeave={() => setHighlightedTech(null)}
-                        onFocus={() => setHighlightedTech(tool)}
-                        onBlur={() => setHighlightedTech(null)}
-                        onClick={() => {
-                          setActiveFilter(tool);
-                          document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-                        }}
-                        aria-pressed={activeFilter === tool}
-                        className={`px-3.5 py-2 text-xs font-medium rounded-md border transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 ${
-                          highlightedTech === tool || activeFilter === tool
-                            ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent)]"
-                            : "bg-stone-900/50 border-stone-800 text-stone-200 hover:border-stone-600 hover:text-stone-100"
-                        }`}
-                      >
-                        {tool}
-                      </button>
-                    ))}
-                  </dd>
-                </div>
-
-                <div>
-                  <dt className="text-xs uppercase tracking-widest font-semibold text-stone-300 mb-2">Education</dt>
-                  <dd className="mt-1.5 text-stone-200">WCTC · AAS, AI Data Specialist <span className="text-stone-400">(2027)</span></dd>
-                  <dd className="text-stone-200">MATC · Associate, IT Network Specialist <span className="text-stone-400">(2023)</span></dd>
-                </div>
-                <div>
-                  <dt className="text-xs uppercase tracking-widest font-semibold text-stone-300 mb-2">Certifications</dt>
-                  <dd className="mt-1.5 text-stone-200">CompTIA A+, Network+</dd>
-                  <dd className="text-stone-200">Cisco CCNA</dd>
-                </div>
-                <div>
-                  <dt className="text-xs uppercase tracking-widest font-semibold text-stone-300 mb-2">Currently learning</dt>
-                  <dd className="mt-1.5 text-stone-300 leading-relaxed">
-                    More serious DAX. Window functions in production-scale data.
-                    How to make a dashboard people actually use.
-                  </dd>
-                </div>
-              </dl>
-            </div>
-            
-            <ResumeTimeline />
-          </motion.div>
+        {/* experience */}
+        <section id="experience" className="scroll-mt-6 px-7 pt-16 sm:px-12">
+          <ResumeTimeline />
         </section>
 
-        {/* Footer */}
-        <footer>
-          <div className="mx-auto flex max-w-5xl flex-col gap-3 px-6 py-10 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-stone-400 font-mono">
-              <span>Nicholas D&apos;Amato · Pewaukee, WI</span>
+        {/* about */}
+        <section id="about" className="scroll-mt-6 px-7 pt-16 sm:px-12">
+          <h2 className="font-serif text-base text-ink">About</h2>
+          <div className="mt-4 max-w-[64ch] space-y-4 text-[0.98rem] leading-[1.8] text-body">
+            <p>
+              Last few years I did IT support. Service desk, ticketing, AD,
+              ServiceNow, some PowerShell. Being inside the systems that generate
+              the data turns out to be a pretty good head start for moving into
+              analytics, especially when half the job is figuring out what the
+              data is actually saying versus what people{" "}
+              <em className="font-serif italic text-ink">think</em> it&apos;s
+              saying.
+            </p>
+            <p>
+              The work above is real coursework from my WCTC program, cleaned up
+              for public sharing. Right now I&apos;m deep in window functions and
+              figuring out where pandas stops being enough and numpy starts. The{" "}
               <Link
                 href="/now"
-                className="rounded text-stone-300 hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
+                className="focus-ring text-[var(--accent)] underline-offset-4 hover:underline"
               >
                 /now
-              </Link>
-            </div>
-            <div className="flex gap-5 text-sm text-stone-300">
-              <a
-                href="mailto:nickdamatoit@gmail.com"
-                className="inline-flex items-center gap-1.5 rounded hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-              >
-                <Mail className="h-4 w-4" aria-hidden="true" /> Email
-              </a>
-              <a
-                href="https://linkedin.com/in/nicholas-damato2"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-              >
-                <Linkedin className="h-4 w-4" aria-hidden="true" /> LinkedIn
-              </a>
-              <a
-                href="https://github.com/Damatnic"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
-              >
-                <Github className="h-4 w-4" aria-hidden="true" /> GitHub
-              </a>
-            </div>
+              </Link>{" "}
+              page has the running log.
+            </p>
           </div>
+        </section>
+
+        {/* also built */}
+        <section className="px-7 pt-16 sm:px-12">
+          <div className="flex items-baseline justify-between gap-4 pb-2">
+            <h2 className="font-serif text-base text-ink">Also built</h2>
+            <span className="font-mono text-[11px] text-faint">study tools, still in use</span>
+          </div>
+          <ul>
+            {sideProjects.map((p) => (
+              <li
+                key={p.slug}
+                className="grid gap-x-8 gap-y-2 border-t border-line py-7 sm:grid-cols-[200px_1fr]"
+              >
+                <div>
+                  <a
+                    href={p.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-ring font-mono text-[0.95rem] text-[var(--accent)] hover:underline underline-offset-4"
+                  >
+                    {p.title} ↗
+                  </a>
+                  <div className="mt-1.5 font-mono text-[11px] text-faint">
+                    {p.tech.map((t) => t.toLowerCase()).join(" · ")}
+                  </div>
+                </div>
+                <div className="min-w-0">
+                  <p className="max-w-[60ch] text-sm leading-relaxed text-body">
+                    {p.description}
+                  </p>
+                  <a
+                    href={p.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-ring mt-2 inline-block border-b border-line-2 pb-0.5 text-sm text-muted transition hover:text-ink"
+                  >
+                    Source
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <footer className="mt-16 flex flex-col gap-2 border-t border-line px-7 py-8 font-mono text-[11px] tracking-wide text-faint sm:flex-row sm:items-center sm:justify-between sm:px-12">
+          <span>Nicholas D&apos;Amato · Pewaukee, WI</span>
+          <span>Built with Next.js · Tailwind</span>
         </footer>
       </main>
-    </>
+    </div>
   );
 }

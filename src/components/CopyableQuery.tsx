@@ -27,7 +27,7 @@ export function CopyableQuery({ title, why, sql }: CopyableQueryProps) {
       <div className="flex items-baseline justify-between gap-3 border-b border-stone-800 bg-stone-900/60 px-4 py-2.5">
         <div className="min-w-0">
           <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--accent)]">
-            {"// query"}
+            SQL
           </p>
           <p className="mt-0.5 truncate text-sm font-medium text-stone-100">{title}</p>
         </div>

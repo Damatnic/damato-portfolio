@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAnalyticsSummary } from "@/lib/analyticsStore";
+import { safeEqual } from "@/lib/safeEqual";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +10,7 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   const key = request.nextUrl.searchParams.get("key");
   const expected = process.env.TRACKERS_ANALYTICS_KEY;
-  if (!expected || key !== expected) {
+  if (!expected || !safeEqual(key, expected)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
   const summary = await getAnalyticsSummary();

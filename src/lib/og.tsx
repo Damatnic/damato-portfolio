@@ -7,12 +7,12 @@ export const ogContentType = "image/png";
 
 const BG = "#0c0a09";
 const FG = "#f5f5f4";
-const ACCENT = "#2dd4bf";
+const ACCENT = "#e8a838";
 const MUTED = "#a8a29e";
 const FAINT = "#78716c";
 
 /**
- * Renders an on-brand 1200×630 social card: dark background, a teal uppercase
+ * Renders an on-brand 1200×630 social card: dark background, a marigold uppercase
  * kicker, a large title, a muted tagline, and a footer with the name + domain.
  * Used by per-page `opengraph-image.tsx` route files.
  */

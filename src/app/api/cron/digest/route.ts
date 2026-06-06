@@ -3,9 +3,25 @@ import { dayKey } from "@/lib/analyticsTime";
 import { getAnalyticsSummary, countryFlag } from "@/lib/analyticsStore";
 import type { AnalyticsSummary } from "@/lib/analyticsStore";
 import { SITE_URL } from "@/lib/site";
+import { safeEqual } from "@/lib/safeEqual";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+/**
+ * HTML-escape any value before it lands in the digest email. Paths and
+ * referrers come from the public /api/track beacon (attacker-controlled);
+ * city/country come from Vercel edge headers. Escaping all of it stops HTML
+ * or beacon injection into the inbox we send this to.
+ */
+function esc(value: unknown): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 function analyticsDashboardUrl(): string {
   const secret = process.env.ANALYTICS_SECRET ?? "";
@@ -76,25 +92,24 @@ function buildHighlights(summary: AnalyticsSummary): string[] {
   );
   const newCountries = Array.from(recentCountries).filter((c) => !priorCountries.has(c));
   if (newCountries.length > 0) {
-    const labels = newCountries.map((c) => `${countryFlag(c)} ${c}`).join(", ");
+    const labels = newCountries.map((c) => `${countryFlag(c)} ${esc(c)}`).join(", ");
     out.push(`First visit today from ${labels}.`);
   }
 
   const top = summary.topReferrers[0];
   if (top && top.count > 0) {
+    let host = top.referrer;
     try {
-      const host = new URL(top.referrer).hostname;
-      out.push(`Top referrer this week: <strong>${host}</strong> (${top.count} visits).`);
-    } catch {
-      out.push(`Top referrer this week: <strong>${top.referrer}</strong> (${top.count} visits).`);
-    }
+      host = new URL(top.referrer).hostname;
+    } catch {}
+    out.push(`Top referrer this week: <strong>${esc(host)}</strong> (${top.count} visits).`);
   }
 
   return out;
 }
 
 function htmlDigest(summary: AnalyticsSummary, dashboardUrl: string, today: string): string {
-  const accent = "#2dd4bf";
+  const accent = "#e8a838";
   const muted = "#a1a1aa";
   const card = "#27272a";
   const surface = "#18181b";
@@ -113,7 +128,7 @@ function htmlDigest(summary: AnalyticsSummary, dashboardUrl: string, today: stri
     .slice(0, 5)
     .map(
       (p) =>
-        `<tr><td style="padding:4px 8px;color:#d4d4d8;font-family:ui-monospace,monospace">${p.path}</td><td style="padding:4px 8px;text-align:right;color:#f4f4f5">${p.count}</td></tr>`
+        `<tr><td style="padding:4px 8px;color:#d4d4d8;font-family:ui-monospace,monospace">${esc(p.path)}</td><td style="padding:4px 8px;text-align:right;color:#f4f4f5">${p.count}</td></tr>`
     )
     .join("");
   const refRows = summary.topReferrers
@@ -121,14 +136,14 @@ function htmlDigest(summary: AnalyticsSummary, dashboardUrl: string, today: stri
     .map((r) => {
       let host = r.referrer;
       try { host = new URL(r.referrer).hostname; } catch {}
-      return `<tr><td style="padding:4px 8px;color:#d4d4d8">${host}</td><td style="padding:4px 8px;text-align:right;color:#f4f4f5">${r.count}</td></tr>`;
+      return `<tr><td style="padding:4px 8px;color:#d4d4d8">${esc(host)}</td><td style="padding:4px 8px;text-align:right;color:#f4f4f5">${r.count}</td></tr>`;
     })
     .join("");
   const countryRows = summary.topCountries
     .slice(0, 5)
     .map(
       (c) =>
-        `<tr><td style="padding:4px 8px;color:#d4d4d8">${countryFlag(c.code)} ${c.country}</td><td style="padding:4px 8px;text-align:right;color:#f4f4f5">${c.count}</td></tr>`
+        `<tr><td style="padding:4px 8px;color:#d4d4d8">${countryFlag(c.code)} ${esc(c.country)}</td><td style="padding:4px 8px;text-align:right;color:#f4f4f5">${c.count}</td></tr>`
     )
     .join("");
 
@@ -144,7 +159,7 @@ function htmlDigest(summary: AnalyticsSummary, dashboardUrl: string, today: stri
         hour12: true,
       });
       const loc = [d.city, d.country].filter(Boolean).join(", ") || "·";
-      return `<tr><td style="padding:4px 8px;color:#d4d4d8;font-family:ui-monospace,monospace;font-size:11px">${time}</td><td style="padding:4px 8px;color:#d4d4d8">${countryFlag(d.country)} ${loc}</td></tr>`;
+      return `<tr><td style="padding:4px 8px;color:#d4d4d8;font-family:ui-monospace,monospace;font-size:11px">${esc(time)}</td><td style="padding:4px 8px;color:#d4d4d8">${countryFlag(d.country)} ${esc(loc)}</td></tr>`;
     })
     .join("");
 
@@ -254,7 +269,7 @@ export async function GET(req: NextRequest) {
   if (!cronSecret) {
     return NextResponse.json({ error: "cron not configured" }, { status: 503 });
   }
-  if (authHeader !== `Bearer ${cronSecret}`) {
+  if (!safeEqual(authHeader, `Bearer ${cronSecret}`)) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 

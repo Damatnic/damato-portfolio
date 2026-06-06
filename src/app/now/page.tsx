@@ -42,53 +42,57 @@ export default function NowPage() {
       id="main"
       className="mx-auto max-w-3xl px-6 py-12 text-stone-100 selection:bg-[var(--accent)] selection:text-stone-950"
     >
-      <header className="mb-10">
-        <p className="font-mono text-xs uppercase tracking-widest text-[var(--accent)]">
-          {"// dated log · newest first"}
+      <header className="mb-12">
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-faint">
+          Working log · newest first
         </p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
-          /now
+        <h1 className="mt-3 font-serif text-4xl font-medium tracking-tight sm:text-5xl">
+          Now
         </h1>
-        <p className="mt-5 max-w-[60ch] text-stone-300 leading-relaxed">
+        <p className="mt-5 max-w-[60ch] leading-relaxed text-body">
           What I&apos;m working on and thinking about. Updated when something
           actually changes, not on a schedule.
         </p>
-        <p className="mt-4 text-sm text-stone-400">
+        <p className="mt-5 text-sm">
           <Link
             href="/"
-            className="rounded underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950"
+            className="focus-ring text-muted underline-offset-4 hover:text-[var(--accent)] hover:underline"
           >
             ← back to portfolio
           </Link>
         </p>
       </header>
 
-      <ol className="space-y-10">
+      <ol>
         {nowEntries.map((entry) => (
-          <li key={entry.date} className="border-l border-stone-800 pl-5">
+          <li
+            key={entry.date}
+            className="grid gap-x-8 gap-y-2 border-t border-line py-8 sm:grid-cols-[140px_1fr]"
+          >
             <time
               dateTime={entry.date}
-              className="font-mono text-xs uppercase tracking-widest text-stone-400"
+              className="pt-0.5 font-mono text-xs uppercase tracking-wider text-faint"
             >
               {formatDate(entry.date)}
             </time>
-            <p className="mt-2 text-lg text-stone-100">{entry.summary}</p>
-            <ul className="mt-3 space-y-2 text-sm text-stone-300">
-              {entry.items.map((it, idx) => (
-                <li key={idx} className="flex gap-3 leading-relaxed">
-                  <span
-                    aria-hidden="true"
-                    className="mt-2 inline-block h-px w-3 shrink-0 bg-stone-600"
-                  />
-                  <span>{it}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="min-w-0">
+              <p className="text-[1.05rem] text-ink">{entry.summary}</p>
+              <ul className="mt-3 space-y-2 text-sm leading-relaxed text-body">
+                {entry.items.map((it, idx) => (
+                  <li key={idx} className="flex gap-3">
+                    <span aria-hidden="true" className="text-[var(--accent)]">
+                      —
+                    </span>
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </li>
         ))}
       </ol>
 
-      <footer className="mt-14 border-t border-stone-800/60 pt-6 text-xs text-stone-400">
+      <footer className="mt-12 border-t border-line pt-6 text-xs text-faint">
         <p>
           Format inspired by{" "}
           <a

@@ -13,8 +13,8 @@ export default function Error({
       id="main"
       className="mx-auto flex min-h-[70vh] max-w-2xl flex-col items-start justify-center px-6 py-16 text-stone-100"
     >
-      <p className="font-mono text-xs uppercase tracking-widest text-[var(--accent)]">
-        {"// something broke"}
+      <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--accent)]">
+        Error
       </p>
       <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
         That page hit an error.

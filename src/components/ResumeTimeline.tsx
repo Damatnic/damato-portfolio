@@ -15,21 +15,21 @@ const timelineData: TimelineItem[] = [
     id: "wctc",
     year: "Expected 2027",
     title: "AAS, AI Data Specialist",
-    company: "WCTC, Waukesha, WI",
-    type: "education"
+    company: "WCTC, Waukesha WI",
+    type: "education",
   },
   {
     id: "pse",
-    year: "Jan 2025 to May 2025",
-    title: "IT Help Desk Technician",
-    company: "Puget Sound Energy (Contract/Remote)",
+    year: "Jan – May 2025",
+    title: "IT Help Desk Technician, Contract",
+    company: "Puget Sound Energy",
     type: "work",
     description:
       "Remote tier-1 and tier-2 for a big Pacific Northwest utility. 150+ ServiceNow tickets a month, 5,000-user support pool, mostly via Cisco Jabber and Cisco Finesse. You get fast at triaging when the queue never gets shorter.",
   },
   {
     id: "wolter",
-    year: "Jan 2024 to Jul 2024",
+    year: "Jan – Jul 2024",
     title: "Technical Support Administrator",
     company: "Wolter Inc., Pewaukee WI",
     type: "work",
@@ -38,7 +38,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: "ctaccess",
-    year: "Jul 2023 to Jan 2024",
+    year: "Jul 2023 – Dec 2023",
     title: "Service Desk Technician, Contract",
     company: "CTAccess, Waukesha WI",
     type: "work",
@@ -49,12 +49,12 @@ const timelineData: TimelineItem[] = [
     id: "matc",
     year: "May 2023",
     title: "Associate Degree, IT Network Specialist",
-    company: "MATC, Milwaukee, WI",
-    type: "education"
+    company: "MATC, Milwaukee WI",
+    type: "education",
   },
   {
     id: "wauwatosa",
-    year: "Jan 2023 to Jun 2023",
+    year: "Jan – Jun 2023",
     title: "IT Help Desk Specialist II",
     company: "City of Wauwatosa, Wauwatosa WI",
     type: "work",
@@ -63,37 +63,36 @@ const timelineData: TimelineItem[] = [
   },
   {
     id: "batteries-plus",
-    year: "Apr 2022 to Dec 2022",
-    title: "Desktop Support Specialist (Internship)",
+    year: "Apr – Dec 2022",
+    title: "Desktop Support Specialist, Internship",
     company: "Batteries Plus",
     type: "work",
     description:
       "Tier-1 support for office and remote users: ticketing, routing, escalation. Configured equipment and accounts for new hires, helped run a laptop upgrade project, and kept asset inventory in Snipe-IT.",
-  }
+  },
 ];
 
-export function ResumeTimeline() {
-  const [filter, setFilter] = useState<"all" | "work" | "education">("all");
+const FILTERS = ["all", "work", "education"] as const;
 
-  const filteredData = timelineData.filter(
-    (item) => filter === "all" || item.type === filter
-  );
+export function ResumeTimeline() {
+  const [filter, setFilter] = useState<(typeof FILTERS)[number]>("all");
+  const rows = timelineData.filter((i) => filter === "all" || i.type === filter);
 
   return (
-    <div className="mt-14 pt-8 border-t border-stone-800/60">
-      <div className="flex items-center justify-between mb-8">
-        <h3 className="text-xl font-semibold text-stone-100">Interactive Resume</h3>
-        <div className="flex gap-2 bg-stone-900/50 p-1 rounded-lg border border-stone-800">
-          {(["all", "work", "education"] as const).map((f) => (
+    <div>
+      <div className="flex items-baseline justify-between gap-4 pb-3">
+        <h2 className="font-serif text-base text-ink">Experience</h2>
+        <div className="flex gap-4 font-mono text-[11px] uppercase tracking-wider">
+          {FILTERS.map((f) => (
             <button
               key={f}
               type="button"
               onClick={() => setFilter(f)}
               aria-pressed={filter === f}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md capitalize transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 ${
+              className={`focus-ring transition-colors ${
                 filter === f
-                  ? "bg-stone-800 text-stone-100 shadow-sm ring-1 ring-stone-700/50"
-                  : "text-stone-400 hover:text-stone-200"
+                  ? "text-[var(--accent)]"
+                  : "text-faint hover:text-muted"
               }`}
             >
               {f}
@@ -102,26 +101,24 @@ export function ResumeTimeline() {
         </div>
       </div>
 
-      <div className="relative border-l border-stone-800 ml-3 space-y-10">
-        {filteredData.map((item) => (
-          <div key={item.id} className="relative pl-6 sm:pl-8 group">
-            <span
-              className={`absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-stone-950 transition-colors ${
-                item.type === "work" ? "bg-[var(--accent)]" : "bg-stone-500"
-              }`}
-            />
-            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-1">
-              <h4 className="text-base font-medium text-stone-200">{item.title}</h4>
-              <time className="text-xs font-mono text-stone-400 mt-1 sm:mt-0 shrink-0">
-                {item.year}
-              </time>
+      <div>
+        {rows.map((item) => (
+          <div
+            key={item.id}
+            className="grid grid-cols-1 gap-x-8 gap-y-1.5 border-t border-line py-6 sm:grid-cols-[160px_1fr]"
+          >
+            <div className="pt-0.5 font-mono text-xs text-faint">{item.year}</div>
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+                <h3 className="font-medium text-ink">{item.title}</h3>
+                <span className="text-sm text-[var(--accent)]">{item.company}</span>
+              </div>
+              {item.description && (
+                <p className="mt-2 max-w-[62ch] text-sm leading-relaxed text-muted">
+                  {item.description}
+                </p>
+              )}
             </div>
-            <p className="text-sm font-medium text-[var(--accent)]">{item.company}</p>
-            {item.description && (
-              <p className="mt-2 text-sm text-stone-400 leading-relaxed max-w-[55ch]">
-                {item.description}
-              </p>
-            )}
           </div>
         ))}
       </div>

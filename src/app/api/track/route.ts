@@ -55,7 +55,12 @@ async function pushToKV(record: Record<string, unknown>): Promise<void> {
 
   const date = todayKey();
   const type = String(record.type ?? 'unknown');
-  const sessionId = typeof record.sessionId === 'string' ? record.sessionId : null;
+  // Only trust a sessionId that's a clean token, so it can't escape its key
+  // namespace (e.g. inject ":" to collide with counters/session keys).
+  const sessionId =
+    typeof record.sessionId === 'string' && /^[A-Za-z0-9_-]{1,64}$/.test(record.sessionId)
+      ? record.sessionId
+      : null;
   const path = typeof record.path === 'string' ? record.path : null;
 
   const headers = {

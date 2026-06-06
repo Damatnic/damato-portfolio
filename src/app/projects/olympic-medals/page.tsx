@@ -40,7 +40,7 @@ const MEDAL_COLORS: Record<string, string> = {
 const CONTINENT_COLORS: Record<string, string> = {
   Americas: "#d97757",
   Asia: "#c9886d",
-  Europe: "#818cf8", // Distinct cool color for the continent chart; brand accent is teal
+  Europe: "#818cf8", // Distinct cool color so Europe reads apart from the warm accent
   Oceania: "#88a87a",
   Africa: "#a07752",
 };

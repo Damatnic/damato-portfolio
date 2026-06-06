@@ -1,9 +1,31 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ClickTracker } from "@/components/ClickTracker";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import "./globals.css";
+
+// Editorial type system: a serif display face for the name + headings, a clean
+// grotesque for body/UI, and a real mono for code and the data tables. Loading
+// actual typefaces (not system-ui) is the fastest way off the generic AI look.
+const display = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+});
+const sans = Geist({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+const mono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Nicholas D'Amato | Junior Data Analyst",
@@ -62,7 +84,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
+    <html
+      lang="en"
+      className={`h-full antialiased ${display.variable} ${sans.variable} ${mono.variable}`}
+    >
       <body className="min-h-full flex flex-col bg-stone-950 text-stone-100">
         <a
           href="#main"
