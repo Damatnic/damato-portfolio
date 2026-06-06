@@ -6,6 +6,15 @@ export interface NowEntry {
 
 export const nowEntries: NowEntry[] = [
   {
+    date: "2026-06-06",
+    summary: "Summer term is on. Math and logic, intro to operational tech, advanced Python coming up.",
+    items: [
+      "Two classes running now: Mathematics and Logic (online, on ALEKS) and Intro to Operational Tech (in-person, PLCs and industrial automation). The math one is set theory, logic and truth tables, number systems, binary and hex. Foundations I want solid before the heavier data work.",
+      "Advanced Python comes later in the term. That's the one I'm actually looking forward to, more of the programming and data side after a couple of classes that sit a bit off the direct data track.",
+      "Still looking for part-time analyst work or an internship in the Milwaukee area while I work through this.",
+    ],
+  },
+  {
     date: "2026-05-20",
     summary: "Finishing the semester, deep in window functions.",
     items: [
