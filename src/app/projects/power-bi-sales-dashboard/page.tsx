@@ -18,12 +18,14 @@ export const metadata = {
       "Three-page Power BI dashboard on a star schema: DAX measures, drill-through, employee scorecard, and salary-vs-review analysis.",
     type: "article",
     url: "/projects/power-bi-sales-dashboard",
+    images: ["/projects/power-bi-sales-dashboard/opengraph-image"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Power BI Sales Dashboard | Nicholas D'Amato",
     description:
       "Three-page Power BI dashboard on a star schema: DAX measures, drill-through, employee scorecard, and salary-vs-review analysis.",
+    images: ["/projects/power-bi-sales-dashboard/opengraph-image"],
   },
 };
 
@@ -270,7 +272,7 @@ YoY Growth =
         <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
           <Image
             src="/projects/power-bi/page-1-sales-overview.png"
-            alt="Placeholder wireframe for Sales Overview: header title, row of four empty KPI slots, large panel noting KPI cards line chart map and top products. Open the .pbip in Power BI Desktop for the real visuals."
+            alt="Sales Overview dashboard page: KPI cards, sales-over-time line chart, regional map, and top products by revenue."
             width={1600}
             height={900}
             sizes="(min-width: 768px) 768px, 100vw"
@@ -278,7 +280,7 @@ YoY Growth =
           />
           <figcaption className="border-t border-stone-800 bg-stone-900/60 px-4 py-3 text-xs text-stone-300">
             <strong className="text-stone-100">Page 1, Sales Overview.</strong>{" "}
-            Placeholder image. Live page has KPI cards on a star-schema fact table. The YoY measure uses{" "}
+            KPI cards on a star-schema fact table. The YoY measure uses{" "}
             <Code>SAMEPERIODLASTYEAR(Date[Full Date Alternate Key])</Code> and
             relies on the Date dimension being marked as the date table. Top
             slicers cascade to every visual on the page.
@@ -288,7 +290,7 @@ YoY Growth =
         <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
           <Image
             src="/projects/power-bi/page-2-sales-details.png"
-            alt="Placeholder wireframe for Sales Details: header, four empty KPI slots, panel labeled employee scorecard commission promotions. Open the .pbip in Power BI Desktop for the real visuals."
+            alt="Sales Details dashboard page: employee scorecard, commission comparison, and promotion effectiveness visuals."
             width={1600}
             height={900}
             sizes="(min-width: 768px) 768px, 100vw"
@@ -296,7 +298,7 @@ YoY Growth =
           />
           <figcaption className="border-t border-stone-800 bg-stone-900/60 px-4 py-3 text-xs text-stone-300">
             <strong className="text-stone-100">Page 2, Sales Details.</strong>{" "}
-            Placeholder image. Live page scorecard filtered to{" "}
+            Scorecard filtered to{" "}
             <Code>Is Sales Employee = 1</Code> so admin staff don&apos;t
             distort the comparison. Right-click on a row to drill through into
             an individual employee detail page.
@@ -306,7 +308,7 @@ YoY Growth =
         <figure className="mt-6 overflow-hidden rounded-xl border border-stone-800 bg-stone-950">
           <Image
             src="/projects/power-bi/page-3-salary-analysis.png"
-            alt="Placeholder wireframe for Salary Analysis: header, four empty KPI slots, panel labeled compensation vs review score and salary by title. Open the .pbip in Power BI Desktop for the real visuals."
+            alt="Salary Analysis dashboard page: compensation vs review score scatter and salary distribution by title."
             width={1600}
             height={900}
             sizes="(min-width: 768px) 768px, 100vw"
@@ -314,7 +316,7 @@ YoY Growth =
           />
           <figcaption className="border-t border-stone-800 bg-stone-900/60 px-4 py-3 text-xs text-stone-300">
             <strong className="text-stone-100">Page 3, Salary Analysis.</strong>{" "}
-            Placeholder image. Live page: Sales Reviews joined to Employee 1:1. The outliers visual is
+            Sales Reviews joined to Employee 1:1. The outliers visual is
             the actual interesting one: highest review scores against lowest
             base rates.
           </figcaption>
